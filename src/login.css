@@ -1,0 +1,107 @@
+/*
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+*/
+
+/*
+.nav1{
+  position:absolute;
+  top:10px;
+  width:100%;
+  right:0.5px;
+}
+
+.pp{
+  position:absolute;
+  right:10px;
+  top:5 px;
+  border-radius: 50%;
+  width:50px;
+  height: 50px;
+}
+*/
+
+
+.logincontainer{
+    border: 2px;
+    border-radius:5%;
+    position: absolute;
+    top:120px;
+    left:400px;
+    background-color:white;
+    width: 280px;
+    height:250px;
+  }
+  
+  .title{
+    position:absolute;
+    left:75px;
+    top:10px;
+    color:#3F2E3E;
+  }
+  
+  .smalltitle{
+    position:absolute;
+    top:45px;
+    left:100px;
+    color:#E2F6CA;
+  }
+  
+  .ip4{
+    position:absolute;
+    top:80px;
+    left:50px;
+  }
+  
+  .ip5{
+    position:absolute;
+    top:130px;
+    left:50px;
+  }
+  
+  .signinbtn{
+    position:absolute;
+    top:180px;
+    left:50px;
+    width:180px;
+    border:1px solid #35A29F;
+    color:#fff;
+    background-color: #75C2F6;
+  }
+  
+  .asksignup{
+    position:absolute;
+    top:215px;
+    left:50px;
+    font-size:12px;
+  }
+  
+  .register{
+    position:absolute;
+    top:215px;
+    left:195px;
+    font-size: 12px;
+    text-decoration:underline;
+  }
+  
+
+  @media (max-width: 767px){
+    .logincontainer{
+      position: absolute;
+      /* top:70px; */
+      left:40px;
+    }
+  }
+  
+  

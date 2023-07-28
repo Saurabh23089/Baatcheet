@@ -1,0 +1,119 @@
+body{
+    background-color:#CEE6F3;
+  }
+  
+  .formcontainer{
+    border: 2px;
+    border-radius:5%;
+    position: absolute;
+    top:100px;
+    left:400px;
+    background-color:white;
+    width: 300px;
+    height:350px;
+  }
+  
+  .title{
+    position:absolute;
+    left:75px;
+    top:10px;
+    color:#3F2E3E;
+  }
+  
+  .smalltitle{
+    position:absolute;
+    top:45px;
+    left:100px;
+    color:#E2F6CA;
+  }
+  
+  .ip1{
+    position:absolute;
+    top:90px;
+  }
+  
+  .ip2{
+    position:absolute;
+    top:140px;
+  }
+  
+  .ip3{
+    position:absolute;
+    top:190px;
+  }
+  
+  .im1
+  {
+    position:absolute;
+    height:25px;
+    width:25px;
+    top:230px;
+    left:50px;
+  }
+  
+  .ip1,.ip2,.ip3{
+    left:50px;
+  }
+  
+  .av{
+    position:absolute;
+    top:230px;
+    left:85px;
+    color:#AED8CC;
+  }
+  
+  .signupbtn{
+    position: absolute;
+    top:265px;
+    left:50px;
+    width:180px;
+    border:1px solid #35A29F;
+    color:#fff;
+    background-color: #75C2F6;
+    height:30px;
+  }
+  
+  .acexists{
+    position:absolute;
+    top:305px;
+    left:55px;
+    font-size: 12px;
+  }
+  
+  .login{
+    position:absolute;
+    top:305px;
+    left:188px;
+    font-size:12px;
+    text-decoration: underline;
+  }
+
+  .imageinput{
+      position:absolute;
+      top:-999px;
+      left:-999px;
+  }
+
+  .l1:hover{
+    cursor:pointer;
+  }
+
+  .g{
+      position:absolute;
+      height:20px;
+      width:20px;
+  }
+  
+  
+  @media (max-width: 767px){
+    .formcontainer{
+      position: absolute;
+      /* top:70px; */
+      left:70px;
+    }
+  }
+
+
+  
+  
+  
