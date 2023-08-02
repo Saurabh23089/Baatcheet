@@ -1,13 +1,13 @@
 import { provider } from '../firebase.js';
 import Login from './login.js';
 import {getAuth,signInWithPopup,GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth';
-import {useNavigate } from 'react-router-dom';
+import {useLocation, useNavigate } from 'react-router-dom';
 import '../createaccount.css';
 import image from './image.png';
-import React, { useEffect, useState } from 'react';
+import React, { Profiler, useEffect, useState } from 'react';
 import { addDoc,collection,collectionref, getFirestore } from 'firebase/firestore';
 import Sample from './sample.js';
-import '../firebase.js'
+import {db} from '../firebase.js';
 
 const Createaccount=() => {
 
@@ -15,6 +15,10 @@ const Createaccount=() => {
     const[name,setname]=useState("");
     const[email,setemail]=useState("");
     const[password,setpassword]=useState("");
+    const[uid,setuid]=useState("");
+
+    const navigate=useNavigate();
+    const location=useLocation();
     
 
     const onimagechange=(e) => {
@@ -38,21 +42,26 @@ const Createaccount=() => {
 
     }
 
-    useEffect(() => {   /* We have passed here the profile picture as a dependency to ensure that
-        useEffect will be triggered whenever profilepicture changes, and you can log the value there to ensure that it's correctly being set */
-        console.log(profilepicture);  // Here it is logged correctly
+    // useEffect(() => {   /* We have passed here the profile picture as a dependency to ensure that
+    //     useEffect will be triggered whenever profilepicture changes, and you can log the value there to ensure that it's correctly being set */
+    //     console.log(profilepicture);  // Here it is logged correctly
 
-    },[profilepicture])
+    // },[profilepicture])
 
     console.log(profilepicture);
 
     const auth=getAuth();
     const signup=async(email,password,profilepicture,name)=>{
+        console.log('Sign up is called');
         
         const firestore=getFirestore();
         try{
               const usercredential=await createUserWithEmailAndPassword(auth,email,password);
               const user=usercredential.user;
+              const userid=user.uid;
+              console.log(user.uid);
+              setuid((previd)=> userid);
+              console.log(uid);
               if(user)
               {
                   const userdata={
@@ -64,7 +73,14 @@ const Createaccount=() => {
 
                   const collectionref=collection(firestore,'users');
                   await addDoc(collectionref,userdata);
-                  console.log("SignUp Successfull");
+                  console.log(`SignUp Successfull:${user.uid}`);
+                  console.log(profilepicture); /* The issue I am having is when I logit herer it shows correct url but when i pass it to sample.js it show undefined */
+                //   navigate('/Sample',{state:{
+                //       profilepicture:profilepicture
+                //   }})
+
+                navigate('/Sample', { state: { profilepicture: profilepicture, userid: userid } });
+                 
               }
         } 
 
@@ -111,7 +127,7 @@ const Createaccount=() => {
        })
    }*/
 
-    const navigate=useNavigate();
+    
     return(
         <div className='formcontainer'>
          <h4 className='title'>BaatCheet</h4>

@@ -1,0 +1,46 @@
+
+.pp1{
+  position: absolute;
+  left:190px;
+  top:10px;
+    border-radius: 50%;
+    height:30px;
+    width:30px;
+}
+
+.title1{
+  position: absolute; 
+  left:10px;
+  top:10px;
+  color:#4682A9;
+  font-size: 20px;
+}
+
+.username{
+  position:absolute;
+  top:10px;
+  left:225px;
+  font-size: 20px;
+  color:white;
+}
+
+.line1{
+  position:absolute;
+  top:40px;
+  height:10px;
+  width:100%;
+  border: none;
+  border-color: black;
+}
+
+.navbar{
+  width:400px;
+  height: 56px;
+  background-color:blue
+}
+
+.logoutbtn{
+  position:absolute;
+  left:300px;
+  top:10px;
+}
