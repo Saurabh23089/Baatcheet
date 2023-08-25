@@ -79,7 +79,7 @@ const Createaccount=() => {
                 //       profilepicture:profilepicture
                 //   }})
 
-                navigate('/Sample', { state: { profilepicture: profilepicture, userid: userid } });
+                navigate('/Sample', { state: { profilepicture: profilepicture, userid: user.uid } });
                  
               }
         } 
@@ -94,6 +94,7 @@ const Createaccount=() => {
         e.preventDefault();
         signup(email,password,profilepicture,name);
     }
+
 
    
   /* const signup=(auth,email,password,profilepicture) => 
@@ -127,23 +128,45 @@ const Createaccount=() => {
        })
    }*/
 
+   const handlesubmit=async(e)=>{
+      e.preventDefault();
+      const name=e.target[0].value;
+      const email=e.target[1].value;
+      const password=e.target[2].value;
+      const file=e.target[3].value;
+
+      console.log(name,email,password,file);
+      try {
+        await createUserWithEmailAndPassword(auth,email,password)
+        .then((usercredential) => {
+            const user=usercredential.user;
+            console.log(user);
+        })
+      } 
+      catch (error) {
+          console.log(error.message);
+      }
+      
+   }
     
     return(
         <div className='formcontainer'>
          <h4 className='title'>BaatCheet</h4>
          <h6 className='smalltitle'>Register</h6>
-         <form>
+         <form onSubmit={handlesubmit}>
             <input type="text" placeholder="Your Name" className='ip1' onChange={(e) => setname(e.target.value)}/>
             <input type="email" placeholder='Email' className='ip2' onChange={(e) => setemail(e.target.value)}/>
             <input type="password" placeholder="Password" className='ip3' onChange={(e) => setpassword(e.target.value)}/>
-         </form>
-         <label className='l1'>
+            <label className='l1'>
          <img src={image} alt="uploadicon" className='im1'/>
          <p className='av'>Add an avatar</p>
          <input type="file" accept='/image*' className='imageinput' onChange={onimagechange}></input>
-        </label>
+         </label>
+         <button className='signupbtn' >Sign up</button>
+         </form>
+         
         
-         <button className='signupbtn' onClick={register}>Sign up</button>
+        
          <p className='acexists'>You do have an account?</p>
          <p className='login' onClick={() => {navigate('/Login')}}>Login</p>
         </div>

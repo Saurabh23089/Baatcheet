@@ -8,20 +8,21 @@
     width:30px;
 }
 
-.title1{
+/* .title1{
   position: absolute; 
   left:10px;
   top:10px;
   color:#4682A9;
   font-size: 20px;
-}
+} */
 
 .username{
   position:absolute;
-  top:10px;
+  top:15px;
   left:225px;
-  font-size: 20px;
+  font-size: 13px;
   color:white;
+  justify-content: space-between;
 }
 
 .line1{
@@ -41,6 +42,259 @@
 
 .logoutbtn{
   position:absolute;
-  left:300px;
+  left:325px;
   top:10px;
+}
+
+.chat{
+  height:100%;
+  display:flex;
+  /* border-right:1px solid red; */
+  /* align-items: center;
+  justify-content: center; */
+}
+
+.container{
+  border:1px solid #512B81;
+  width:75%;
+  height: 450px;
+  display:flex;
+  margin-top: 40px;
+  padding-left:0px;
+  padding-right: 0px;
+  /* font-family: 'WebFont', fallback-font, sans-serif; */
+
+}
+
+.toppart{
+  /* background-color: red; */
+  flex: 1;
+  border-right:1px solid blue;
+  height: 50px;
+  background-color:blueviolet;
+  border-bottom: 0.05px solid;
+  width:273px;
+}
+
+
+
+.cat{
+  flex:2;
+  padding-left:10px;
+  background-color: #6F61C0;
+  height:46px;
+}
+
+.user{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.apptitle{
+  font-weight: bold;
+}
+
+.apptitle,.one{
+  display:inline;
+}
+
+.one{
+  justify-content: space-between;
+  padding-left:60px;
+}
+
+.name{
+  padding-right: 5px;
+  
+}
+
+.bn{
+  margin-top: 5px;
+}
+
+.searchbar{
+  position:relative;
+  top:15px;
+  overflow: hidden;
+  border:none;
+  width:273px;
+  height:35px;
+  background-color: aqua;
+  border-right:1px solid blue;
+  outline:none;
+  border-bottom: 1px solid rgba(255, 0, 0, 0.0581);
+  
+  
+  text-decoration-color:turquoise;
+}
+
+.bn{
+  background-color: blueviolet;
+  border: none;
+  
+  /* height:20px; */
+}
+
+.bn:hover{
+  color:burlywood;
+  border-radius: 5%;
+}
+
+.mychats{
+  height:383px;
+  width:273px;
+  background-color: aqua;
+  border-right:1px solid blue;
+}
+
+.pf1{
+  position:absolute;
+  height:50px;
+  width:50px;
+  top:128px;
+  border-radius: 50%;
+  object-fit:cover;
+  cursor:pointer;
+}
+
+.user1{
+  /* display:inline-flex; */
+  position:relative;
+  top:25px;
+  left:-15px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+ 
+  color:white;
+  cursor:pointer;
+  font-size: 18px;
+}
+
+
+.lastchat{
+  position:relative;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  color:lightgray;
+  top:20px;
+  font-size: 15px;
+  left:-62px;
+}
+
+.chatinfo{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  padding:8px;
+  color:lightgray;
+}
+
+/* .messages{
+  top:6px;
+  position:relative;
+  height:150px;
+  padding:10px;
+  background-color:#dddfdd;
+  height:355px;
+  left:-10px;
+  padding-left:0px;
+  padding-bottom: 0px;
+  flex-grow:1;
+  
+} */
+
+.messages {
+  position: relative;
+  padding: 10px;
+  background-color: #dddfdd;
+  flex-grow: 1; /* Expand to fill available vertical space */
+  overflow-y: auto; /* Add scroll for overflow content */
+  margin: 0; /* Remove default margin */
+  /* border-bottom: 1px solid #512B81; Add a bottom border */
+  top:8px;
+  height:358.4px;
+  margin-left:-9px;
+  gap:20px;
+  /* overflow:scroll; */
+  
+}
+
+.chaticons{
+  display:flex;
+  gap:10px;
+}
+
+.lastinput{
+  background-color:white;
+  display: flex;
+  align-items:center;
+  /* justify-content: center;; */
+  height:50px;
+  margin-left:-9.7px;
+  background-color: gray;
+  overflow:hidden;
+  
+  /* left:0px;
+  bottom:0px;
+   */
+  
+}
+
+
+.inputicons{
+  
+  display:flex;
+  justify-content: end;
+  gap:10px;
+  flex:1;
+  margin-right:20px;
+  padding-top:7px;
+}
+
+.lastinput p{
+  position:relative;
+  top:10px;
+  left:10px;
+  
+}
+
+.messageinfo{
+  display:flex;
+  flex-direction:column;
+  color:gray;
+  font-weight: 300px;
+  
+}
+
+.messageinfo img{
+     width: 40px;
+     height: 40px;
+     border-radius: 50%;
+     object-fit: cover;
+}
+
+.messagecontent p{
+  display:inline;
+  left:60px;
+  position:relative;
+  top:-60px;
+
+}
+
+
+.owner{
+  
+  flex-direction: row-reverse;
+}
+
+
+.messagecontent img{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit:cover;
 }

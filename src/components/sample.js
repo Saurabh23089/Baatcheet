@@ -1,42 +1,68 @@
-import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { query,doc, getDocs,getDoc, getFirestore,collection,where } from "firebase/firestore";
 import React,{ useContext, useEffect,useState } from "react";
 import { useLocation } from "react-router-dom";
 import '../chatpage.css';
 import '../firebase.js';
 import {authcontext} from "../authcontext.js";
+import {db} from '../firebase.js';
+import Leftportion from './leftportion.js';
+import Rightpart from './chat.js';
+import Chats from './chats.js';
+// import {getAuth,currentUser} from 'firebase/auth';
 
 const Sample=() => {
   //  var {uid,profilepicture} = useContext(authcontext);
   const location=useLocation();
  // const {uid, profilepicture } = location.state || {};
  const uid=location.state.userid||"";
+ console.log(uid);
  const profilepicture=location.state.profilepicture||"";
+ console.log(profilepicture);
 
   //  const [profilepicture, setProfilePicture] = useState("");
 
-    
+    // const auth=getAuth();
 
     // if(uid)
     // {
     //     console.log(uid);
     // }
 
-    console.log(uid);
-    console.log(profilepicture);
+    
+    
 
-    const[user,setUser]=useState(null);
+    const[user,setuser]=useState(null);
 
     useEffect(() => {
-      const fetchUserData = async () => {
+      const fetchUserData = async (uid) => {
         try {
           const firestore = getFirestore();
-          const docRef = doc(firestore, "users", uid);
-          const docSnapshot = await getDoc(docRef);
+          console.log(uid);
+          // const docRef = doc(db, "users", uid);
+          // console.log(docRef);
+          // const docSnapshot = await getDoc(docRef);
+          // console.log(docSnapshot.exists());
+
+          // if (docSnapshot.exists()) {
+          //   // If the user document exists, set the user state with the data
+          //   setuser(docSnapshot.data());
+          //   console.log(user);
+          // }
+
+        const usersCollectionRef = collection(firestore, "users");
+        const q = query(usersCollectionRef, where("uid", "==", uid));
+        const querySnapshot = await getDocs(q);
+        console.log(!querySnapshot.empty);
+
+        if(!querySnapshot.empty)
+        {
+          const userData = querySnapshot.docs[0].data();
+          console.log(userData);
+          setuser(userData);
+        }
           
-          if (docSnapshot.exists()) {
-            // If the user document exists, set the user state with the data
-            setUser(docSnapshot.data());
-          } else {
+          
+           else {
             // Handle the case where the user document does not exist
             console.log("User document not found.");
           }
@@ -46,11 +72,12 @@ const Sample=() => {
       };
   
       if (uid) {
-        fetchUserData();
+        console.log(uid);
+        fetchUserData(uid);
       }
     },[]);
-  
 
+    console.log(user);
 
     /* This code was working fine and profile picture was also shown but after reloading the page
     it shows error Failed to load resource: the server responded with a status of 431 () , after searching 
@@ -146,18 +173,31 @@ const Sample=() => {
 
 
     console.log(profilepicture);
+    console.log(user);
     
    return (
        <>
-       <div className="navbar">
+       {/* { <div className="navbar">
        <div>
            <h6 className="title1">BaatCheet</h6>
        </div>
        {profilepicture&&<img src={profilepicture} alt="pp" className="pp1"/>}
-       <h6 className="username">Harshit</h6>
+       { <h6 className="username">Harshit</h6> }
+       { {user&&user.map(() => {
+         return <h6 className="username">{user.Name}</h6>
+       })} }
+       { {user&&(<h6 className="username">{user?.name}</h6>)}
+      
        <hr className="line1"/>
        <button className="logoutbtn">Logout</button>
-       </div>
+       </div> }} */}
+      <div className="chat">
+        <div className="container">
+         <Leftportion/>
+         {/* <Chats/> */}
+         <Rightpart/>
+        </div>
+      </div>
       
        </>
    )
