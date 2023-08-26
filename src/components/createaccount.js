@@ -1,13 +1,15 @@
 import { provider } from '../firebase.js';
 import Login from './login.js';
-import {getAuth,signInWithPopup,GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth';
+import {getAuth,signInWithPopup,GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile} from 'firebase/auth';
 import {useLocation, useNavigate } from 'react-router-dom';
 import '../createaccount.css';
 import image from './image.png';
 import React, { Profiler, useEffect, useState } from 'react';
-import { addDoc,collection,collectionref, getFirestore } from 'firebase/firestore';
+import { doc,setDoc,addDoc,collection,collectionref, getFirestore } from 'firebase/firestore';
 import Sample from './sample.js';
 import {db} from '../firebase.js';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { async } from '@firebase/util';
 
 const Createaccount=() => {
 
@@ -133,16 +135,48 @@ const Createaccount=() => {
       const name=e.target[0].value;
       const email=e.target[1].value;
       const password=e.target[2].value;
-      const file=e.target[3].value;
+      const file=e.target[3].value[0];
+
+      
 
       console.log(name,email,password,file);
       try {
-        await createUserWithEmailAndPassword(auth,email,password)
-        .then((usercredential) => {
-            const user=usercredential.user;
-            console.log(user);
-        })
-      } 
+        const res=await createUserWithEmailAndPassword(auth,email,password)
+        console.log(res);
+        const storage=getStorage();
+
+        const storageref=ref(storage,name);
+        const uploadTask = uploadBytesResumable(storageref, file);
+        // .then((usercredential) => {
+        //     const user=usercredential.user;
+        //     console.log(user);
+        // })
+
+        uploadTask.on(
+
+            (error) => {
+                console.log(error.message);
+            },
+
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
+                     await updateProfile(res.user,{
+                         name,
+                         photoURL:downloadURL,
+                     })
+
+                     await setDoc(doc(db,"users",res.user.uid),{
+                         uid:uid,
+                        name,
+                        email,
+                        photoURl:downloadURL
+                    })
+                })
+                
+            }
+        )
+          
+      }
       catch (error) {
           console.log(error.message);
       }
