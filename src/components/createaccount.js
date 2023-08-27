@@ -132,20 +132,20 @@ const Createaccount=() => {
 
    const handlesubmit=async(e)=>{
       e.preventDefault();
-      const name=e.target[0].value;
-      const email=e.target[1].value;
-      const password=e.target[2].value;
-      const file=e.target[3].value[0];
+      const Name=e.target[0].value;
+      const eemail=e.target[1].value;
+      const passsword=e.target[2].value;
+      const file=e.target[3].files[0];
 
       
 
-      console.log(name,email,password,file);
+      console.log(Name,eemail,passsword,file);
       try {
-        const res=await createUserWithEmailAndPassword(auth,email,password)
+        const res=await createUserWithEmailAndPassword(auth,eemail,passsword)
         console.log(res);
         const storage=getStorage();
 
-        const storageref=ref(storage,name);
+        const storageref=ref(storage,Name);
         const uploadTask = uploadBytesResumable(storageref, file);
         // .then((usercredential) => {
         //     const user=usercredential.user;
@@ -161,16 +161,34 @@ const Createaccount=() => {
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
                      await updateProfile(res.user,{
-                         name,
+                         Name,
                          photoURL:downloadURL,
                      })
 
+                    //  console.log(Name);
+                    //  console.log(eemail);
+                    //  console.log(res.user.uid);
+                    //  console.log(downloadURL);
+
+                    //  const userr=auth.currentUser;
+                    //  console.log("Cuuurent User",userr);
+                    //  console.log(db);
+
                      await setDoc(doc(db,"users",res.user.uid),{
-                         uid:uid,
-                        name,
-                        email,
+                        uid:res.user.uid,
+                        Name,
+                        eemail,
                         photoURl:downloadURL
                     })
+
+                    console.log(Name);
+                     console.log(eemail);
+                     console.log(res.user.uid);
+                     console.log(downloadURL);
+
+                     const userr=auth.currentUser;
+                     console.log("Cuuurent User",userr);
+                     console.log(db);
                 })
                 
             }
