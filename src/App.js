@@ -1,17 +1,24 @@
 import logo from './logo.svg';
 import './App.css';
 import Createaccount from './components/createaccount.js'
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Login from './components/login.js';
 import './firebase.js';
-import {Router,BrowserRouter,Routes,Route} from 'react-router-dom';
+import {Router,BrowserRouter,Routes,Route, Navigate} from 'react-router-dom';
 import Sample from './components/sample.js';
-import  authcontext from './authcontext.js';
-import {AuthProvider,Provider} from './authcontext.js';
+import {auth} from './firebase'
+import { AuthContext } from './context/authcontext';
+// import  authcontext from './authcontext.js';
+// import {AuthProvider,Provider} from './authcontext.js';
 
 function App() {
 
   const[uid,setuid]=useState();
+
+  const{currentuser}=useContext(AuthContext);
+  console.log(currentuser);
+
+
   return (
     // <BrowserRouter>
     //  <Routes>
@@ -24,13 +31,13 @@ function App() {
     //  </Routes>
     // </BrowserRouter>
     <BrowserRouter>
-      <AuthProvider>
+      {/* <AuthProvider> */}
         <Routes>
-          <Route path='/' element={<Createaccount />} />
+          <Route path='/' element={!currentuser?<Navigate to ="/Sample"/>:<Navigate to="/Login"/>} />
           <Route path='/Sample' element={<Sample />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Createaccount/>}/>
         </Routes>
-      </AuthProvider>
     </BrowserRouter>
   );
 }

@@ -1,15 +1,28 @@
+import { getAuth, signOut } from 'firebase/auth';
 import React from 'react';
 import '../chatpage.css';
 
 
 const Leftportion=()=>{
+
+  const logout=()=>{
+    const auth=getAuth();
+    signOut(auth).then(() => {
+      console.log("signout successfull");
+      
+    })
+    .catch((error) => {
+      console.log(error.message);
+    })
+  }
+
     return (
         <div className='toppart'>
             <span className='apptitle'>BaatCheet</span>  
               <div className='one'>
                   <img src='' alt=''/>
                   <span className='name'>Saurabh</span>
-                  <button className='bn'>Logout</button>
+                  <button className='bn' onClick={logout}>Logout</button>
               </div>
               <input type="text" placeholder='Find a user' className='searchbar'/>
               <div className="mychats">

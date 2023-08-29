@@ -159,7 +159,7 @@ const Createaccount=() => {
             },
 
             () => {
-                getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
+               getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
                      await updateProfile(res.user,{
                          Name,
                          photoURL:downloadURL,
@@ -184,12 +184,19 @@ const Createaccount=() => {
                     console.log(Name);
                      console.log(eemail);
                      console.log(res.user.uid);
-                     console.log(downloadURL);
+                    if(downloadURL)
+                    {
+                        console.log(downloadURL);
+                    }
 
                      const userr=auth.currentUser;
                      console.log("Cuuurent User",userr);
                      console.log(db);
+
+                     navigate('/Sample');
                 })
+
+
                 
             }
         )

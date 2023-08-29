@@ -17,7 +17,7 @@ const Login=()=>{
         </form>
         <button className='signinbtn'>Sign in</button>
         <p className='asksignup'>You don't have an account?</p>
-        <p className='register' onClick={() => navigate('/')}>Register</p>
+        <p className='register' onClick={() => navigate('/register')}>Register</p>
        </div>
    )
 }
