@@ -192,6 +192,7 @@ const Createaccount=() => {
                      const userr=auth.currentUser;
                      console.log("Cuuurent User",userr);
                      console.log(db);
+                     console.log(userr);
 
                      navigate('/Sample');
                 })
