@@ -1,5 +1,5 @@
 import { getAuth, signOut } from 'firebase/auth';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Navigate,useNavigate} from 'react-router-dom';
 import '../chatpage.css';
 import { AuthContext } from '../context/authcontext';
@@ -11,6 +11,18 @@ const Leftportion=()=>{
   const navigate=useNavigate();
   const{currentuser}=useContext(AuthContext);
   console.log(currentuser);
+
+  // var Name="";
+  // var url="";
+
+  // useEffect(() => {
+  //    Name=currentuser.displayName;
+  //    url=currentuser.photoURL;
+  //    console.log(url);
+  //    console.log(Name);
+  // },[currentuser])
+
+  
 
 
   const logout=()=>{
@@ -29,8 +41,8 @@ const Leftportion=()=>{
         <div className='toppart'>
             <span className='apptitle'>BaatCheet</span>  
               <div className='one'>
-                  <img src='' alt=''/>
-                  <span className='name'>{currentuser.Name}</span>
+                  {/* {currentuser.photoURL?<img src={url} alt='pp'/>:<img src={url} alt='pp'/>} */}
+                  <span className='name'>{currentuser.displayName}</span>
                   <button className='bn' onClick={logout}>Logout</button>
               </div>
               <input type="text" placeholder='Find a user' className='searchbar'/>

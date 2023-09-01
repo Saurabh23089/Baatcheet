@@ -13,28 +13,28 @@ import { async } from '@firebase/util';
 
 const Createaccount=() => {
 
-    const[profilepicture,setprofilepicture]=useState('');
-    const[name,setname]=useState("");
-    const[email,setemail]=useState("");
-    const[password,setpassword]=useState("");
-    const[uid,setuid]=useState("");
+    // const[profilepicture,setprofilepicture]=useState('');
+    // const[name,setname]=useState("");
+    // const[email,setemail]=useState("");
+    // const[password,setpassword]=useState("");
+    // const[uid,setuid]=useState("");
 
     const navigate=useNavigate();
-    const location=useLocation();
+    // const location=useLocation();
     
 
-    const onimagechange=(e) => {
-        const image=e.target.files[0];
-        const reader=new FileReader();
+    // const onimagechange=(e) => {
+    //     const image=e.target.files[0];
+    //     const reader=new FileReader();
 
-       reader.onload=(e) => {
-          const imageurl=e.target.result;
-          console.log(imageurl); 
-          setprofilepicture(imageurl);
-          console.log(profilepicture);
-       }
+    //    reader.onload=(e) => {
+    //       const imageurl=e.target.result;
+    //       console.log(imageurl); 
+    //       setprofilepicture(imageurl);
+    //       console.log(profilepicture);
+    //    }
 
-       reader.readAsDataURL(image);
+    //    reader.readAsDataURL(image);
          /* Here one thing to notice is that imageurl gets updated but when we log
        the profile picture it shows an empty string the reason being reader.readAsDataURL(image); is an
        asynchronous and omload will be triggered when the file reading is complete and the 
@@ -42,7 +42,7 @@ const Createaccount=() => {
        /* However logging it in onload also gives empty string because the state update might not have happened yet,
        and hence it appears as an empty string. So we need to use the useeffect hook */ 
 
-    }
+    
 
     // useEffect(() => {   /* We have passed here the profile picture as a dependency to ensure that
     //     useEffect will be triggered whenever profilepicture changes, and you can log the value there to ensure that it's correctly being set */
@@ -50,52 +50,52 @@ const Createaccount=() => {
 
     // },[profilepicture])
 
-    console.log(profilepicture);
+    // console.log(profilepicture);
 
     const auth=getAuth();
-    const signup=async(email,password,profilepicture,name)=>{
-        console.log('Sign up is called');
+    // const signup=async(email,password,profilepicture,name)=>{
+    //     console.log('Sign up is called');
         
-        const firestore=getFirestore();
-        try{
-              const usercredential=await createUserWithEmailAndPassword(auth,email,password);
-              const user=usercredential.user;
-              const userid=user.uid;
-              console.log(user.uid);
-              setuid((previd)=> userid);
-              console.log(uid);
-              if(user)
-              {
-                  const userdata={
-                      uid:user.uid,
-                      name:name,
-                      email:user.email,
-                      profilepictureurl:profilepicture
-                  }
+    //     const firestore=getFirestore();
+    //     try{
+    //           const usercredential=await createUserWithEmailAndPassword(auth,email,password);
+    //           const user=usercredential.user;
+    //           const userid=user.uid;
+    //           console.log(user.uid);
+    //           setuid((previd)=> userid);
+    //           console.log(uid);
+    //           if(user)
+    //           {
+    //               const userdata={
+    //                   uid:user.uid,
+    //                   name:name,
+    //                   email:user.email,
+    //                   profilepictureurl:profilepicture
+    //               }
 
-                  const collectionref=collection(firestore,'users');
-                  await addDoc(collectionref,userdata);
-                  console.log(`SignUp Successfull:${user.uid}`);
-                  console.log(profilepicture); /* The issue I am having is when I logit herer it shows correct url but when i pass it to sample.js it show undefined */
-                //   navigate('/Sample',{state:{
-                //       profilepicture:profilepicture
-                //   }})
+    //               const collectionref=collection(firestore,'users');
+    //               await addDoc(collectionref,userdata);
+    //               console.log(`SignUp Successfull:${user.uid}`);
+    //               console.log(profilepicture); /* The issue I am having is when I logit herer it shows correct url but when i pass it to sample.js it show undefined */
+    //             //   navigate('/Sample',{state:{
+    //             //       profilepicture:profilepicture
+    //             //   }})
 
-                navigate('/Sample', { state: { profilepicture: profilepicture, userid: user.uid } });
+    //             navigate('/Sample', { state: { profilepicture: profilepicture, userid: user.uid } });
                  
-              }
-        } 
+    //           }
+    //     } 
 
 
-        catch(error){
-            console.log(error.message);
-        }
-    }
+    //     catch(error){
+    //         console.log(error.message);
+    //     }
+    // }
 
-    const register=(e)=>{
-        e.preventDefault();
-        signup(email,password,profilepicture,name);
-    }
+    // const register=(e)=>{
+    //     e.preventDefault();
+    //     signup(email,password,profilepicture,name);
+    // }
 
 
    
@@ -132,20 +132,20 @@ const Createaccount=() => {
 
    const handlesubmit=async(e)=>{
       e.preventDefault();
-      const Name=e.target[0].value;
-      const eemail=e.target[1].value;
+      const displayName=e.target[0].value;
+      const email=e.target[1].value;
       const passsword=e.target[2].value;
       const file=e.target[3].files[0];
 
       
 
-      console.log(Name,eemail,passsword,file);
+      console.log(displayName,email,passsword,file);
       try {
-        const res=await createUserWithEmailAndPassword(auth,eemail,passsword)
+        const res=await createUserWithEmailAndPassword(auth,email,passsword)
         console.log(res);
         const storage=getStorage();
 
-        const storageref=ref(storage,Name);
+        const storageref=ref(storage,displayName);
         const uploadTask = uploadBytesResumable(storageref, file);
         // .then((usercredential) => {
         //     const user=usercredential.user;
@@ -161,7 +161,7 @@ const Createaccount=() => {
             () => {
                getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
                      await updateProfile(res.user,{
-                         Name,
+                         displayName,
                          photoURL:downloadURL,
                      })
 
@@ -176,13 +176,13 @@ const Createaccount=() => {
 
                      await setDoc(doc(db,"users",res.user.uid),{
                         uid:res.user.uid,
-                        Name,
-                        eemail,
+                        displayName,
+                        email,
                         photoURl:downloadURL
                     })
 
-                    console.log(Name);
-                     console.log(eemail);
+                    console.log(displayName);
+                     console.log(email);
                      console.log(res.user.uid);
                     if(downloadURL)
                     {
@@ -214,13 +214,13 @@ const Createaccount=() => {
          <h4 className='title'>BaatCheet</h4>
          <h6 className='smalltitle'>Register</h6>
          <form onSubmit={handlesubmit}>
-            <input type="text" placeholder="Your Name" className='ip1' onChange={(e) => setname(e.target.value)}/>
-            <input type="email" placeholder='Email' className='ip2' onChange={(e) => setemail(e.target.value)}/>
-            <input type="password" placeholder="Password" className='ip3' onChange={(e) => setpassword(e.target.value)}/>
+            <input type="text" placeholder="Your Name" className='ip1'/>
+            <input type="email" placeholder='Email' className='ip2'/>
+            <input type="password" placeholder="Password" className='ip3'/>
             <label className='l1'>
          <img src={image} alt="uploadicon" className='im1'/>
          <p className='av'>Add an avatar</p>
-         <input type="file" accept='/image*' className='imageinput' onChange={onimagechange}></input>
+         <input type="file" accept='/image*' className='imageinput'></input>
          </label>
          <button className='signupbtn' >Sign up</button>
          </form>
@@ -232,7 +232,9 @@ const Createaccount=() => {
         </div>
 
     )
-}
+    }
+
+
 
 export default Createaccount;
 
