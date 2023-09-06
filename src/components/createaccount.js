@@ -181,6 +181,10 @@ const Createaccount=() => {
                         photoURl:downloadURL
                     })
 
+                    await setDoc(doc(db,"userchats",res.user.uid),{
+
+                    })
+
                     console.log(displayName);
                      console.log(email);
                      console.log(res.user.uid);
