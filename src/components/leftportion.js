@@ -5,7 +5,7 @@ import '../chatpage.css';
 import { AuthContext } from '../context/authcontext';
 import Login from './login.js';
 import {db} from '../firebase.js';
-import {collection,query,where} from 'firebase/firestore';
+import {collection,query,where,getDocs, QuerySnapshot} from 'firebase/firestore';
 
 
 const Leftportion=()=>{
@@ -31,14 +31,31 @@ const Leftportion=()=>{
   console.log(username);
 
 
-  const searchuser=() => {
+  const searchuser=async() => {
      const usersref=collection(db,"users");
-     const q=query(usersref,where("displayName","==","username"));
-     console.log(query);
+     const q=query(usersref,where("displayName","==",username));
+     console.log(q);
+
+     try{
+         const querysnapshot=await getDocs(q);
+         console.log(querysnapshot.size);
+        querysnapshot.forEach((doc) => {
+           setuser(doc.data());
+        })
+     }
+     
+     catch(error){
+       
+        seterror(true);
+       
+     }
   }
 
   const searchhelper=(e) => {
-     
+    console.log(e.key);
+    if(e.key==="Enter"){
+      searchuser();
+    }
   }
   
 
@@ -63,8 +80,10 @@ const Leftportion=()=>{
                   <span className='name'>{currentuser.displayName}</span>
                   {/* <img src={currentuser.photoURL} alt="profilepicture"/> */}
                   <button className='bn' onClick={logout}>Logout</button>
+                  <input type="text" placeholder='Find a user' onKeyDown={searchhelper} onChange={(e) => {setusername(e.target.value)}} className='searchbar'/>
+             {user&&<div>{user.displayName}</div>} 
+               {/* {error&&<div>{error}</div>}  */}
               </div>
-              <input type="text" placeholder='Find a user' onKeyDown={searchhelper()} onChange={(e) => {setusername(e.target.value)}} className='searchbar'/>
               <div className="mychats">
                 <img src="https://image.shutterstock.com/image-photo/pastoral-green-field-long-shadows-260nw-275372477.jpg" alt='chat1' className='pf1'/>
                 <span className='user1'>Shubham Tiwari</span>
