@@ -11,7 +11,7 @@ import {collection,query,where,getDocs, QuerySnapshot} from 'firebase/firestore'
 const Leftportion=()=>{
 
   const[username,setusername]=useState("");
-  const[user,setuser]=useState(null);
+  const[user,setuser]=useState('');
   const[error,seterror]=useState("");
   const[enter,setenter]=useState('');
   const isMounted=useRef(true);
@@ -95,7 +95,7 @@ const Leftportion=()=>{
             data=doc.data();
 
             console.log(doc.data().displayName);
-            console.log(doc.data().photoURL);
+            console.log(doc.data().photoURl);
             setuser((prevuser) => doc.data()); // Update the user state
             console.log(user);
           });
