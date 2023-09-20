@@ -5,7 +5,7 @@ import '../chatpage.css';
 import { AuthContext } from '../context/authcontext';
 import Login from './login.js';
 import {db} from '../firebase.js';
-import {doc,collection,query,where,getDocs,addDoc,QuerySnapshot,updateDoc,serverTimestamp} from 'firebase/firestore';
+import {doc,collection,query,where,getDoc,getDocs,addDoc,setDoc,QuerySnapshot,updateDoc,serverTimestamp} from 'firebase/firestore';
 
 
 const Leftportion=()=>{
@@ -158,10 +158,13 @@ const Leftportion=()=>{
   const handleselect = async ()=>{
       // Check if the chat between two people exists or not 
       const cid=currentuser.uid>user.uid ? currentuser.uid+user.uid : user.uid+currentuser.uid;
+      console.log(cid);
       try {
-        const respose=await getDocs(db,"chats",cid);
-        if(!Response.exists()){
-          await addDoc(doc(db,"chats",cid),{messages:[]})
+        const response=await getDoc(doc(db,"chats",cid));
+        console.log(response.exists());
+        console.log("1");
+        if(!response.exists()){
+          await setDoc(doc(db,"chats",cid),{messages:[]})
 
           await updateDoc(doc(db,"userchats",currentuser.uid),{
             [cid+".userInfo"]:{
@@ -171,7 +174,7 @@ const Leftportion=()=>{
             },
             [cid+".dateinfo"]:serverTimestamp()   
           })
-          await updateDoc(doc(db,"userchats",currentuser.uid),{
+          await updateDoc(doc(db,"userchats",user.uid),{
             [cid+".userInfo"]:{
               uid:currentuser.uid,
               photoURL:currentuser.photoURl,
@@ -181,7 +184,7 @@ const Leftportion=()=>{
           })
         }
       } catch (error) {
-        
+         console.log(error.message);
       }
 
       
