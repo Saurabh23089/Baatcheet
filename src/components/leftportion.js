@@ -5,8 +5,8 @@ import '../chatpage.css';
 import { AuthContext } from '../context/authcontext';
 import Login from './login.js';
 import {db} from '../firebase.js';
-import {doc,collection,query,where,getDoc,getDocs,addDoc,setDoc,QuerySnapshot,updateDoc,serverTimestamp} from 'firebase/firestore';
-
+import {doc,collection,query,where,getDoc,getDocs,onSnapshot,addDoc,setDoc,QuerySnapshot,updateDoc,serverTimestamp} from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const Leftportion=()=>{
 
@@ -15,13 +15,57 @@ const Leftportion=()=>{
   const[error,seterror]=useState("");
   const[enter,setenter]=useState('');
   const isMounted=useRef(true);
+  const[currrentuser,setcurrrentuser]=useState('');
+
+  const auth=getAuth();
+
+  // To store the contacts of current user
+  const [chats,setchats]=useState([]);
+  
+
+
+
+  
 
   const navigate=useNavigate();
   const{currentuser}=useContext(AuthContext);
   console.log(currentuser.uid);
+  console.log(currentuser.displayName);
   var data='';
 
   console.log(username);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in.
+        setcurrrentuser(user);
+      } else {
+        // User is signed out.
+        setcurrrentuser(null);
+      }
+    });
+  
+    // Clean up the listener when the component unmounts.
+    return () => unsubscribe();
+  }, []);
+  
+  console.log(currrentuser);
+
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, "userchats",currentuser.uid), (doc) => {
+          console.log(doc.exists());
+    });
+
+    return () => {
+      unsub();
+    }
+  },[currrentuser.uid])
+  
+
+     
+  
+// }
 
   // useEffect(async() => {
   //   const usersref=collection(db,"users");
@@ -125,8 +169,11 @@ const Leftportion=()=>{
   },[user])
  
   console.log(user);
-  console.log(user.displayName);
-  console.log(user.photoURl);
+  if(user){
+    console.log(user.displayName);
+    console.log(user.photoURl);
+  }
+ 
 
 
   // const searchuser=async() => {
@@ -187,9 +234,11 @@ const Leftportion=()=>{
          console.log(error.message);
       }
 
+      setuser(null);
+      setusername("");
       
   }
-
+ 
   
 
 
@@ -223,7 +272,7 @@ const Leftportion=()=>{
                   <span className='name'>{currentuser.displayName}</span>
                   {/* <img src={currentuser.photoURL} alt="profilepicture"/> */}
                   <button className='bn' onClick={logout}>Logout</button>
-                  <input type="text" placeholder='Find a user' onKeyDown={searchhelper} onChange={(e) => {setusername(e.target.value)}} className='searchbar'/>
+                  <input type="text" placeholder='Find a user' onKeyDown={searchhelper} value={username} onChange={(e) => {setusername(e.target.value)}} className='searchbar'/>
              {user&&<div onClick={handleselect}>
               <img src={user.photoURl} alt='chat1' className='pf1'/>
                 <span className='user1'>{user.displayName}</span>
@@ -233,9 +282,10 @@ const Leftportion=()=>{
               {error&&<div>User not Found!</div>} 
               </div>
               <div className="mychats">
-                <img src="https://image.shutterstock.com/image-photo/pastoral-green-field-long-shadows-260nw-275372477.jpg" alt='chat1' className='pf1'/>
+                {/* <img src="https://image.shutterstock.com/image-photo/pastoral-green-field-long-shadows-260nw-275372477.jpg" alt='chat1' className='pf1'/>
                 <span className='user1'>Shubham Tiwari</span>
-                <p className='lastchat'>Hello</p>
+                <p className='lastchat'>Hello</p> */}
+
                 <img src="https://image.shutterstock.com/image-photo/pastoral-green-field-long-shadows-260nw-275372477.jpg" alt='chat1' className='pf1'/>
                 <span className='user1'>Shubham Tiwari</span>
                 <p className='lastchat'>Hello</p>
