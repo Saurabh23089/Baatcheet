@@ -28,39 +28,38 @@ const Leftportion=()=>{
   
 
   const navigate=useNavigate();
-  const{currentuser}=useContext(AuthContext);
-  console.log(currentuser.uid);
-  console.log(currentuser.displayName);
+   const{currentuser}=useContext(AuthContext);
+   console.log(currentuser);
+
+  useEffect(() => {
+   
+    console.log(currentuser.uid);
+    console.log(currentuser.displayName);
+  })
+
+  
   var data='';
 
   console.log(username);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in.
-        setcurrrentuser(user);
-      } else {
-        // User is signed out.
-        setcurrrentuser(null);
-      }
-    });
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       // User is signed in.
+  //       setcurrrentuser(user);
+  //     } else {
+  //       // User is signed out.
+  //       setcurrrentuser(null);
+  //     }
+  //   });
   
-    // Clean up the listener when the component unmounts.
-    return () => unsubscribe();
-  }, []);
+  //   // Clean up the listener when the component unmounts.
+  //   return () => unsubscribe();
+  // }, []);
   
-  console.log(currrentuser);
+  console.log(currentuser);
 
-  useEffect(() => {
-    const unsub = onSnapshot(doc(db, "userchats",currentuser.uid), (doc) => {
-          console.log(doc.exists());
-    });
-
-    return () => {
-      unsub();
-    }
-  },[currrentuser.uid])
+  
   
 
      
@@ -122,6 +121,7 @@ const Leftportion=()=>{
   //   }
   //   setenter('');
   // },[setenter])
+  
 
   useEffect(() => {
    
@@ -173,6 +173,76 @@ const Leftportion=()=>{
     console.log(user.displayName);
     console.log(user.photoURl);
   }
+
+  // useEffect(() => {
+  //   const unsub = onSnapshot(doc(db, "userchats",currentuser.uid), (doc) => {
+  //         console.log(doc.exists());
+  //   });
+
+  //   return () => {
+  //     unsub();
+  //   }
+  // },[currentuser])
+
+  // useEffect(() => {
+  //   let unsub;
+  
+  //   const fetchData = async () => {
+  //     if (currentuser) {
+  //       onSnapshot(doc(db, "userchats", currentuser.uid), (doc) => {
+  //         console.log(doc.exists());
+  //       });
+  //     }
+  //   };
+  
+  //   fetchData();
+  
+  //   return () => {
+  //     if (unsub) {
+  //       unsub(); // Unsubscribe only if unsub is defined
+  //     }
+  //   };
+  // }, [currentuser]);
+
+  useEffect(() => {
+    let unsub;
+
+    const fetchdata = async() => {
+      try {
+        console.log("1");
+        if(currentuser){
+          unsub = onSnapshot(doc(db, "userchats", currentuser.uid), (doc) => {
+              //  console.log(doc.data());
+               const data=doc.data();
+               console.log(data.dateinfo);
+              
+                 setchats((prevchats) => [...prevchats,data.userInfo]);
+              // setchats(() => setchats(doc.data()));
+               console.log(chats);
+           });
+           }
+
+           
+
+           if(unsub){
+             return () => {
+               unsub();
+             }
+
+        }
+      } catch (error) {
+        console.log("1");
+          console.log(error.message);
+      }
+    }
+
+    fetchdata();
+  },[currentuser])
+
+  console.log(chats);
+  
+  
+  
  
 
 
@@ -238,6 +308,8 @@ const Leftportion=()=>{
       setusername("");
       
   }
+
+  console.log(currentuser);
  
   
 
@@ -264,7 +336,7 @@ const Leftportion=()=>{
     })
   }
 
-    return (
+    return (currentuser&&
         <div className='toppart'>
             <span className='apptitle'>BaatCheet</span>  
               <div className='one'>
