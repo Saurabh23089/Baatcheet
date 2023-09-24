@@ -212,13 +212,12 @@ const Leftportion=()=>{
         console.log("1");
         if(currentuser){
           unsub = onSnapshot(doc(db, "userchats", currentuser.uid), (doc) => {
-              //  console.log(doc.data());
+               
                const data=doc.data();
-               console.log(data.dateinfo);
               
-                 setchats((prevchats) => [...prevchats,data.userInfo]);
-              // setchats(() => setchats(doc.data()));
-               console.log(chats);
+               console.log(Object.entries(data));
+                setchats(Object.entries(data));
+              // console.log(chats);
            });
            }
 
@@ -236,7 +235,7 @@ const Leftportion=()=>{
       }
     }
 
-    fetchdata();
+   currentuser.uid&&fetchdata();
   },[currentuser])
 
   console.log(chats);
@@ -272,10 +271,10 @@ const Leftportion=()=>{
   //    }
   // }
 
+
   const handleselect = async ()=>{
       // Check if the chat between two people exists or not 
-      const cid=currentuser.uid>user.uid ? currentuser.uid+user.uid : user.uid+currentuser.uid;
-      console.log(cid);
+     const cid=currentuser.uid>user.uid ? currentuser.uid+user.uid : user.uid+currentuser.uid;
       try {
         const response=await getDoc(doc(db,"chats",cid));
         console.log(response.exists());
@@ -354,11 +353,43 @@ const Leftportion=()=>{
               {error&&<div>User not Found!</div>} 
               </div>
               <div className="mychats">
+                {/* <div>1</div>
+                <div>1</div>
+                <div>1</div> */}
+                {Object.entries(chats)?.map((chat) => {
+                   console.log(chat);
+                  console.log(chat[1][1].userInfo.photoURL);
+                  console.log(chat[1][1].userInfo.displayName);
+                  console.log(chat[1][0]);
+                  
+                   return (
+                    <div className='contacts' key={chat[1][0]}>
+                    <img src={chat[1][1].userInfo.photoURL} alt="profilephto" className='pf1'/> 
+                    <span className='user1'>{chat[1][1].userInfo.displayName}</span>
+                    <p className='lastchat'>Hello</p>
+                    </div>
+                   ) 
+
+                    // <h1>1</h1>
+                    // <img src={chat[1][1].userInfo.photoURL} alt="profilephto"/> 
+                    // <span>{chat[1][1].userInfo.displayName}</span>
+                    // <p>Hello</p>
+
+                   
+
+
+
+                   // </div>
+                    
+
+
+
+                })}
                 {/* <img src="https://image.shutterstock.com/image-photo/pastoral-green-field-long-shadows-260nw-275372477.jpg" alt='chat1' className='pf1'/>
                 <span className='user1'>Shubham Tiwari</span>
                 <p className='lastchat'>Hello</p> */}
 
-                <img src="https://image.shutterstock.com/image-photo/pastoral-green-field-long-shadows-260nw-275372477.jpg" alt='chat1' className='pf1'/>
+                {/* <img src="https://image.shutterstock.com/image-photo/pastoral-green-field-long-shadows-260nw-275372477.jpg" alt='chat1' className='pf1'/>
                 <span className='user1'>Shubham Tiwari</span>
                 <p className='lastchat'>Hello</p>
                 <img src="https://image.shutterstock.com/image-photo/pastoral-green-field-long-shadows-260nw-275372477.jpg" alt='chat1' className='pf1'/>
@@ -366,7 +397,7 @@ const Leftportion=()=>{
                 <p className='lastchat'>Hello</p>
                 <img src="https://image.shutterstock.com/image-photo/pastoral-green-field-long-shadows-260nw-275372477.jpg" alt='chat1' className='pf1'/>
                 <span className='user1'>Shubham Tiwari</span>
-                <p className='lastchat'>Hello</p>
+                <p className='lastchat'>Hello</p> */}
               </div>
               
             </div>
