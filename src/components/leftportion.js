@@ -7,6 +7,7 @@ import Login from './login.js';
 import {db} from '../firebase.js';
 import {doc,collection,query,where,getDoc,getDocs,onSnapshot,addDoc,setDoc,QuerySnapshot,updateDoc,serverTimestamp} from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
+import { ChatContext } from '../context/chatcontext';
 
 const Leftportion=()=>{
 
@@ -29,6 +30,7 @@ const Leftportion=()=>{
 
   const navigate=useNavigate();
    const{currentuser}=useContext(AuthContext);
+   const{dispatch}=useContext(ChatContext);
    console.log(currentuser);
 
   useEffect(() => {
@@ -172,6 +174,11 @@ const Leftportion=()=>{
   if(user){
     console.log(user.displayName);
     console.log(user.photoURl);
+  }
+
+  const selectuser = (data) => {
+     console.log(data);
+     dispatch({type: "changeuser",payload:data});
   }
 
   // useEffect(() => {
@@ -363,7 +370,7 @@ const Leftportion=()=>{
                   console.log(chat[1][0]);
                   
                    return (
-                    <div className='contacts' key={chat[1][0]}>
+                    <div className='contacts' key={chat[1][0]} onClick={() => {selectuser(chat[1][0].userInfo)}}>
                     <img src={chat[1][1].userInfo.photoURL} alt="profilephto" className='pf1'/> 
                     <span className='user1'>{chat[1][1].userInfo.displayName}</span>
                     <p className='lastchat'>Hello</p>
