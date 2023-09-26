@@ -9,17 +9,19 @@ import { AuthContext } from "./authcontext";
 export const ChatContext=createContext();
 
 export const ChatContextprovider=({children})=>{
-    const currentuser=useContext(AuthContext);
+    const {currentuser}=useContext(AuthContext);
     console.log(currentuser);
+    console.log(currentuser.uid);
    const initial_state={
        chatid:"null",
        user:{}
    }
-
+ 
      const chatreducer = (state,action) => {
        switch(action.type){
            case "changeuser":
-               console.log(currentuser.uid); 
+               console.log(currentuser); 
+               console.log(action.payload);
            return {
                user:action.payload,
                chatid:currentuser.uid>action.payload.uid ? currentuser.uid+action.payload.uid : action.payload.uid+currentuser.uid
@@ -30,9 +32,14 @@ export const ChatContextprovider=({children})=>{
        }
    }
 
+   console.log(currentuser.uid);
 
-   
+
+ 
     const [state,dispatch]=useReducer(chatreducer,initial_state);
+   
+   
+   
    
 
     return (

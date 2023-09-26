@@ -356,7 +356,7 @@ const Leftportion=()=>{
                 <span className='user1'>{user.displayName}</span>
                 <p className='lastchat'>Hello</p>
                </div>
-              } 
+              }   
               {error&&<div>User not Found!</div>} 
               </div>
               <div className="mychats">
@@ -370,7 +370,7 @@ const Leftportion=()=>{
                   console.log(chat[1][0]);
                   
                    return (
-                    <div className='contacts' key={chat[1][0]} onClick={() => {selectuser(chat[1][0].userInfo)}}>
+                    <div className='contacts' key={chat[1][0]} onClick={() => {selectuser(chat[1][1].userInfo)}}>
                     <img src={chat[1][1].userInfo.photoURL} alt="profilephto" className='pf1'/> 
                     <span className='user1'>{chat[1][1].userInfo.displayName}</span>
                     <p className='lastchat'>Hello</p>
