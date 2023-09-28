@@ -1,19 +1,24 @@
 import React, { useContext } from "react";
 import '../chatpage.css';
 import { AuthContext } from "../context/authcontext";
+import {ChatContext} from "../context/chatcontext"
 
 const Messages=() => {
 
     const {currentuser}=useContext(AuthContext);
     console.log(currentuser);
     console.log(currentuser.photoURL);
+    const {data}=useContext(ChatContext);
+    console.log(data);
+    console.log(currentuser);
+    console.log(data.user.photoURL);
 
     return(
         <div className="messages">
            
             
             <div className="messageinfo">
-                <img src={currentuser.photoURL} alt="p1"/>
+                <img src={data.user.photoURL} alt="p1"/>
                 <span>Just now</span>
             </div>
             <div className="messagecontent">
