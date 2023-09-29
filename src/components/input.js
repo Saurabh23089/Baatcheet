@@ -19,7 +19,7 @@ const Input=()=>{
    const sendmessage = async() => {
       if(img){
         const storage=getStorage();
-        const storageref=ref(storage,uuid)
+        const storageref=ref(storage,uuid())
         const uploadtask=uploadBytesResumable(storageref, img);
         uploadtask.on(
           (error) => {
@@ -29,6 +29,8 @@ const Input=()=>{
           () => {
             getDownloadURL(uploadtask.snapshot.ref)
             .then(async(downloadURL) => {
+              console.log(downloadURL)
+              console.log(img);
               await updateDoc(doc(db,"chats",data.chatid),{
                 messages:arrayUnion({
                   id:uuid(),
@@ -64,8 +66,8 @@ const Input=()=>{
           <div className="inputicons">
           <i class="bi bi-paperclip"></i>
           <label>
-          <i class="bi bi-file-image" onChange={(e) => {setimg(e.target.files[0])}}></i>
-          <input type="file" accept="/image*"></input>
+          <i class="bi bi-file-image" ></i>
+          <input type="file" accept="/image*" onChange={(e) => {setimg(e.target.files[0])}}></input>
           </label>
           
           <i class="bs bi-send" onClick={sendmessage}></i>

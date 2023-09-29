@@ -1,4 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect,useState } from "react";
+import { doc, getDoc,onSnapshot} from "firebase/firestore";
+import {db} from '../firebase.js';
 import '../chatpage.css';
 import { AuthContext } from "../context/authcontext";
 import {ChatContext} from "../context/chatcontext"
@@ -9,14 +11,50 @@ const Messages=() => {
     console.log(currentuser);
     console.log(currentuser.photoURL);
     const {data}=useContext(ChatContext);
-    console.log(data);
+    const chatid=data.chatid;
+    console.log(chatid);
+
     console.log(currentuser);
     console.log(data.user.photoURL);
 
+    const[messages,setmessages]=useState([]);
+
+    
+    // useEffect(() => {
+    //      const fetchchat = async() => {
+    //         const docRef=doc(db, "chats", chatid);
+    //         try {
+    //             const doc = await getDoc(docRef);
+    //             console.log(doc.data());
+    //             setchats(doc.data());
+    //             console.log(chats);
+                
+    //         } catch (error) {
+    //             console.log(error.message);
+    //         }
+    //     }
+
+    //    if(chatid) {
+    //        fetchchat();
+    //    }
+    // },[chatid,chats])
+
+    useEffect(() => {
+        const unsub=onSnapshot(doc(db, "chats", chatid), (doc) => {
+               
+            const data=doc.data();
+            console.log(data);
+            //   setmessages(doc.data().messages);
+            // console.log(messages);
+        });
+
+        return () => {
+            unsub();
+        }
+    },[messages,chatid])
+
     return(
-        <div className="messages">
-           
-            
+        <div className="messages"> 
             <div className="messageinfo">
                 <img src={data.user.photoURL} alt="p1"/>
                 <span>Just now</span>
