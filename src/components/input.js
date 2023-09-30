@@ -31,7 +31,7 @@ const Input=()=>{
             .then(async(downloadURL) => {
               console.log(downloadURL)
               console.log(img);
-              await updateDoc(doc(db,"chats",data.chatid),{
+              await updateDoc(doc(db,"chats",data?.chatid),{
                 messages:arrayUnion({
                   id:uuid(),
                   downloadURL,
@@ -48,7 +48,7 @@ const Input=()=>{
       }
       else{
         console.log(text);
-         await updateDoc(doc(db,"chats",data.chatid),{
+         await updateDoc(doc(db,"chats",data?.chatid),{
             messages:arrayUnion({
               id:uuid(),
               text,

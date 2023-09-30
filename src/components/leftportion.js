@@ -17,6 +17,7 @@ const Leftportion=()=>{
   const[enter,setenter]=useState('');
   const isMounted=useRef(true);
   const[currrentuser,setcurrrentuser]=useState('');
+  // const[userclicked,setuserclicked]=useState(false);
 
   const auth=getAuth();
 
@@ -178,7 +179,7 @@ const Leftportion=()=>{
 
   const selectuser = (data) => {
      console.log(data);
-     dispatch({type: "changeuser",payload:data});
+    dispatch({type: "changeuser",payload:data});
   }
 
   // useEffect(() => {
@@ -336,7 +337,9 @@ const Leftportion=()=>{
       console.log("signout successfull");
       navigate('/Login');
       
-    })
+      // dispatch({type: "onlogout",payload:data})
+      
+    }) 
     .catch((error) => {
       console.log(error.message);
     })
@@ -354,7 +357,7 @@ const Leftportion=()=>{
              {user&&<div onClick={handleselect}>
               <img src={user.photoURl} alt='chat1' className='pf1'/>
                 <span className='user1'>{user.displayName}</span>
-                <p className='lastchat'>Hello</p>
+                <p className='lastchat'>He546llo</p>
                </div>
               }   
               {error&&<div>User not Found!</div>} 
@@ -373,7 +376,7 @@ const Leftportion=()=>{
                     <div className='contacts' key={chat[1][0]} onClick={() => {selectuser(chat[1][1].userInfo)}}>
                     <img src={chat[1][1].userInfo.photoURL} alt="profilephto" className='pf1'/> 
                     <span className='user1'>{chat[1][1].userInfo.displayName}</span>
-                    <p className='lastchat'>Hello</p>
+                    <p className='lastchat'>Hel22lo</p>
                     </div>
                    ) 
 

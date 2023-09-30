@@ -10,8 +10,9 @@ export const ChatContext=createContext();
 
 export const ChatContextprovider=({children})=>{
     const {currentuser}=useContext(AuthContext);
+    // const currentuserid=currentuser?currentuser.uid:null;
     console.log(currentuser);
-    console.log(currentuser.uid);
+    // console.log(currentuser?.uid);
    const initial_state={
        chatid:"null",
        user:{}
@@ -27,12 +28,19 @@ export const ChatContextprovider=({children})=>{
                chatid:currentuser.uid>action.payload.uid ? currentuser.uid+action.payload.uid : action.payload.uid+currentuser.uid
            }
 
+        //    case "onlogout" : {
+        //        return {
+        //            user:null,
+        //            chatid:null
+        //        }
+        //    }
+
            default:
                return state;
        }
    }
 
-   console.log(currentuser.uid);
+//    console.log(currentuser?.uid);
 
 
  

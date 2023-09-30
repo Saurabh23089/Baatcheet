@@ -15,7 +15,7 @@ const Rightpart=()=>{
     return (
         <div className='cat'>
            <div className='chatinfo'>
-               <span>{data?.user.displayName}</span>
+               <span>{data.user.displayName}</span>
                <div className='chaticons'>
                <i className="bi bi-camera-video-fill"></i>
                <i className="bi bi-person-plus-fill"></i>

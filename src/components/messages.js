@@ -1,4 +1,4 @@
-import React, { useContext, useEffect,useState } from "react";
+import React, { useContext, useEffect,useRef,useState } from "react";
 import { doc, getDoc,onSnapshot} from "firebase/firestore";
 import {db} from '../firebase.js';
 import '../chatpage.css';
@@ -9,8 +9,9 @@ const Messages=() => {
 
     const {currentuser}=useContext(AuthContext);
     console.log(currentuser);
-    console.log(currentuser.photoURL);
+    console.log(currentuser?.photoURL);
     const {data}=useContext(ChatContext);
+    console.log(data);
     const chatid=data.chatid;
     console.log(chatid);
 
@@ -18,6 +19,8 @@ const Messages=() => {
     console.log(data.user.photoURL);
 
     const[messages,setmessages]=useState([]);
+
+    
 
     
     // useEffect(() => {
@@ -44,19 +47,53 @@ const Messages=() => {
                
             const data=doc.data();
             console.log(data);
-            //   setmessages(doc.data().messages);
+            // setmessages(data?.messages || []);
             // console.log(messages);
         });
 
-        return () => {
-            unsub();
-        }
+       if(chatid){
+           return () => {
+               unsub();
+           }
+       }
     },[messages,chatid])
+
+    // useEffect(() => {
+    //     let unsub;
+    //     const fetchmessages = async() => {
+
+    //         try {
+    //             if(data?.chatid){
+    //                 unsub=onSnapshot(doc(db, "chats", chatid), (doc) => {
+                   
+    //                     const data=doc.data();
+    //                     console.log(data);
+    //                     setmessages(doc.data().messages);
+    //                     // console.log(messages);
+    //                 });
+    //             }
+
+    //             if(unsub){
+    //                 return () => {
+    //                     unsub();
+    //                 }
+    //             }
+            
+    //         } catch (error) {
+    //            console.log(error.message); 
+    //         }
+            
+    //     }
+
+    //     if(data?.chatid){
+    //         fetchmessages();
+    //     }
+    // },[messages]);
 
     return(
         <div className="messages"> 
             <div className="messageinfo">
-                <img src={data.user.photoURL} alt="p1"/>
+                <img src={data?.user.photoURL} alt="p1"/>
                 <span>Just now</span>
             </div>
             <div className="messagecontent">
