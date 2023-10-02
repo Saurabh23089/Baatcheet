@@ -33,18 +33,17 @@ const Message = ({message}) => {
 
 
     return (
-        <>
+       <div>
+         
         <div className="messageinfo">
-           <img src={data?.user.photoURL||""} alt="p1"/>
-           <span>{finaltime}</span>
 
-           <div className="messagecontent">
-          {message.text ? <p>{message.text}</p> : <img src={message?.downloadURL} alt="message" className="msg"/>}
-        </div>
-        </div>
-        
-        </>
-        
+        <div className="timeandphoto">
+         <img src={data?.user.photoURL||""} alt="p1" className="senderimage"/>
+         {message.text ? <p className="textmessage">{message.text}</p> : <img src={message?.downloadURL} alt="message" className="imagemessage"/>} 
+         </div>
+        <span className="messagetime">{finaltime}</span>
+           </div>
+        </div>    
     )
 }
 

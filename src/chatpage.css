@@ -262,43 +262,68 @@
   
 }
 
-.messageinfo{
+ .messageinfo{
   display:flex;
   flex-direction:column;
   color:gray;
   font-weight: 300px;
-  
 }
 
-.messageinfo img{
-     width: 40px;
-     height: 40px;
-     border-radius: 50%;
-     object-fit: cover;
-}
-
-.messagecontent p{
-  display:inline;
-  left:60px;
-  position:relative;
-  top:-60px;
-
-}
-
-
-.owner{
-  
-  flex-direction: row-reverse;
-}
-
-
-.messagecontent img{
-  width: 50px;
-  height: 50px;
+.senderimage{
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit:cover;
+  /* align-items: flex-end;
+  flex-direction: column; */
 }
 
-.msg{
-  position:relative
+.textmessage{
+   width:100px;
+   padding-left:10px;
+  margin-top:5px;
+   white-space:nowrap;
+}
+
+
+.messagetime{
+ 
+  
+  /* display:flex; */
+  
+  
+  
+}
+
+.timeandphoto{
+  display:flex;
+  flex-direction: row;
+  align-items:flex-end;
+}
+
+.imagemessage{
+  width:180px;
+  height:180px;
+  padding-left: 10px;
+  /* display:flex; */
+ 
+ 
+}
+
+.inputbox{
+  margin-top:8px;
+  margin-left:2px;
+}
+
+.inputbox{
+  outline: none;
+  background-color:#D7E5CA;
+  border:none;
+}
+
+.sendmessage{
+  padding:none;
+  border:0;
+  height:20px;
+  width:20px;
 }

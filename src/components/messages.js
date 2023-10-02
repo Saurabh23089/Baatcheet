@@ -74,7 +74,7 @@ const Messages=() => {
                
             const data=doc.data();
             console.log(data);
-            setmessages(data?.messages || []);
+            setmessages(data?.messages || undefined);
             // console.log(messages);
         });
 
@@ -119,20 +119,22 @@ const Messages=() => {
 
     return(
         <div className="messages"> 
-        {messages&&messages.map((message) => {
+        {messages?.map((message) => {
            return <div key={message.id}>
                <Message message={message}/>
            </div>
-        })}
-            <div className="messageinfo">
+        })||
+        <div>1</div>
+        }
+            {/* <div className="messageinfo">
                 <img src={data?.user.photoURL} alt="p1"/>
                 <span>Just now</span>
             </div>
             <div className="messagecontent">
             <p>Hello</p>
-            {/* <img src="https://images.pexels.com/photos/17901179/pexels-photo-17901179/free-photo-of-toddler-standing-in-a-tub.jpeg?auto=compress&cs=tinysrgb&w=400&lazy=load" alt="m1"/> */}
-            </div>
-            
+             <img src="https://images.pexels.com/photos/17901179/pexels-photo-17901179/free-photo-of-toddler-standing-in-a-tub.jpeg?auto=compress&cs=tinysrgb&w=400&lazy=load" alt="m1"/> 
+             </div> 
+             */}
            
            
             
