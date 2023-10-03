@@ -62,16 +62,17 @@ const Input=()=>{
 
     return(
         <div className="lastinput">
-          <input type="text" value={text} onChange={(e) => {settext(e.target.value)}} className="inputbox" placeholder="Start baatcheeet...."/>
+          <input type="text" value={text} onChange={(e) => {settext(e.target.value)}} className="inputbox" placeholder="Type a message"/>
           <div className="inputicons">
-          <i class="bi bi-paperclip"></i>
           <label>
-          <i class="bi bi-file-image" ></i>
-          <input type="file" accept="/image*" onChange={(e) => {setimg(e.target.files[0])}}></input>
+          <i className="bi bi-file-image customicon"></i>
+          <input type="file" accept="/image*" className="imagesendinput"  onChange={(e) => {setimg(e.target.files[0])}}></input>
           </label>
+          <button className="sendbtn" onClick={sendmessage}>Send</button>
           
-          {/* <i class="bs bi-send" onClick={sendmessage}></i> */}
-          <button onClick={sendmessage} className="sendmessage">Send</button>
+          {/* <i class="bi bi-paperclip"></i> */}
+
+         
           </div>
         </div>
     )

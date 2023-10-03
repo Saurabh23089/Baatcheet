@@ -15,7 +15,7 @@ const Leftportion=()=>{
   const[user,setuser]=useState('');
   const[error,seterror]=useState("");
   const[enter,setenter]=useState('');
-  const isMounted=useRef(true);
+  var isMounted=useRef(true);
   const[currrentuser,setcurrrentuser]=useState('');
   // const[userclicked,setuserclicked]=useState(false);
 
@@ -130,10 +130,12 @@ const Leftportion=()=>{
    
     const fetchData = async () => {
       const usersref = collection(db, 'users');
+      console.log(username);
       const q = query(usersref, where('displayName', '==', username));
-
+     
       try {
         const querysnapshot = await getDocs(q);
+        console.log(isMounted.current);
 
         if (isMounted.current) {
           console.log(querysnapshot.size);
@@ -165,6 +167,11 @@ const Leftportion=()=>{
       fetchData();
       setenter('');
     }
+
+    // return () => {
+    //   isMounted.current=true;
+    // }
+
   }, [enter]);
 
   useEffect(() => {
@@ -175,6 +182,7 @@ const Leftportion=()=>{
   if(user){
     console.log(user.displayName);
     console.log(user.photoURl);
+    console.log(user.uid);
   }
 
   const selectuser = (data) => {
@@ -217,7 +225,7 @@ const Leftportion=()=>{
 
     const fetchdata = async() => {
       try {
-        console.log("1");
+        // console.log("1");
         if(currentuser){
           unsub = onSnapshot(doc(db, "userchats", currentuser.uid), (doc) => {
                
@@ -280,15 +288,29 @@ const Leftportion=()=>{
   // }
 
 
-  const handleselect = async ()=>{
+  const handleselect = async()=>{
       // Check if the chat between two people exists or not 
      const cid=currentuser.uid>user.uid ? currentuser.uid+user.uid : user.uid+currentuser.uid;
-      try {
+    
+     try {
+     
         const response=await getDoc(doc(db,"chats",cid));
         console.log(response.exists());
-        console.log("1");
+       
         if(!response.exists()){
+          console.log(currentuser.uid);
+          console.log(user.uid);
+          console.log(cid); 
           await setDoc(doc(db,"chats",cid),{messages:[]})
+
+          console.log("Updating current user's userchats");
+console.log("CID:", cid);
+console.log("userInfo:", {
+  uid: user.uid,
+  photoURL: user.photoURl,
+  displayName: user.displayName,
+});
+console.log("dateinfo:", serverTimestamp());
 
           await updateDoc(doc(db,"userchats",currentuser.uid),{
             [cid+".userInfo"]:{
@@ -297,7 +319,17 @@ const Leftportion=()=>{
               displayName:user.displayName,
             },
             [cid+".dateinfo"]:serverTimestamp()   
-          })
+          });
+
+          console.log("Updating current user's userchats");
+console.log("CID:", cid);
+console.log("userInfo:", {
+  uid: user.uid,
+  photoURL: user.photoURl,
+  displayName: user.displayName,
+});
+console.log("dateinfo:", serverTimestamp());
+
           await updateDoc(doc(db,"userchats",user.uid),{
             [cid+".userInfo"]:{
               uid:currentuser.uid,
@@ -311,7 +343,7 @@ const Leftportion=()=>{
          console.log(error.message);
       }
 
-      setuser(null);
+      // setuser(null);
       setusername("");
       
   }

@@ -319,6 +319,7 @@
   outline: none;
   background-color:#D7E5CA;
   border:none;
+  margin-left:8px;
 }
 
 .sendmessage{
@@ -327,3 +328,28 @@
   height:20px;
   width:20px;
 }
+
+.imagesendinput{
+  position:absolute;
+  top:999px;
+  left:-999px;
+}
+
+.sendbtn{
+  border-radius: 10%;
+  background-color:#45FFCA;
+  border-color:#97FFF4;
+}
+
+.sendbtn:hover{
+  border:2px solid #3085C3;
+}
+
+.customicon{
+  font-size: 22px;
+  color:#C8FFE0;
+}
+
+
+
+

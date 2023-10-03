@@ -74,7 +74,7 @@ const Messages=() => {
                
             const data=doc.data();
             console.log(data);
-            setmessages(data?.messages || undefined);
+            // setmessages(data?.messages || undefined);
             // console.log(messages);
         });
 
