@@ -23,6 +23,7 @@ const Leftportion=()=>{
 
   // To store the contacts of current user
   const [chats,setchats]=useState([]);
+  const[lastchat,setlastchat]=useState("");
   
 
 
@@ -255,6 +256,39 @@ const Leftportion=()=>{
   },[currentuser])
 
   console.log(chats);
+
+  const fetchlastchat=async(cid)=>{
+
+    try{
+       
+    }
+
+    catch{
+
+    }
+    const unsub=onSnapshot(doc(db, "chats", cid), (doc) => {
+               
+      const data=doc.data();
+      console.log(data);
+    //  setlastchat()
+    //  setmessages(data?.messages || undefined);
+      // console.log(messages);
+  });
+
+   if(cid){
+     return () => {
+         unsub();
+     }
+ }
+
+ 
+
+}
+
+
+
+
+ 
   
   
   
@@ -288,10 +322,13 @@ const Leftportion=()=>{
   // }
 
 
+  console.log(currentuser.photoURL);
+  // console.log(currentuser.photoURl);
   const handleselect = async()=>{
       // Check if the chat between two people exists or not 
      const cid=currentuser.uid>user.uid ? currentuser.uid+user.uid : user.uid+currentuser.uid;
     
+     console.log(currentuser.photoURL);
      try {
      
         const response=await getDoc(doc(db,"chats",cid));
@@ -300,7 +337,9 @@ const Leftportion=()=>{
         if(!response.exists()){
           console.log(currentuser.uid);
           console.log(user.uid);
-          console.log(cid); 
+          console.log(cid);
+          console.log(currentuser.photoURl);
+          console.log(user.photoURl); 
           await setDoc(doc(db,"chats",cid),{messages:[]})
 
           console.log("Updating current user's userchats");
@@ -333,11 +372,12 @@ console.log("dateinfo:", serverTimestamp());
           await updateDoc(doc(db,"userchats",user.uid),{
             [cid+".userInfo"]:{
               uid:currentuser.uid,
-              photoURL:currentuser.photoURl,
+              photoURL:currentuser.photoURL,
               displayName:currentuser.displayName,
             },
             [cid+".dateinfo"]:serverTimestamp()   
           })
+          console.log("Solve ho jaa yaar");
         }
       } catch (error) {
          console.log(error.message);
@@ -400,6 +440,7 @@ console.log("dateinfo:", serverTimestamp());
                 <div>1</div> */}
                 {Object.entries(chats)?.map((chat) => {
                    console.log(chat);
+                   console.log(chat[1][0]);
                   console.log(chat[1][1].userInfo.photoURL);
                   console.log(chat[1][1].userInfo.displayName);
                   console.log(chat[1][0]);
@@ -408,7 +449,7 @@ console.log("dateinfo:", serverTimestamp());
                     <div className='contacts' key={chat[1][0]} onClick={() => {selectuser(chat[1][1].userInfo)}}>
                     <img src={chat[1][1].userInfo.photoURL} alt="profilephto" className='pf1'/> 
                     <span className='user1'>{chat[1][1].userInfo.displayName}</span>
-                    <p className='lastchat'>Hel22lo</p>
+                    <p className='lastchat'>Lastchat</p>
                     </div>
                    ) 
 
