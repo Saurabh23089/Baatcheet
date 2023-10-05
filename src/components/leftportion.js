@@ -8,6 +8,8 @@ import {db} from '../firebase.js';
 import {doc,collection,query,where,getDoc,getDocs,onSnapshot,addDoc,setDoc,QuerySnapshot,updateDoc,serverTimestamp} from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { ChatContext } from '../context/chatcontext';
+import { onLog } from 'firebase/app';
+import { async } from '@firebase/util';
 
 const Leftportion=()=>{
 
@@ -17,13 +19,14 @@ const Leftportion=()=>{
   const[enter,setenter]=useState('');
   var isMounted=useRef(true);
   const[currrentuser,setcurrrentuser]=useState('');
+  const messages=useContext(ChatContext);
   // const[userclicked,setuserclicked]=useState(false);
 
   const auth=getAuth();
 
   // To store the contacts of current user
   const [chats,setchats]=useState([]);
-  const[lastchat,setlastchat]=useState("");
+  const[lastchat,setlastchat]=useState([]);
   
 
 
@@ -256,43 +259,117 @@ const Leftportion=()=>{
   },[currentuser])
 
   console.log(chats);
-
-  const fetchlastchat=async(cid)=>{
-
-    try{
-       
-    }
-
-    catch{
-
-    }
-    const unsub=onSnapshot(doc(db, "chats", cid), (doc) => {
+  const[lastmessage,setlastmessage]=useState("");
+  
+  useEffect(() => {
+     chats.forEach(async(chatid) => {
+       console.log(chatid[0]);
+        const unsub=onSnapshot(doc(db, "chats",chatid[0]), (doc) => {
                
-      const data=doc.data();
-      console.log(data);
-    //  setlastchat()
-    //  setmessages(data?.messages || undefined);
-      // console.log(messages);
-  });
+          const data=doc.data();
+          console.log(data);
+          const chatuid = chatid[0];
+          const dataarray=Object.entries(data);
+          console.log(dataarray[0][1])
+          const usermessage=dataarray[0][1];
 
-   if(cid){
-     return () => {
-         unsub();
-     }
- }
+          setlastmessage((previousvalue) =>
+              [{...previousvalue,
+                chatuid:usermessage[usermessage.length-1]
+              }
+            ]
+        )
 
- 
+        return () => {
+          unsub();
+        }
+         
+      });
+      console.log(lastmessage);
+  })
+})
 
-}
 
+  // useEffect(() => {
+  //   const fetchlastchat=async(cid)=>{
 
+  //     try{
+  //        const unsub=onSnapshot(doc(db, "chats", cid), (doc) => {
+                 
+  //         const data=doc.data();
+  //         console.log(data,"line no 268");
+  //         // setlastchat(data)
+  //       }); 
 
-
- 
+  //       return () => {
+  //         unsub();
+  //       }
+  //     } 
   
-  
-  
- 
+  //     catch(error){
+  //         console.log(error.message);
+  //     }
+
+  //     if(cid){
+  //         fetchlastchat();
+  //       }
+  //   }
+  // },[messages])
+
+  // const fetchlastchat=async(cid)=>{
+
+  //   try{
+  //      const unsub=onSnapshot(doc(db, "chats", cid), (doc) => {
+               
+  //       const data=doc.data();
+  //       console.log(data,"line no 268");
+  //       if(data&&data.length>0){
+  //         const lastmessage=data[data.length-1];
+  //           setlastchat((prevstate) => ({
+  //              ...prevstate,[cid]:lastmessage
+  //           })
+  //           )
+  //       }
+  //       console.log(lastchat);
+  //     }); 
+
+  //     return () => {
+  //       unsub();
+  //     }
+  //   } 
+
+  //   catch(error){
+  //       console.log(error.message);
+  //   }
+  // }
+
+  const message=useContext(ChatContext);
+
+  useEffect(() => {
+   
+    const lastchat=async() => {
+
+      try {
+        const unsub=onSnapshot(doc(db, "userchats", currentuser.uid), (doc) => {
+          console.log(doc.data());     
+    })
+
+    return () => {
+      unsub();
+    }
+      }
+       catch (error) {
+        console.log(error.message);
+      }  
+    }
+
+   
+
+  if(currentuser.uid){
+    lastchat();
+  }
+
+})
 
 
   // const searchuser=async() => {
@@ -449,7 +526,7 @@ console.log("dateinfo:", serverTimestamp());
                     <div className='contacts' key={chat[1][0]} onClick={() => {selectuser(chat[1][1].userInfo)}}>
                     <img src={chat[1][1].userInfo.photoURL} alt="profilephto" className='pf1'/> 
                     <span className='user1'>{chat[1][1].userInfo.displayName}</span>
-                    <p className='lastchat'>Lastchat</p>
+                    <p className='lastchat'>l</p>
                     </div>
                    ) 
 
