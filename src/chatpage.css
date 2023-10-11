@@ -350,6 +350,16 @@
   color:#C8FFE0;
 }
 
+.bi-camera{
+  padding:none;
+  box-sizing:border-box;
+  position:relative;
+  left:82px;
+  top:16px;
+
+  
+}
+
 
 
 

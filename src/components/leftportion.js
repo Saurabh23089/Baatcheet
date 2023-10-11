@@ -260,24 +260,48 @@ const Leftportion=()=>{
 
   console.log(chats);
   const[lastmessage,setlastmessage]=useState("");
+  const[lc,setlc]=useState();
   
+
   useEffect(() => {
-     chats.forEach(async(chatid) => {
+    console.log(chats);
+     chats&&chats.forEach((chatid) => {
        console.log(chatid[0]);
         const unsub=onSnapshot(doc(db, "chats",chatid[0]), (doc) => {
                
           const data=doc.data();
           console.log(data);
           const chatuid = chatid[0];
-          const dataarray=Object.entries(data);
-          console.log(dataarray[0][1])
+          var dataarray=[];
+          if(data){
+            dataarray=Object.entries(data);
+          }
+         
+          console.log(dataarray[0][1]);
           const usermessage=dataarray[0][1];
+          console.log(usermessage);
 
+         
+
+          const lm=usermessage[usermessage.length-1];
+          console.log(typeof(lm));
+          console.log(lm);
+          console.log(lm.text);
+          var lastchat='';
+          if(lm.text){
+              lastchat=lm.text;
+          }
+
+          else{
+            lastchat=lm.downloadURL;
+          }
+          
+          console.log(lastchat);
+          setlc(lastchat);
           setlastmessage((previousvalue) =>
-              [{...previousvalue,
-                chatuid:usermessage[usermessage.length-1]
-              }
-            ]
+              [...previousvalue,
+               lastchat
+            ]   
         )
 
         return () => {
@@ -285,9 +309,44 @@ const Leftportion=()=>{
         }
          
       });
-      console.log(lastmessage);
+      
   })
-})
+
+  
+},[chats])
+
+// const[check,setcheck]=useState();
+
+// setcheck((previousvalue) => 
+//   [{
+//     ...previousvalue,
+//     chatuid:"123"
+//   }]
+// )
+
+// const check1 =() => {
+//    setcheck();
+// }
+
+// check1();
+
+
+
+
+
+console.log(lastmessage);
+const showchat = () => {
+    for(let i=0;i<lastmessage.length;i++){
+      return lastmessage[i];
+    }
+}
+
+
+
+
+
+
+// lastmessage.forEach(i => console.log(i))
 
 
   // useEffect(() => {
@@ -515,7 +574,7 @@ console.log("dateinfo:", serverTimestamp());
                 {/* <div>1</div>
                 <div>1</div>
                 <div>1</div> */}
-                {Object.entries(chats)?.map((chat) => {
+                {Object.entries(chats)?.map((chat,index) => {
                    console.log(chat);
                    console.log(chat[1][0]);
                   console.log(chat[1][1].userInfo.photoURL);
@@ -526,7 +585,15 @@ console.log("dateinfo:", serverTimestamp());
                     <div className='contacts' key={chat[1][0]} onClick={() => {selectuser(chat[1][1].userInfo)}}>
                     <img src={chat[1][1].userInfo.photoURL} alt="profilephto" className='pf1'/> 
                     <span className='user1'>{chat[1][1].userInfo.displayName}</span>
-                    <p className='lastchat'>l</p>
+                   {lastmessage && lastmessage[index] && lastmessage[index].includes("https://firebasestorage.googleapis.com")? <i className="bi bi-camera">Photo</i>: <p className='lastchat'>{lastmessage[index]}</p>}
+                    {/* {lastmessage[index].includes("https://firebasestorage.googleapis.com")?
+                    <i class="bi bi-camera">Photo</i>:
+                    <p className='lastchat'>{lastmessage[index]}</p>}
+                    {/* {lastmessage&&lastmessage.map((i) => {
+                         return (
+                           <p key={chat[1][0]}>{lastmessage[index]}</p>
+                         )
+                    })} */} 
                     </div>
                    ) 
 
