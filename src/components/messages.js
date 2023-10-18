@@ -118,13 +118,13 @@ const Messages=() => {
     // },[messages]);
 
     return(
-        <div className="messages"> 
+        <div className="messages">
         {messages?.map((message) => {
            return <div key={message.id}>
                <Message message={message}/>
            </div>
         })||
-        <div>1</div>
+        <div className="altdiv">1</div>
         }
             {/* <div className="messageinfo">
                 <img src={data?.user.photoURL} alt="p1"/>

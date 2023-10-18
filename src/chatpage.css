@@ -76,6 +76,26 @@
   width:273px;
 }
 
+.parent{
+  /* position: relative;
+  height:450px;
+  width:273px; */
+  display: flex;
+  flex-direction:column;
+  height: 100%; /* Make the parent div full height */
+  
+}
+
+.nav{
+  position:relative;
+  background-color:blueviolet;
+  border-bottom: 0.05px solid;
+  height:48px;
+  padding-bottom: 0px;
+}
+
+
+
 
 
 .cat{
@@ -93,80 +113,122 @@
 }
 
 .apptitle{
+  position:relative;
   font-weight: bold;
+  top:10px;
+  height:30px;
 }
 
-.apptitle,.one{
+.cudetails{
+   position:relative;
+   right:-70px;
+
+}
+
+/* .apptitle,.one{
   display:inline;
+} */
+
+.cudetails{
+  position:relative;
+  display:flex;
 }
 
 .one{
+  position:relative;
   justify-content: space-between;
   padding-left:60px;
-}
-
-.name{
-  padding-right: 5px;
+  height:50px;
+  max-height:60px;
   
 }
 
-.bn{
-  margin-top: 5px;
+.name{
+  position:relative;
+  padding-right: 5px;
+  height:30px;
+  top:10px;
+
+  
+}
+
+
+
+.fnd{
+  position:relative;
+  width:273px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.0381);
+  /* background-color: aqua; */
+  
 }
 
 .searchbar{
   position:relative;
-  top:15px;
+  /* top:15px; */
   overflow: hidden;
   border:none;
   width:273px;
-  height:35px;
+  /* height:35px; */
   background-color: aqua;
   border-right:1px solid blue;
   outline:none;
-  border-bottom: 1px solid rgba(255, 0, 0, 0.0581);
+  /* border-bottom: 1px solid rgba(255, 0, 0, 1); */
   
   
   text-decoration-color:turquoise;
 }
 
 .bn{
+  position:relative;
+  top: 0px;
   background-color: blueviolet;
   border: none;
-  
-  /* height:20px; */
+  padding:none;
+ 
+}
+
+.fnd input{
+  padding:2px;
 }
 
 .bn:hover{
+ 
   color:burlywood;
   border-radius: 5%;
 }
 
 .mychats{
-  height:383px;
+ 
+  /* max-height:fit-content; */
+  flex:1;
   width:273px;
   background-color: aqua;
   border-right:1px solid blue;
+  overflow-wrap: normal;
+  height:374px;
+  overflow-y: auto;
+  
+}
+
+.two{
+  position:relative;
 }
 
 .pf1{
-  position:absolute;
+  position:relative;
   height:50px;
   width:50px;
-  top:128px;
+  top:0px;
   border-radius: 50%;
   object-fit:cover;
   cursor:pointer;
 }
 
 .user1{
-  /* display:inline-flex; */
+ 
   position:relative;
-  top:25px;
-  left:-15px;
-  display:flex;
-  align-items: center;
-  justify-content: center;
+  left:12px;
+  top:-8px;
  
   color:white;
   cursor:pointer;
@@ -176,13 +238,18 @@
 
 .lastchat{
   position:relative;
-  display:flex;
+ 
   align-items: center;
   justify-content: center;
   color:lightgray;
-  top:20px;
+  top:-26px;
   font-size: 15px;
-  left:-62px;
+  left:61px;
+  /* width:20px; */
+  max-width:100px;
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
 }
 
 .chatinfo{
@@ -279,10 +346,11 @@
 }
 
 .textmessage{
-   width:100px;
    padding-left:10px;
   margin-top:5px;
-   white-space:nowrap;
+  max-width:450px;
+   overflow-wrap: break-word;
+ word-wrap:break-word;
 }
 
 
@@ -311,15 +379,30 @@
 }
 
 .inputbox{
-  margin-top:8px;
-  margin-left:2px;
-}
-
-.inputbox{
+  position:relative;
+  top:10px;
+  left:4px;
+  height:30px;
+  width:400px;
+  margin-bottom:10px;
+  resize:none;  
+  /* margin-top:0px;
+  margin-left:8px; */
   outline: none;
   background-color:#D7E5CA;
-  border:none;
-  margin-left:8px;
+  /* border:none;
+  font-size:16px;
+  width:400px; */
+  /* text-overflow: initial;
+  overflow-x:scroll; */
+  /* overflow-wrap: break-word;
+  word-wrap:break-word; */
+ 
+
+}
+
+.activechat{
+  background-color: red;
 }
 
 .sendmessage{
@@ -354,11 +437,75 @@
   padding:none;
   box-sizing:border-box;
   position:relative;
-  left:82px;
-  top:16px;
+  left:-52px;
+  top:12px;
 
   
 }
+
+.messages{
+   background-image: url("chatbackground.jpg");
+   background-color: #FFF8C9;
+   background-size:cover;
+   background-position: center;
+   background-repeat:no-repeat; 
+}
+
+.usersearch{
+  position:relatve;
+  height:55px;
+  padding-top: 2.5px;
+  background-color: aqua;
+}
+
+.notfound{
+   background-color: aqua;
+}
+
+.sm{
+  position:relatve;
+  height:50px;
+  width:50px;
+  top:0px;
+  border-radius:50%;
+}
+
+.contacts{
+  position:relative;
+  padding-top:5px;
+  padding-bottom:5px;
+  height:65px;
+}
+
+.contacts:hover,.contacts:active{
+  cursor:pointer;
+  background-color:#D7E5CA;
+  border-left: 1px;
+}
+
+
+
+.active-chat{
+  background-color: #6F61C0;
+}
+
+.ps{
+  position:relative;
+  top:200px;
+  font-size:12px;
+}
+
+.ps1{
+  position:relative;
+  top:200px;
+  font-size:12px;
+  left:50px;
+}
+
+.ps,.ps1{
+  position:inline;
+}
+
 
 
 

@@ -62,7 +62,8 @@ const Input=()=>{
 
     return(
         <div className="lastinput">
-          <input type="text" value={text} onChange={(e) => {settext(e.target.value)}} className="inputbox" placeholder="Type a message"/>
+          <textarea name="text" value={text} onChange={(e) => {settext(e.target.value)}} className="inputbox">Type a message ...
+          </textarea>
           <div className="inputicons">
           <label>
           <i className="bi bi-file-image customicon"></i>

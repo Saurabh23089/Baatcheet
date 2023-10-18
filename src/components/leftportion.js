@@ -19,6 +19,7 @@ const Leftportion=()=>{
   const[enter,setenter]=useState('');
   var isMounted=useRef(true);
   const[currrentuser,setcurrrentuser]=useState('');
+  const[activechat,setactivechat]=useState(null);
   const messages=useContext(ChatContext);
   // const[userclicked,setuserclicked]=useState(false);
 
@@ -27,6 +28,8 @@ const Leftportion=()=>{
   // To store the contacts of current user
   const [chats,setchats]=useState([]);
   const[lastchat,setlastchat]=useState([]);
+  var q="";
+  var dataarray=[];
   
 
 
@@ -135,7 +138,11 @@ const Leftportion=()=>{
     const fetchData = async () => {
       const usersref = collection(db, 'users');
       console.log(username);
-      const q = query(usersref, where('displayName', '==', username));
+      if(currentuser.displayName!=username)
+      {
+        q = query(usersref, where('displayName', '==', username));
+      }
+     
      
       try {
         const querysnapshot = await getDocs(q);
@@ -160,7 +167,7 @@ const Leftportion=()=>{
         
 
       } catch (error) {
-        if (isMounted.current) {
+        if (username!=currentuser.displayName&&isMounted.current) {
           seterror(true);
         }
       }
@@ -191,7 +198,10 @@ const Leftportion=()=>{
 
   const selectuser = (data) => {
      console.log(data);
+     setactivechat(data.uid);
+     console.log(activechat);
     dispatch({type: "changeuser",payload:data});
+    
   }
 
   // useEffect(() => {
@@ -272,11 +282,12 @@ const Leftportion=()=>{
           const data=doc.data();
           console.log(data);
           const chatuid = chatid[0];
-          var dataarray=[];
+         
           if(data){
             dataarray=Object.entries(data);
           }
          
+          console.log(dataarray);
           console.log(dataarray[0][1]);
           const usermessage=dataarray[0][1];
           console.log(usermessage);
@@ -286,23 +297,26 @@ const Leftportion=()=>{
           const lm=usermessage[usermessage.length-1];
           console.log(typeof(lm));
           console.log(lm);
-          console.log(lm.text);
+          // console.log(lm.text);
           var lastchat='';
-          if(lm.text){
+          if(lm&&lm.text){
               lastchat=lm.text;
           }
 
-          else{
+          else if(lm&&lm.downloadURL){
             lastchat=lm.downloadURL;
           }
           
           console.log(lastchat);
           setlc(lastchat);
           setlastmessage((previousvalue) =>
-              [...previousvalue,
-               lastchat
-            ]   
+             ({
+               ...previousvalue,
+               [chatuid]:lastchat
+             }) 
         )
+
+        console.log(lastmessage);
 
         return () => {
           unsub();
@@ -314,6 +328,8 @@ const Leftportion=()=>{
 
   
 },[chats])
+
+console.log(lastmessage);
 
 // const[check,setcheck]=useState();
 
@@ -457,6 +473,7 @@ const showchat = () => {
   //    }
   // }
 
+  var activeChatId="";
 
   console.log(currentuser.photoURL);
   // console.log(currentuser.photoURl);
@@ -520,6 +537,7 @@ console.log("dateinfo:", serverTimestamp());
       }
 
       // setuser(null);
+      setuser(null);
       setusername("");
       
   }
@@ -545,6 +563,7 @@ console.log("dateinfo:", serverTimestamp());
       console.log("signout successfull");
       navigate('/Login');
       
+      
       // dispatch({type: "onlogout",payload:data})
       
     }) 
@@ -554,80 +573,139 @@ console.log("dateinfo:", serverTimestamp());
   }
 
     return (currentuser&&
-        <div className='toppart'>
-            <span className='apptitle'>BaatCheet</span>  
-              <div className='one'>
-                  {/* {currentuser.photoURL?<img src={url} alt='pp'/>:<img src={url} alt='pp'/>} */}
-                  <span className='name'>{currentuser.displayName}</span>
-                  {/* <img src={currentuser.photoURL} alt="profilepicture"/> */}
-                  <button className='bn' onClick={logout}>Logout</button>
-                  <input type="text" placeholder='Find a user' onKeyDown={searchhelper} value={username} onChange={(e) => {setusername(e.target.value)}} className='searchbar'/>
-             {user&&<div onClick={handleselect}>
-              <img src={user.photoURl} alt='chat1' className='pf1'/>
-                <span className='user1'>{user.displayName}</span>
-                <p className='lastchat'>He546llo</p>
-               </div>
-              }   
-              {error&&<div>User not Found!</div>} 
-              </div>
-              <div className="mychats">
-                {/* <div>1</div>
-                <div>1</div>
-                <div>1</div> */}
-                {Object.entries(chats)?.map((chat,index) => {
-                   console.log(chat);
-                   console.log(chat[1][0]);
-                  console.log(chat[1][1].userInfo.photoURL);
-                  console.log(chat[1][1].userInfo.displayName);
-                  console.log(chat[1][0]);
-                  
-                   return (
-                    <div className='contacts' key={chat[1][0]} onClick={() => {selectuser(chat[1][1].userInfo)}}>
-                    <img src={chat[1][1].userInfo.photoURL} alt="profilephto" className='pf1'/> 
-                    <span className='user1'>{chat[1][1].userInfo.displayName}</span>
-                   {lastmessage && lastmessage[index] && lastmessage[index].includes("https://firebasestorage.googleapis.com")? <i className="bi bi-camera">Photo</i>: <p className='lastchat'>{lastmessage[index]}</p>}
-                    {/* {lastmessage[index].includes("https://firebasestorage.googleapis.com")?
-                    <i class="bi bi-camera">Photo</i>:
-                    <p className='lastchat'>{lastmessage[index]}</p>}
-                    {/* {lastmessage&&lastmessage.map((i) => {
-                         return (
-                           <p key={chat[1][0]}>{lastmessage[index]}</p>
-                         )
-                    })} */} 
-                    </div>
-                   ) 
+      <div className='parent'>
 
-                    // <h1>1</h1>
-                    // <img src={chat[1][1].userInfo.photoURL} alt="profilephto"/> 
-                    // <span>{chat[1][1].userInfo.displayName}</span>
-                    // <p>Hello</p>
+        
+
+        <div className='nav'>
+          <span className='apptitle'>BaatCheet</span>
+          <div className='cudetails'>
+          <span className='name'>{currentuser.displayName}</span>
+           {/* <img src={currentuser.photoURL} alt="profilepicture"/> */}
+           <button className='bn' onClick={logout}>Logout</button>
+          </div> 
+          
+        </div>
+
+        
+        {/* <input type="text" placeholder='Find a user' onKeyDown={searchhelper} value={username} onChange={(e) => {setusername(e.target.value)}} className='searchbar'/> */}
+        <div className='fnd'>
+          <input type="text" placeholder='Find a user' onKeyDown={searchhelper} value={username} onChange={(e) => {setusername(e.target.value)}} className='searchbar'/> 
+          {user&&<div onClick={handleselect} className="usersearch">
+          <img src={user.photoURl} alt='chat1' className='sm'/>
+          <span className='user1'>{user.displayName}</span>
+          </div>}
+          {error&&<div className="notfound">User not Found!</div>}
+        </div>
+
+        <div className='mychats'>
+        {Object.entries(chats)?.map((chat,index) => {
+           console.log(chat);
+           console.log(chat[1]);
+           console.log(chat[1][0]);
+           console.log(chat[1][0]);
+           console.log(chat[1][0]);
+           console.log(chat[1][0]);
+           console.log(chat[1][1].userInfo.photoURL);
+           console.log(chat[1][1].userInfo.displayName);
+           console.log(chat[1][0]);
+
+           return (
+              <div className={`contacts ${activechat==chat[1][1]?.userInfo?.uid?"activechat":""}`} key={chat[1][0]} onClick={() => {selectuser(chat[1][1].userInfo)}}>
+              <img src={chat[1][1].userInfo.photoURL} alt="profilephto" className='pf1'/> 
+              <span className='user1'>{chat[1][1].userInfo.displayName}</span>
+              {lastmessage && lastmessage[index] && lastmessage[index].includes("https://firebasestorage.googleapis.com")? <i className="bi bi-camera">Photo</i>: <p className='lastchat'>{lastmessage[chat[1][0]]}</p>}
+        </div>
+           )
+        })
+      }
+        </div>
+        </div>
+
+        
+
+                  // <div className='fnd'>
+                 
+                  //      {user&&<div onClick={handleselect} className="usersearch">
+                  //       <img src={user.photoURl} alt='chat1' className='sm'/>
+                  //         <span className='user1'>{user.displayName}</span>
+                  //         <p className='lastchat'>He546llo</p>
+                  //       </div>}
+                  //         <input type="text" placeholder='Find a user' onKeyDown={searchhelper} value={username} onChange={(e) => {setusername(e.target.value)}} className='searchbar'/>
+                  //           </div>
+      
+
+     
+          
+
+        // <div className='toppart'>
+        //     <span className='apptitle'>BaatCheet</span>  
+        //       {/* <div className='one'> */}
+        //           {/* {currentuser.photoURL?<img src={url} alt='pp'/>:<img src={url} alt='pp'/>} */}
+        //           <span className='name'>{currentuser.displayName}</span>
+        //           {/* <img src={currentuser.photoURL} alt="profilepicture"/> */}
+        //           <button className='bn' onClick={logout}>Logout</button>
+                 
+        //           <div className='fnd'>
+                 
+        //      {user&&<div onClick={handleselect} className="usersearch">
+        //       <img src={user.photoURl} alt='chat1' className='sm'/>
+        //         <span className='user1'>{user.displayName}</span>
+        //         <p className='lastchat'>He546llo</p>
+        //        </div>}
+        //         <input type="text" placeholder='Find a user' onKeyDown={searchhelper} value={username} onChange={(e) => {setusername(e.target.value)}} className='searchbar'/>
+        //           </div>
+                 
+                
+        //       {error&&<div>User not Found!</div>} 
+        //       {/* </div> */}
+        //       <div className="mychats">
+        //         {/* <div>1</div>
+        //         <div>1</div>
+        //         <div>1</div> */}
+        //         {Object.entries(chats)?.map((chat,index) => {
+        //            console.log(chat);
+        //            console.log(chat[1][0]);
+        //           console.log(chat[1][1].userInfo.photoURL);
+        //           console.log(chat[1][1].userInfo.displayName);
+        //           console.log(chat[1][0]);
+                  
+        //            return (
+        //             <div className='contacts' key={chat[1][0]} onClick={() => {selectuser(chat[1][1].userInfo)}}>
+        //             <img src={chat[1][1].userInfo.photoURL} alt="profilephto" className='pf1'/> 
+        //             <span className='user1'>{chat[1][1].userInfo.displayName}</span>
+        //            {lastmessage && lastmessage[index] && lastmessage[index].includes("https://firebasestorage.googleapis.com")? <i className="bi bi-camera">Photo</i>: <p className='lastchat'>{lastmessage[index]}</p>}
+                  
+                    
+        //             {/* {lastmessage[index].includes("https://firebasestorage.googleapis.com")?
+        //             <i class="bi bi-camera">Photo</i>:
+        //             <p className='lastchat'>{lastmessage[index]}</p>}
+        //             {/* {lastmessage&&lastmessage.map((i) => {
+        //                  return (
+        //                    <p key={chat[1][0]}>{lastmessage[index]}</p>
+        //                  )
+        //             })} */} 
+        //             </div>
+        //            ) 
+
+        //             // <h1>1</h1>
+        //             // <img src={chat[1][1].userInfo.photoURL} alt="profilephto"/> 
+        //             // <span>{chat[1][1].userInfo.displayName}</span>
+        //             // <p>Hello</p>
 
                    
 
 
 
-                   // </div>
+        //            // </div>
                     
 
 
 
-                })}
-                {/* <img src="https://image.shutterstock.com/image-photo/pastoral-green-field-long-shadows-260nw-275372477.jpg" alt='chat1' className='pf1'/>
-                <span className='user1'>Shubham Tiwari</span>
-                <p className='lastchat'>Hello</p> */}
-
-                {/* <img src="https://image.shutterstock.com/image-photo/pastoral-green-field-long-shadows-260nw-275372477.jpg" alt='chat1' className='pf1'/>
-                <span className='user1'>Shubham Tiwari</span>
-                <p className='lastchat'>Hello</p>
-                <img src="https://image.shutterstock.com/image-photo/pastoral-green-field-long-shadows-260nw-275372477.jpg" alt='chat1' className='pf1'/>
-                <span className='user1'>Shubham Tiwari</span>
-                <p className='lastchat'>Hello</p>
-                <img src="https://image.shutterstock.com/image-photo/pastoral-green-field-long-shadows-260nw-275372477.jpg" alt='chat1' className='pf1'/>
-                <span className='user1'>Shubham Tiwari</span>
-                <p className='lastchat'>Hello</p> */}
-              </div>
+        //         })}
+        //       </div>
               
-            </div>
+        //     </div>
        
     )
 }

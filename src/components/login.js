@@ -5,26 +5,57 @@ import {getAuth,signInWithEmailAndPassword} from 'firebase/auth';
  which contains information about the current URL and navigation state.*/
  import '../login.css'
 import { auth } from '../firebase';
+import { useState } from 'react';
+import PopupboxManager from 'reactjs-popup';
+import Resetpassword from './passwordreset.js';
+// import Resetpassword from './passwordreset.js';
  //import Createaccount from './createaccount.js';
 
 
 const Login=()=>{
 
+    const[email,setemail]=useState();
+    const[password,setpassword]=useState();
+    const[wrongpassword,setwrongpassword]=useState(false);
+    const [showResetPassword, setShowResetPassword] = useState(false); // Add state to control Resetpassword visibility
+
+
     const navigate=useNavigate();
+
+    const openPasswordResetPopup = () => {
+        console.log("1");
+       setShowResetPassword(true);
+    };
+
+   
 
     const handlesubmit=(e) => {
         e.preventDefault();
        const auth=getAuth();
-       const email=e.target[0].value;
-       const password=e.target[1].value;
+       var email=e.target[0].value;
+       var password=e.target[1].value;
        signInWithEmailAndPassword(auth,email,password)
        .then((usercredential) => {
            const user=usercredential.user;
            console.log(user);
            navigate('/Sample');
+           email="";
+           password="";
        })
        .catch((error) => {
-           console.log(error.message);
+         const errorcode=error.code;
+         const errormessage=error.messsage;
+
+         switch(errorcode){
+             case "auth/wrong-password":
+                setwrongpassword(true);
+                break;
+             case "auth/user-not-found":
+                 alert("User not Found!");
+                 break;
+             default:
+                 console.log(error.message);
+         }
        })
     }
     
@@ -38,7 +69,9 @@ const Login=()=>{
             <input type="password" placeholder='password' className='ip5'/>
             <button className='signinbtn'>Sign in</button>
         </form>
-        
+        {wrongpassword&&<p className='ps'>Incorrect Paasword!</p>}
+        {wrongpassword&&<p className='ps ps1' onClick={openPasswordResetPopup}>Forgot Password</p>}
+        {showResetPassword && <Resetpassword />}
         <p className='asksignup'>You don't have an account?</p>
         <p className='register' onClick={() => navigate('/register')}>Register</p>
        </div>
