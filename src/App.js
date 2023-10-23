@@ -8,6 +8,7 @@ import {Router,BrowserRouter,Routes,Route, Navigate} from 'react-router-dom';
 import Sample from './components/sample.js';
 import {auth} from './firebase'
 import { AuthContext } from './context/authcontext';
+import Resetform from './components/resetform.js'
 // import  authcontext from './authcontext.js';
 // import {AuthProvider,Provider} from './authcontext.js';
 
@@ -33,6 +34,7 @@ function App() {
     <BrowserRouter>
       {/* <AuthProvider> */}
         <Routes>
+          <Route path="/reset" element={<Resetform/>}/>
           <Route path='/' element={!currentuser?<Navigate to ="/Sample"/>:<Navigate to="/Login"/>} />
           <Route path='/Sample' element={<Sample />} />
           <Route path='/login' element={<Login />} />
