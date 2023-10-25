@@ -39,7 +39,8 @@ const Message = ({message}) => {
 
         <div className="timeandphoto">
          <img src={data?.user.photoURL||""} alt="p1" className="senderimage"/>
-         {message.text ? <p className="textmessage">{message.text}</p> : <img src={message?.downloadURL} alt="message" className="imagemessage"/>} 
+         {message.text && <p className="textmessage">{message.text}</p>} 
+         {message.downloadURL && <img src={message?.downloadURL} alt="message" className="imagemessage"/>} 
          </div>
         <span className="messagetime">{finaltime}</span>
            </div>

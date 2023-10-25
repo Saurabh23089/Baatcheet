@@ -14,10 +14,11 @@ const Input=()=>{
   console.log(data);
 
   const[text,settext]=useState('');
-  const[img,setimg]=useState('');
+  const[img,setimg]=useState(null);
 
    const sendmessage = async() => {
       if(img){
+        console.log(img);
         const storage=getStorage();
         const storageref=ref(storage,uuid())
         const uploadtask=uploadBytesResumable(storageref, img);
@@ -39,6 +40,7 @@ const Input=()=>{
                   date:Timestamp.now()
                 })
              })
+             setimg(null);
             })
             .catch((error) => {
               console.log(error);
@@ -46,7 +48,7 @@ const Input=()=>{
           }
         )
       }
-      else{
+      if(text!=''){
         console.log(text);
          await updateDoc(doc(db,"chats",data?.chatid),{
             messages:arrayUnion({

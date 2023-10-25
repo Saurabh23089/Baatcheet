@@ -148,6 +148,10 @@ const Login=()=>{
              case "auth/user-not-found":
                  alert("User not Found!");
                  break;
+             case "auth/weak-password":
+               console.log("1");
+                 setwrongpassword(true);
+                 break;
              default:
                  console.log(error.message);
          }

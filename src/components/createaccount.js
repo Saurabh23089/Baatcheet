@@ -209,6 +209,19 @@ const Createaccount=() => {
       }
       catch (error) {
           console.log(error.message);
+          const errorcode=error.code;
+          const errormessage=error.message;
+          switch(errorcode){
+            case "auth/email-already-in-use":
+                alert("User already Registered");
+                break;
+            case "auth/weak-password":
+              console.log("1");
+                alert("Password should be at least 6 characters");
+                break;
+            default:
+                console.log(error.message);
+        }
       }
       
    }

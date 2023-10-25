@@ -1,4 +1,4 @@
-import React, { useContext, useEffect,useRef,useState } from "react";
+import React, { useContext, useEffect,useRef,useState,useMemo } from "react";
 import { doc, getDoc,onSnapshot} from "firebase/firestore";
 import {db} from '../firebase.js';
 import '../chatpage.css';
@@ -21,6 +21,8 @@ const Messages=() => {
 
     const[messages,setmessages]=useState([]);
     const messagesref=useRef(messages);
+
+  
 
 //     useRef(() => {
 //         messagesref.current=messages;
@@ -83,7 +85,23 @@ const Messages=() => {
                unsub();
            }
        }
-    },[messages,chatid])
+    },[chatid])
+
+    // const unsub=onSnapshot(doc(db, "chats", chatid), (doc) => {
+               
+    //     const data=doc.data();
+    //     console.log(data);
+    //     setmessages(data?.messages || undefined);
+    //     return messages;
+    //     // console.log(messages);
+    // });
+
+    // const memoizedmessages = useMemo(() => unsub(),[chatid,messages]);
+    // console.log(memoizedmessages);
+
+   
+
+    
 
     // useEffect(() => {
     //     let unsub;
