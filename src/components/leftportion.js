@@ -614,7 +614,7 @@ console.log("dateinfo:", serverTimestamp());
               <div className={`contacts ${activechat==chat[1][1]?.userInfo?.uid?"activechat":""}`} key={chat[1][0]} onClick={() => {selectuser(chat[1][1].userInfo)}}>
               <img src={chat[1][1].userInfo.photoURL} alt="profilephto" className='pf1'/> 
               <span className='user1'>{chat[1][1].userInfo.displayName}</span>
-              {lastmessage && lastmessage[index] && lastmessage[index].includes("https://firebasestorage.googleapis.com")? <i className="bi bi-camera">Photo</i>: <p className='lastchat'>{lastmessage[chat[1][0]]}</p>}
+              {lastmessage && lastmessage[chat[1][0]] && lastmessage[chat[1][0]].includes("https://firebasestorage.googleapis.com")? <i className="bi bi-camera">Photo</i>: <p className='lastchat'>{lastmessage[chat[1][0]]}</p>}
         </div>
            )
         })

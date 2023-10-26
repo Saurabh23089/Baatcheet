@@ -1,6 +1,6 @@
 // import 'React' from react;
 import { Timestamp } from "firebase/firestore";
-import { useContext } from "react";
+import { useContext,useRef,useEffect } from "react";
 import { ChatContext } from "../context/chatcontext";
 
 const Message = ({message}) => {
@@ -30,12 +30,18 @@ const Message = ({message}) => {
     console.log(finaltime);
     console.log(finaldate);
 
+    const ref=useRef();
+
+    useEffect(() => {
+        ref.current?.scrollIntoView({behaviour:'smooth'});
+    },[message])
+
 
 
     return (
-       <div>
+    //    <div>
          
-        <div className="messageinfo">
+        <div className="messageinfo" ref={ref}>
 
         <div className="timeandphoto">
          <img src={data?.user.photoURL||""} alt="p1" className="senderimage"/>
@@ -44,7 +50,7 @@ const Message = ({message}) => {
          </div>
         <span className="messagetime">{finaltime}</span>
            </div>
-        </div>    
+        // </div>    
     )
 }
 

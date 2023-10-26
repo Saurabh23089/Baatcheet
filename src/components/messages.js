@@ -144,6 +144,18 @@ const Messages=() => {
         })||
         <div className="altdiv">1</div>
         }
+{/* 
+{messages
+        ?.sort((a, b) => a.date - b.date) // Sort messages by timestamp
+        .map((message) => {
+          return (
+            <div key={message.id}>
+              <Message message={message} />
+            </div>
+          );
+        }) || <div className="altdiv">1</div>} */}
+
+
             {/* <div className="messageinfo">
                 <img src={data?.user.photoURL} alt="p1"/>
                 <span>Just now</span>
