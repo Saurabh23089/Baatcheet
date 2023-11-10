@@ -88,7 +88,8 @@
 
 .nav{
   position:relative;
-  background-color:blueviolet;
+  /* background-color:rgba(0, 0, 0, 0.478); */
+  background-color: #6F61C0;
   border-bottom: 0.05px solid;
   height:48px;
   padding-bottom: 0px;
@@ -101,7 +102,7 @@
 .cat{
   flex:2;
   padding-left:10px;
-  background-color: #6F61C0;
+  background-color:rgba(0, 0, 0, 0.478);
   height:46px;
 }
 
@@ -157,7 +158,7 @@
 .fnd{
   position:relative;
   width:273px;
-  border-bottom: 0.5px solid rgba(255, 255, 255, 0.0381);
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.544);
   /* background-color: aqua; */
   
 }
@@ -169,7 +170,7 @@
   border:none;
   width:273px;
   /* height:35px; */
-  background-color: aqua;
+  background-color:rgba(0, 0, 0, 0.478);
   border-right:1px solid blue;
   outline:none;
   /* border-bottom: 1px solid rgba(255, 0, 0, 1); */
@@ -202,7 +203,7 @@
   /* max-height:fit-content; */
   flex:1;
   width:273px;
-  background-color: aqua;
+  background-color:rgba(0, 0, 0, 0.478);
   border-right:1px solid blue;
   overflow-wrap: normal;
   height:374px;
@@ -302,7 +303,7 @@
   /* justify-content: center;; */
   height:50px;
   margin-left:-9.7px;
-  background-color: gray;
+  background-color: rgba(0, 0, 0, 0.478);
   overflow:hidden;
   
   /* left:0px;
@@ -429,7 +430,10 @@
 }
 
 .customicon{
-  font-size: 22px;
+  position:relative;
+  top:2px;
+  padding-left:12px;
+  font-size: 24px;
   color:#C8FFE0;
 }
 
@@ -455,11 +459,11 @@
   position:relatve;
   height:55px;
   padding-top: 2.5px;
-  background-color: aqua;
+  background-color: rgba(0, 0, 0, 0.333);
 }
 
 .notfound{
-   background-color: aqua;
+   background-color: rgba(0, 0, 0, 0.278);
 }
 
 .sm{
@@ -524,7 +528,68 @@
 
 
 
+@media (max-width : 1049px) {
+  
+  /* .container{
+    border:none;
+    overflow:hidden;
+  } */
+
+}
+
+.container{
+  border:none;
+}
+
+@media screen and (max-width : 767px) and (orientation:portrait) {
+  
+  .container{
+    border:none;
+  }
+
+  .name{
+    right:20px;
+   
+  }
+
+  .nav{
+    outline:none;
+    overflow:hidden;
+    box-shadow: none;
+  }
+  
+  .inputbox{
+    width:200px;
+  }
+
+  .parent{
+    height:600px;
+    width:200px;
+  }
+
+  .cat{
+    height:600px;
+  }
+
+  .textmessage{
+    max-width:240px;
+  }
+
+  .mychats{
+    width:200px;
+  }
+
+  /* .lastinput{
+    position:relative;
+    top:0px;
+    bottom:0px;
+  } */
+
+  .messages{
+    height:510px;
+  }
+
+  
 
 
-
-
+}

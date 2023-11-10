@@ -99,9 +99,13 @@ code {
   @media (max-width: 767px){
     .logincontainer{
       position: absolute;
-      /* top:70px; */
-      left:40px;
+      /* right:50%;
+      left:50%; */
+      left:30%;
     }
+
+    
+
   }
   
   

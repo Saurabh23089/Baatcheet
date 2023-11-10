@@ -582,7 +582,7 @@ console.log("dateinfo:", serverTimestamp());
           <div className='cudetails'>
           <span className='name'>{currentuser.displayName}</span>
            {/* <img src={currentuser.photoURL} alt="profilepicture"/> */}
-           <button className='bn' onClick={logout}>Logout</button>
+           {/* <button className='bn' onClick={logout}>Logout</button> */}
           </div> 
           
         </div>
@@ -619,6 +619,7 @@ console.log("dateinfo:", serverTimestamp());
            )
         })
       }
+      
         </div>
         </div>
 
