@@ -70,9 +70,10 @@ const Resetpassword = ({showResetPassword,setshowResetPassword}) => {
 
 
     return (
-        <div>
+        <div className='popup'>
               {showResetPassword && (
-            <Popup
+               
+            <Popup 
             open={showResetPassword}
             position="top left"
             closeOnDocumentClick

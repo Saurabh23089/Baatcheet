@@ -41,7 +41,7 @@ code {
     left:400px;
     background-color:white;
     width: 280px;
-    height:250px;
+    height:280px;
   }
   
   .title{
@@ -78,22 +78,25 @@ code {
     border:1px solid #35A29F;
     color:#fff;
     background-color: #75C2F6;
+    margin-bottom: 20px;
   }
   
   .asksignup{
     position:absolute;
-    top:215px;
+    top:235px;
     left:50px;
     font-size:12px;
   }
   
   .register{
     position:absolute;
-    top:215px;
+    top:235px;
     left:195px;
     font-size: 12px;
     text-decoration:underline;
   }
+
+  
   
 
   @media (max-width: 767px){
@@ -101,8 +104,9 @@ code {
       position: absolute;
       /* right:50%;
       left:50%; */
-      left:30%;
+      left:10%;
     }
+
 
     
 

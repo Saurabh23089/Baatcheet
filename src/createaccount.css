@@ -108,8 +108,8 @@ body{
   @media (max-width: 767px){
     .formcontainer{
       position: absolute;
-      /* top:70px; */
-      left:70px;
+      top:10%;
+      left:10%;
     }
   }
 

@@ -94,6 +94,8 @@ const Leftportion=()=>{
       } catch (error) {
         if (username!=currentuser.displayName&&isMounted.current) {
           seterror(true);
+          
+      
         }
       }
     };
@@ -102,10 +104,23 @@ const Leftportion=()=>{
       console.log("check");
       fetchData();
       setenter('');
+      setusername('');
     }
 
 
   }, [enter]);
+
+
+  // In case no user found then it should disappear 5 seconds after
+  useEffect(() => {
+                const timeoutid= setTimeout(() => {
+            seterror(false);
+          }, 7000);
+
+          return () => {
+            clearTimeout(timeoutid);
+          }
+  },[error])
 
   useEffect(() => {
     console.log(user);
@@ -264,6 +279,12 @@ const showchat = () => {
 
   var activeChatId="";
 
+  const handlesearch = (e) => {
+      e.preventDefault();
+      setenter(true);
+  }
+
+
   console.log(currentuser.photoURL);
   // console.log(currentuser.photoURl);
   const handleselect = async()=>{
@@ -336,13 +357,13 @@ console.log("dateinfo:", serverTimestamp());
   
 
 
-  const searchhelper=(e) => {
-    console.log(e.key);
-    if(e.key==="Enter"){
-      setenter(true);
-      console.log(enter);
-    }
-  } 
+  // const searchhelper=(e) => {
+  //   console.log(e.key);
+  //   if(e.key==="Enter"){
+  //     setenter(true);
+  //     console.log(enter);
+  //   }
+  // } 
   
 
 
@@ -379,7 +400,10 @@ console.log("dateinfo:", serverTimestamp());
         
         {/* <input type="text" placeholder='Find a user' onKeyDown={searchhelper} value={username} onChange={(e) => {setusername(e.target.value)}} className='searchbar'/> */}
         <div className='fnd'>
-          <input type="text" placeholder='Find a user' onKeyDown={searchhelper} value={username} onChange={(e) => {setusername(e.target.value)}} className='searchbar'/> 
+          <form onSubmit={handlesearch}>
+          <input type="text" placeholder='Find a user' value={username} onChange={(e) => {setusername(e.target.value)}} className='searchbar'/>
+          </form>
+          
           {user&&<div onClick={handleselect} className="usersearch">
           <img src={user.photoURl} alt='chat1' className='sm'/>
           <span className='user1'>{user.displayName}</span>
