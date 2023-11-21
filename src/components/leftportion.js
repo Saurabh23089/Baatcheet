@@ -21,7 +21,6 @@ const Leftportion=()=>{
   const[currrentuser,setcurrrentuser]=useState('');
   const[activechat,setactivechat]=useState(null);
   const messages=useContext(ChatContext);
-  // const[userclicked,setuserclicked]=useState(false);
 
   const auth=getAuth();
 
@@ -30,9 +29,6 @@ const Leftportion=()=>{
   const[lastchat,setlastchat]=useState([]);
   var q="";
   var dataarray=[];
-  
-
-
 
   
 
@@ -52,21 +48,6 @@ const Leftportion=()=>{
 
   console.log(username);
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       // User is signed in.
-  //       setcurrrentuser(user);
-  //     } else {
-  //       // User is signed out.
-  //       setcurrrentuser(null);
-  //     }
-  //   });
-  
-  //   // Clean up the listener when the component unmounts.
-  //   return () => unsubscribe();
-  // }, []);
-  
   console.log(currentuser);
 
   
@@ -74,63 +55,7 @@ const Leftportion=()=>{
 
      
   
-// }
 
-  // useEffect(async() => {
-  //   const usersref=collection(db,"users");
-  //   const q=query(usersref,where("displayName","==",username));
-  //   console.log(q);
-
-  //   try{
-  //       const querysnapshot=await getDocs(q);
-  //       console.log(querysnapshot.size);
-  //      querysnapshot.forEach((doc) => {
-        
-  //       console.log(doc.data());
-  //         console.log(doc.data().displayName);
-  //         console.log(doc.data().photoURL);
-  //         console.log(user);
-  //      })
-
-       
-  //   }
-    
-  //   catch(error){
-      
-  //      seterror(true);
-      
-  //   }
-  //   setenter('');
-  // },[enter])
-
-
-
-  // useEffect(async() => {
-  //   const usersref=collection(db,"users");
-  //   const q=query(usersref,where("displayName","==",username));
-  //   console.log(q);
-
-  //   try{
-  //       const querysnapshot=await getDocs(q);
-  //       console.log(querysnapshot.size);
-  //      querysnapshot.forEach((doc) => {
-        
-  //       console.log(doc.data());
-  //         console.log(doc.data().displayName);
-  //         console.log(doc.data().photoURL);
-  //         console.log(user);
-  //      })
-
-       
-  //   }
-    
-  //   catch(error){
-      
-  //      seterror(true);
-      
-  //   }
-  //   setenter('');
-  // },[setenter])
   
 
   useEffect(() => {
@@ -179,9 +104,6 @@ const Leftportion=()=>{
       setenter('');
     }
 
-    // return () => {
-    //   isMounted.current=true;
-    // }
 
   }, [enter]);
 
@@ -204,35 +126,6 @@ const Leftportion=()=>{
     
   }
 
-  // useEffect(() => {
-  //   const unsub = onSnapshot(doc(db, "userchats",currentuser.uid), (doc) => {
-  //         console.log(doc.exists());
-  //   });
-
-  //   return () => {
-  //     unsub();
-  //   }
-  // },[currentuser])
-
-  // useEffect(() => {
-  //   let unsub;
-  
-  //   const fetchData = async () => {
-  //     if (currentuser) {
-  //       onSnapshot(doc(db, "userchats", currentuser.uid), (doc) => {
-  //         console.log(doc.exists());
-  //       });
-  //     }
-  //   };
-  
-  //   fetchData();
-  
-  //   return () => {
-  //     if (unsub) {
-  //       unsub(); // Unsubscribe only if unsub is defined
-  //     }
-  //   };
-  // }, [currentuser]);
 
   useEffect(() => {
     let unsub;
@@ -331,24 +224,6 @@ const Leftportion=()=>{
 
 console.log(lastmessage);
 
-// const[check,setcheck]=useState();
-
-// setcheck((previousvalue) => 
-//   [{
-//     ...previousvalue,
-//     chatuid:"123"
-//   }]
-// )
-
-// const check1 =() => {
-//    setcheck();
-// }
-
-// check1();
-
-
-
-
 
 console.log(lastmessage);
 const showchat = () => {
@@ -357,66 +232,6 @@ const showchat = () => {
     }
 }
 
-
-
-
-
-
-// lastmessage.forEach(i => console.log(i))
-
-
-  // useEffect(() => {
-  //   const fetchlastchat=async(cid)=>{
-
-  //     try{
-  //        const unsub=onSnapshot(doc(db, "chats", cid), (doc) => {
-                 
-  //         const data=doc.data();
-  //         console.log(data,"line no 268");
-  //         // setlastchat(data)
-  //       }); 
-
-  //       return () => {
-  //         unsub();
-  //       }
-  //     } 
-  
-  //     catch(error){
-  //         console.log(error.message);
-  //     }
-
-  //     if(cid){
-  //         fetchlastchat();
-  //       }
-  //   }
-  // },[messages])
-
-  // const fetchlastchat=async(cid)=>{
-
-  //   try{
-  //      const unsub=onSnapshot(doc(db, "chats", cid), (doc) => {
-               
-  //       const data=doc.data();
-  //       console.log(data,"line no 268");
-  //       if(data&&data.length>0){
-  //         const lastmessage=data[data.length-1];
-  //           setlastchat((prevstate) => ({
-  //              ...prevstate,[cid]:lastmessage
-  //           })
-  //           )
-  //       }
-  //       console.log(lastchat);
-  //     }); 
-
-  //     return () => {
-  //       unsub();
-  //     }
-  //   } 
-
-  //   catch(error){
-  //       console.log(error.message);
-  //   }
-  // }
 
   const message=useContext(ChatContext);
 
@@ -446,32 +261,6 @@ const showchat = () => {
 
 })
 
-
-  // const searchuser=async() => {
-  //    const usersref=collection(db,"users");
-  //    const q=query(usersref,where("displayName","==",username));
-  //    console.log(q);
-
-  //    try{
-  //        const querysnapshot=await getDocs(q);
-  //        console.log(querysnapshot.size);
-  //       querysnapshot.forEach((doc) => {
-         
-  //        console.log(doc.data());
-  //          console.log(doc.data().displayName);
-  //          console.log(doc.data().photoURL);
-  //          console.log(user);
-  //       })
-
-        
-  //    }
-     
-  //    catch(error){
-       
-  //       seterror(true);
-       
-  //    }
-  // }
 
   var activeChatId="";
 
@@ -619,94 +408,22 @@ console.log("dateinfo:", serverTimestamp());
            )
         })
       }
+      {/* <div>1</div>
+      <div>1</div>
+      <div>1</div>
+      <div>1</div>
+      <div>1</div>
+      <div>1</div>
+      <div>1</div>
+      <div>1</div>
+      <div>1</div>
+      <div>1</div>
+      <div>1</div>
+      <div>1</div>
+      <div>1</div> */}
       
         </div>
         </div>
-
-        
-
-                  // <div className='fnd'>
-                 
-                  //      {user&&<div onClick={handleselect} className="usersearch">
-                  //       <img src={user.photoURl} alt='chat1' className='sm'/>
-                  //         <span className='user1'>{user.displayName}</span>
-                  //         <p className='lastchat'>He546llo</p>
-                  //       </div>}
-                  //         <input type="text" placeholder='Find a user' onKeyDown={searchhelper} value={username} onChange={(e) => {setusername(e.target.value)}} className='searchbar'/>
-                  //           </div>
-      
-
-     
-          
-
-        // <div className='toppart'>
-        //     <span className='apptitle'>BaatCheet</span>  
-        //       {/* <div className='one'> */}
-        //           {/* {currentuser.photoURL?<img src={url} alt='pp'/>:<img src={url} alt='pp'/>} */}
-        //           <span className='name'>{currentuser.displayName}</span>
-        //           {/* <img src={currentuser.photoURL} alt="profilepicture"/> */}
-        //           <button className='bn' onClick={logout}>Logout</button>
-                 
-        //           <div className='fnd'>
-                 
-        //      {user&&<div onClick={handleselect} className="usersearch">
-        //       <img src={user.photoURl} alt='chat1' className='sm'/>
-        //         <span className='user1'>{user.displayName}</span>
-        //         <p className='lastchat'>He546llo</p>
-        //        </div>}
-        //         <input type="text" placeholder='Find a user' onKeyDown={searchhelper} value={username} onChange={(e) => {setusername(e.target.value)}} className='searchbar'/>
-        //           </div>
-                 
-                
-        //       {error&&<div>User not Found!</div>} 
-        //       {/* </div> */}
-        //       <div className="mychats">
-        //         {/* <div>1</div>
-        //         <div>1</div>
-        //         <div>1</div> */}
-        //         {Object.entries(chats)?.map((chat,index) => {
-        //            console.log(chat);
-        //            console.log(chat[1][0]);
-        //           console.log(chat[1][1].userInfo.photoURL);
-        //           console.log(chat[1][1].userInfo.displayName);
-        //           console.log(chat[1][0]);
-                  
-        //            return (
-        //             <div className='contacts' key={chat[1][0]} onClick={() => {selectuser(chat[1][1].userInfo)}}>
-        //             <img src={chat[1][1].userInfo.photoURL} alt="profilephto" className='pf1'/> 
-        //             <span className='user1'>{chat[1][1].userInfo.displayName}</span>
-        //            {lastmessage && lastmessage[index] && lastmessage[index].includes("https://firebasestorage.googleapis.com")? <i className="bi bi-camera">Photo</i>: <p className='lastchat'>{lastmessage[index]}</p>}
-                  
-                    
-        //             {/* {lastmessage[index].includes("https://firebasestorage.googleapis.com")?
-        //             <i class="bi bi-camera">Photo</i>:
-        //             <p className='lastchat'>{lastmessage[index]}</p>}
-        //             {/* {lastmessage&&lastmessage.map((i) => {
-        //                  return (
-        //                    <p key={chat[1][0]}>{lastmessage[index]}</p>
-        //                  )
-        //             })} */} 
-        //             </div>
-        //            ) 
-
-        //             // <h1>1</h1>
-        //             // <img src={chat[1][1].userInfo.photoURL} alt="profilephto"/> 
-        //             // <span>{chat[1][1].userInfo.displayName}</span>
-        //             // <p>Hello</p>
-
-                   
-
-
-
-        //            // </div>
-                    
-
-
-
-        //         })}
-        //       </div>
-              
-        //     </div>
        
     )
 }
