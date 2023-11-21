@@ -103,7 +103,7 @@
   flex:2;
   padding-left:10px;
   background-color:rgba(0, 0, 0, 0.478);
-  height:46px;
+  height:49px;
 }
 
 .user{
@@ -284,7 +284,7 @@
   margin: 0; /* Remove default margin */
   /* border-bottom: 1px solid #512B81; Add a bottom border */
   top:8px;
-  height:358.4px;
+  height:360px;
   margin-left:-9px;
   gap:20px;
   /* overflow:scroll; */
