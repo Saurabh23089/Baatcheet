@@ -34,53 +34,146 @@ const Createaccount=() => {
         const storage=getStorage();
 
         const storageref=ref(storage,displayName);
+        // const uploadTask = uploadBytesResumable(storageref, file);
+
         const uploadTask = uploadBytesResumable(storageref, file);
 
-        uploadTask.on(
+uploadTask.on(
+  "state_changed",
+  (snapshot) => {
+    // This function is called during the upload process
+    // You can handle progress or other snapshot events here
+  },
+  (error) => {
+    console.log(error.message);
+  },
+  async () => {
+    // This function is called when the upload is complete
+    try {
+      const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
 
-            (error) => {
-                console.log(error.message);
-            },
+      await updateProfile(res.user, {
+        displayName,
+        photoURL: downloadURL,
+      });
 
-            () => {
-               getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
-                     await updateProfile(res.user,{
-                         displayName,
-                         photoURL:downloadURL,
-                     })
+      await setDoc(doc(db, "users", res.user.uid), {
+        uid: res.user.uid,
+        displayName,
+        email,
+        photoURl: downloadURL,
+      });
+
+      await setDoc(doc(db, "userchats", res.user.uid), {});
+
+      // ... rest of your code
+
+      console.log(downloadURL);
+      const userr = auth.currentUser;
+      console.log("Current User", userr);
+      console.log(db);
+      console.log(userr);
+
+      navigate('/Sample');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 
-                     await setDoc(doc(db,"users",res.user.uid),{
-                        uid:res.user.uid,
-                        displayName,
-                        email,
-                        photoURl:downloadURL
-                    })
+        // uploadTask.on(
 
-                    await setDoc(doc(db,"userchats",res.user.uid),{
+        //     (error) => {
+        //         console.log(error.message);
+        //     },
 
-                    })
+        //     () => {
+        //         getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
 
-                    console.log(displayName);
-                     console.log(email);
-                     console.log(res.user.uid);
-                    if(downloadURL)
-                    {
-                        console.log(downloadURL);
-                    }
+        //             try{
+        //                 await updateProfile(res.user,{
+        //                     displayName,
+        //                     photoURL:downloadURL,
+        //                 })
 
-                     const userr=auth.currentUser;
-                     console.log("Cuuurent User",userr);
-                     console.log(db);
-                     console.log(userr);
+        //                 await setDoc(doc(db,"users",res.user.uid),{
+        //                     uid:res.user.uid,
+        //                     displayName,
+        //                     email,
+        //                     photoURl:downloadURL
+        //                 })
 
-                     navigate('/Sample');
-                })
+        //                 await setDoc(doc(db,"userchats",res.user.uid),{
+ 
+        //                 })
+    
+        //                 console.log(displayName);
+        //                  console.log(email);
+        //                  console.log(res.user.uid);
+        //                 if(downloadURL)
+        //                 {
+        //                     console.log(downloadURL);
+        //                 }
+    
+        //                  const userr=auth.currentUser;
+        //                  console.log("Cuuurent User",userr);
+        //                  console.log(db);
+        //                  console.log(userr);
+    
+        //                  navigate('/Sample');
+
+        //             }
+
+        //             catch(error){
+        //                console.log(error);
+        //             }
+                    
+        //          })
+ 
+ 
+                 
+        //      }
+
+        //     // () => {
+        //     //    getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
+        //     //          await updateProfile(res.user,{
+        //     //              displayName,
+        //     //              photoURL:downloadURL,
+        //     //          })
+
+
+        //     //          await setDoc(doc(db,"users",res.user.uid),{
+        //     //             uid:res.user.uid,
+        //     //             displayName,
+        //     //             email,
+        //     //             photoURl:downloadURL
+        //     //         })
+
+        //     //         await setDoc(doc(db,"userchats",res.user.uid),{
+
+        //     //         })
+
+        //     //         console.log(displayName);
+        //     //          console.log(email);
+        //     //          console.log(res.user.uid);
+        //     //         if(downloadURL)
+        //     //         {
+        //     //             console.log(downloadURL);
+        //     //         }
+
+        //     //          const userr=auth.currentUser;
+        //     //          console.log("Cuuurent User",userr);
+        //     //          console.log(db);
+        //     //          console.log(userr);
+
+        //     //          navigate('/Sample');
+        //     //     })
 
 
                 
-            }
-        )
+        //     // }
+        // )
           
       }
       catch (error) {
@@ -131,67 +224,5 @@ const Createaccount=() => {
 
 export default Createaccount;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-function Login(){
-   
-    const provider=new GoogleAuthProvider();
-    provider.addScope('profile');
-    const navigate=useNavigate();
-
-    const signinwithgoogle=() => {
-        const auth=getAuth();
-        signInWithPopup(auth,provider)
-       .then((result) => {
-           const user=result.user;
-           console.log(user);
-           console.log('Sign In Successfull',user); */
-
-            /* The first arguement to the navigate function is the path and the second arguement
-              is an options object which is used to pass additional options to navigation.Here 
-              he options object has a state property that contains an object with a photoURL property.
-            *//*
-           navigate('/Homepage',
-           {state:{photoURL:user.photoURL}}
-           );
-          
-       })
-       
-       .catch((error) => {
-           const errorcode=error.code;
-           const errormessage=error.message;
-           console.log('Sign In Failed',errormessage,errorcode);
-       })
-    }
-
-    const handleonclick=(e)=> {
-       e.preventDefault();
-       signinwithgoogle();  
-    }
-
-    return (
-        <>
-          <h1 onClick={handleonclick}>Login With Google</h1>
-        </>
-    )
-}
-
-export default Login;*/
 
 
