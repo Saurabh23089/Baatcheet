@@ -46,6 +46,7 @@ const Resetpassword = ({showResetPassword,setshowResetPassword}) => {
         console.log(urlParams);
         const oobCode = urlParams.get('oobCode');
         console.log(oobCode);
+        console.log("1");
         applyActionCode(auth, oobCode)
   .then((info) => {
     // The OOB code is valid, and you can proceed with password reset.
@@ -63,7 +64,6 @@ const Resetpassword = ({showResetPassword,setshowResetPassword}) => {
 
     }
 
-    console.log("1");
 
    
    
@@ -78,6 +78,7 @@ const Resetpassword = ({showResetPassword,setshowResetPassword}) => {
             position="top left"
             closeOnDocumentClick
             onClose={() => {setshowResetPassword(false)}}
+            contentStyle={{ position:"relative", top: "-75px", left: "-10px" }} // Set top and left positions
             >
         
         <div className='form'>

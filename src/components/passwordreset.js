@@ -32,6 +32,7 @@ const Resetpassword = () => {
         console.log(urlParams);
         const oobCode = urlParams.get('oobCode');
         console.log(oobCode);
+        console.log("1");
         applyActionCode(auth, oobCode)
   .then((info) => {
     // The OOB code is valid, and you can proceed with password reset.
@@ -49,7 +50,7 @@ const Resetpassword = () => {
 
     }
 
-    console.log("1");
+    
 
    
    

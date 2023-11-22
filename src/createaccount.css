@@ -109,7 +109,7 @@ body{
     .formcontainer{
       position: absolute;
       top:10%;
-      left:10%;
+      left:50px;
     }
   }
 

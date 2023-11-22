@@ -55,7 +55,7 @@
 }
 
 .container{
-  border:1px solid #512B81;
+  /* border:1px solid #512B81; */
   width:75%;
   height: 450px;
   display:flex;
@@ -528,23 +528,41 @@
 
 
 
-@media (max-width : 1049px) {
+/* @media (max-width : 1049px) {
   
-  /* .container{
-    border:none;
-    overflow:hidden;
-  } */
+  .container{
+    /* border:none;
+    overflow:hidden; */
+    /* border:1px solid #512B81;
+  width:75%;
+  height: 450px;
+  display:flex;
+  margin-top: 40px;
+  padding-left:0px;
+  padding-right: 0px; */
+  /* } */
 
-}
+/* } */ */
 
 .container{
   border:none;
+  height: auto;
+  width:auto;
+  /* top:10px;
+  left:10px; */
+  /* margin:none; */
 }
 
-@media screen and (max-width : 767px) and (orientation:portrait) {
+@media screen and (max-width : 767px)  {
   
   .container{
     border:none;
+    /* margin:0; */
+    margin-left:20px;
+    margin-right:20px;
+    /* height:auto;
+    width:auto; */
+    
   }
 
   .name{
@@ -563,12 +581,12 @@
   }
 
   .parent{
-    height:600px;
+    height:580px;
     width:200px;
   }
 
   .cat{
-    height:600px;
+    height:410px;
   }
 
   .textmessage{
@@ -579,15 +597,9 @@
     width:200px;
   }
 
-  /* .lastinput{
-    position:relative;
-
-    top:0px;
-    bottom:0px;
-  } */
-
+  
   .messages{
-    height:510px;
+    height:490px;
   }
 
   

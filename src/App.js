@@ -39,6 +39,7 @@ function App() {
           <Route path='/Sample' element={<Sample />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Createaccount/>}/>
+          <Route path='/reset-password' element={<Resetform/>}/>
         </Routes>
     </BrowserRouter>
   );
