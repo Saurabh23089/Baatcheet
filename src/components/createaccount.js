@@ -1,6 +1,6 @@
 import { provider } from '../firebase.js';
 import Login from './login.js';
-import {getAuth,signInWithPopup,GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile} from 'firebase/auth';
+import {getAuth,signInWithPopup,GoogleAuthProvider,getRedirectResult, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile} from 'firebase/auth';
 import {useLocation, useNavigate } from 'react-router-dom';
 import '../createaccount.css';
 import image from './image.png';
@@ -17,6 +17,36 @@ const Createaccount=() => {
     const navigate=useNavigate();
 
     const auth=getAuth();
+    const provider=new GoogleAuthProvider();
+
+    const googlesignup = async() => {
+        signInWithPopup(auth,provider)
+        .then(async(result) => {
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          const token = credential.accessToken;
+          // The signed-in user info.
+          const user = result.user;
+          console.log(user);
+          const displayName=user.displayName;
+          const email=user.email;
+ 
+          const photourl="https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0="
+          
+          await setDoc(doc(db, "users", user.uid), {
+            uid: user.uid,
+            displayName:displayName,
+            email:email,
+            photoURl: photourl,
+          });
+
+          await setDoc(doc(db, "userchats", user.uid), {});
+          navigate('/Sample');
+
+        }) 
+        .catch((error) => {
+           console.log(error.message);
+        })
+    }
 
    const handlesubmit=async(e)=>{
       e.preventDefault();
@@ -209,6 +239,7 @@ uploadTask.on(
          <input type="file" accept='/image*' className='imageinput'></input>
          </label>
          <button className='signupbtn' >Sign up</button>
+         <button onClick={googlesignup}>Sign up with Google</button>
          </form>
          
         
