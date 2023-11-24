@@ -367,20 +367,7 @@ console.log("dateinfo:", serverTimestamp());
   
 
 
-  const logout=()=>{
-    const auth=getAuth();
-    signOut(auth).then(() => {
-      console.log("signout successfull");
-      navigate('/Login');
-      
-      
-      // dispatch({type: "onlogout",payload:data})
-      
-    }) 
-    .catch((error) => {
-      console.log(error.message);
-    })
-  }
+  
 
     return (currentuser&&
       <div className='parent'>
@@ -392,7 +379,7 @@ console.log("dateinfo:", serverTimestamp());
           <div className='cudetails'>
           <span className='name'>{currentuser.displayName}</span>
            {/* <img src={currentuser.photoURL} alt="profilepicture"/> */}
-           {/* <button className='bn' onClick={logout}>Logout</button> */}
+         
           </div> 
           
         </div>
