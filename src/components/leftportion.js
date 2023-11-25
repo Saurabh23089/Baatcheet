@@ -20,6 +20,7 @@ const Leftportion=()=>{
   var isMounted=useRef(true);
   const[currrentuser,setcurrrentuser]=useState('');
   const[activechat,setactivechat]=useState(null);
+ 
   const messages=useContext(ChatContext);
 
   const auth=getAuth();
@@ -418,7 +419,8 @@ console.log("dateinfo:", serverTimestamp());
         </div>
            )
         })
-      }
+      }:
+      {}
       {/* <div>1</div>
       <div>1</div>
       <div>1</div>

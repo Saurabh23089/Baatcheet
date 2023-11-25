@@ -41,7 +41,7 @@ code {
     left:400px;
     background-color:white;
     width: 280px;
-    height:280px;
+    height:320px;
   }
   
   .title{
@@ -73,7 +73,7 @@ code {
   .signinbtn{
     position:absolute;
     top:180px;
-    left:50px;
+    left:45px;
     width:180px;
     border:1px solid #35A29F;
     color:#fff;
@@ -83,18 +83,34 @@ code {
   
   .asksignup{
     position:absolute;
-    top:235px;
+    top:260px;
     left:50px;
     font-size:12px;
   }
   
   .register{
     position:absolute;
-    top:235px;
+    top:260px;
     left:195px;
     font-size: 12px;
     text-decoration:underline;
   }
+
+  .googlesignin{
+    position:relative;
+    top:220px;
+    left:45px;
+   
+  }
+
+  .logo{
+    position:relative;
+    height:25px;
+    width:25px;
+    left:-5px;
+    margin-right:5px;
+  }
+
 
   
   

@@ -1,12 +1,14 @@
 import {useLocation, useNavigate} from 'react-router-dom'; 
 import '../firebase.js';
-import {getAuth,signInWithEmailAndPassword} from 'firebase/auth';
 /* The useLocation hook is used to access the current location object,
  which contains information about the current URL and navigation state.*/
  import '../login.css'
 import { auth } from '../firebase';
 import { useState } from 'react';
 import PopupboxManager from 'reactjs-popup';
+import { doc, setDoc, addDoc, collection, collectionref, getFirestore } from 'firebase/firestore';
+import { db } from '../firebase.js';
+import {getAuth,signInWithPopup, GoogleAuthProvider, getRedirectResult, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
 // import Resetpassword from './passwordreset.js';
 // import Resetpassword from './passwordreset.js';
  //import Createaccount from './createaccount.js';
@@ -34,6 +36,7 @@ const Resetpassword = ({showResetPassword,setshowResetPassword}) => {
     const[otp,setotp]=useState("");
     const [popupopen,setpopupopen]=useState(false);
     const auth=getAuth();
+   
 
     const sendotp = () => {
          
@@ -118,6 +121,7 @@ const Login=()=>{
 
 
     const navigate=useNavigate();
+    const provider = new GoogleAuthProvider();
 
     // const openPasswordResetPopup = () => {
        
@@ -159,6 +163,35 @@ const Login=()=>{
          }
        })
     }
+
+    const googlesignin = async () => {
+      signInWithPopup(auth, provider)
+        .then(async (result) => {
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          const token = credential.accessToken;
+          // The signed-in user info.
+          const user = result.user;
+          console.log(user);
+          // const displayName = user.displayName;
+          // const email = user.email;
+  
+          // const photourl = "https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0="
+  
+          // await setDoc(doc(db, "users", user.uid), {
+          //   uid: user.uid,
+          //   displayName: displayName,
+          //   email: email,
+          //   photoURl: photourl,
+          // });
+  
+          // await setDoc(doc(db, "userchats", user.uid), {});
+          navigate('/Sample');
+  
+        })
+        .catch((error) => {
+          console.log(error.message);
+        })
+    }
     
 
    return(
@@ -169,9 +202,16 @@ const Login=()=>{
             <input type="email" placeholder='email' className='ip4'/>
             <input type="password" placeholder='password' className='ip5'/>
             <button className='signinbtn'>Sign in</button>
+            
         </form>
+        <div className='googlesignin'>
+            <button className="sinupbtn" onClick={googlesignin} >
+            <img className="logo" src="https://banner2.cleanpng.com/20180521/ers/kisspng-google-logo-5b02bbe1d5c6e0.2384399715269058258756.jpg" alt="googlelogo" />
+            Sign in with Google
+          </button>
+            </div>  
         {wrongpassword&&<p className='ps'>Incorrect Paasword!</p>}
-        <p className='ps ps1' onClick={() => {setshowResetPassword(true)}}>Forgot Password</p>
+        {/* <p className='ps ps1' onClick={() => {setshowResetPassword(true)}}>Forgot Password</p> */}
         {showResetPassword && <Resetpassword showResetPassword={showResetPassword} setshowResetPassword={setshowResetPassword} />}
         <p className='asksignup'>You don't have an account?</p>
         <p className='register' onClick={() => navigate('/register')}>Register</p>

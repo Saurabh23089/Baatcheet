@@ -150,7 +150,7 @@
   padding-right: 5px;
   height:30px;
   top:10px;
-
+  right:20px;
   
 }
 
@@ -175,9 +175,10 @@
   border-right:1px solid blue;
   outline:none;
   /* border-bottom: 1px solid rgba(255, 0, 0, 1); */
+  /* color:white; */
   
   
-  text-decoration-color:turquoise;
+  
 }
 
 .bn{
@@ -569,10 +570,10 @@
     
   }
 
-  .name{
+  /* .name{
     right:20px;
    
-  }
+  } */
 
   .nav{
     outline:none;
@@ -604,6 +605,17 @@
   
   .messages{
     height:490px;
+  }
+
+  .name{
+    top:15px;
+    right:50px;
+    font-size:12px;
+  }
+
+  .user1{
+    right:2px;
+    font-size:17px;
   }
 
   
