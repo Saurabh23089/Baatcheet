@@ -11,13 +11,16 @@ const Input=()=>{
   const currentuser=useContext(AuthContext);
   const {data} = useContext(ChatContext);
   console.log(currentuser);
-  console.log(data);
+  console.log(data.chatid);
 
   const[text,settext]=useState('');
   const[img,setimg]=useState(null);
 
    const sendmessage = async() => {
-      if(img){
+
+     if(data.chatid==null) return;
+    
+      if(data.chatid!=null&&img){
         console.log(img);
         const storage=getStorage();
         const storageref=ref(storage,uuid())
@@ -48,7 +51,7 @@ const Input=()=>{
           }
         )
       }
-      if(text!=''){
+      if(data.chatid!=null&&text!=''){
         console.log(text);
          await updateDoc(doc(db,"chats",data?.chatid),{
             messages:arrayUnion({
@@ -58,8 +61,12 @@ const Input=()=>{
               date:Timestamp.now()
             })
          })
+         
          settext("");
       }
+      // else{
+      //   return;
+      // }
    }
 
     return(

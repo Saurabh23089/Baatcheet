@@ -164,9 +164,9 @@ const Login=()=>{
        })
     }
 
-    const googlesignin = async () => {
+    const googlesignin = () => {
       signInWithPopup(auth, provider)
-        .then(async (result) => {
+        .then( (result) => {
           const credential = GoogleAuthProvider.credentialFromResult(result);
           const token = credential.accessToken;
           // The signed-in user info.
@@ -190,6 +190,7 @@ const Login=()=>{
         })
         .catch((error) => {
           console.log(error.message);
+          console.log(error.code);
         })
     }
     

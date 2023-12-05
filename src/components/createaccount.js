@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import '../createaccount.css';
 import image from './image.png';
 import React, { Profiler, useEffect, useState } from 'react';
-import { doc, setDoc, addDoc, collection, collectionref, getFirestore } from 'firebase/firestore';
+import { doc, setDoc, updateDoc,getDoc, serverTimestamp, collection, collectionref, getFirestore } from 'firebase/firestore';
 import Sample from './sample.js';
 import { db } from '../firebase.js';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -27,6 +27,19 @@ const Createaccount = () => {
         // The signed-in user info.
         const user = result.user;
         console.log(user);
+
+        // Checking if a user is already signed up using google
+        const userDocRef = doc(db, 'users', user.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          // User already exists, show alert and return
+          alert('User already exists , Redirecting to login page');
+          setTimeout(() => {
+            navigate('/login');
+          },2000)
+          return;
+        }
+
         const displayName = user.displayName;
         const email = user.email;
 
@@ -40,12 +53,44 @@ const Createaccount = () => {
         });
 
         await setDoc(doc(db, "userchats", user.uid), {});
+        addDefaultuser(user);
         navigate('/Sample');
 
       })
       .catch((error) => {
         console.log(error.message);
       })
+  }
+
+  const addDefaultuser = async(currentuser) => {
+
+    console.log(currentuser);
+    console.log(process.env.REACT_APP_DEVELOPER_UID);
+    console.log(process.env.REACT_APP_DEVELOPER_PHOTOURL);
+    console.log(process.env.REACT_APP_DEVELOPER_DISPLAYNAME);
+
+    
+    const cid=currentuser.uid>process.env.REACT_APP_DEVELOPER_UID ? currentuser.uid+process.env.REACT_APP_DEVELOPER_UID : process.env.REACT_APP_DEVELOPER_UID+currentuser.uid;
+    await setDoc(doc(db,"chats",cid),{messages:[]})
+
+
+    await updateDoc(doc(db,"userchats",currentuser.uid),{
+      [cid+".userInfo"]:{
+        uid:process.env.REACT_APP_DEVELOPER_UID,
+        photoURL:process.env.REACT_APP_DEVELOPER_PHOTOURL,
+        displayName:process.env.REACT_APP_DEVELOPER_DISPLAYNAME
+      },
+      [cid+".dateinfo"]:serverTimestamp()   
+    });
+
+    await updateDoc(doc(db,"userchats",process.env.REACT_APP_DEVELOPER_UID),{
+      [cid+".userInfo"]:{
+        uid:currentuser.uid,
+        photoURL:currentuser.photoURL,
+        displayName:currentuser.displayName
+      },
+      [cid+".dateinfo"]:serverTimestamp()   
+    })
   }
 
   const handlesubmit = async (e) => {
@@ -95,6 +140,20 @@ const Createaccount = () => {
             });
 
             await setDoc(doc(db, "userchats", res.user.uid), {});
+
+            addDefaultuser(res?.user);
+
+           
+
+            // await setDoc(doc(db, "chats", cid), {});
+
+
+
+
+
+
+
+
 
             // ... rest of your code
 
@@ -239,15 +298,17 @@ const Createaccount = () => {
           <input type="file" accept='/image*' className='imageinput'></input>
         </label>
         <button className='signupbtn' >Sign up</button>
-        <div className="googlesignup">
+     
+
+      </form>
+
+      <div className="googlesignup">
           <button onClick={googlesignup} className="sinupbtn" >
             <img className="logo" src="https://banner2.cleanpng.com/20180521/ers/kisspng-google-logo-5b02bbe1d5c6e0.2384399715269058258756.jpg" alt="googlelogo" />
             Sign up with Google
           </button>
 
         </div>
-
-      </form>
 
 
 
