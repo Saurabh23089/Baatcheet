@@ -12,17 +12,23 @@ const Message = ({message}) => {
     console.log(messagedate);
     const messagetime=messagedate.toLocaleTimeString();
     console.log(messagetime);
+    console.log(typeof(messagetime));
 
     const hours = messagedate?.getHours();
+    console.log(hours);
     const minutes = messagedate?.getMinutes();
+    console.log(minutes);
     const ampm = hours >= 12 ? "PM" : "AM";
     const formattedHours = hours % 12 || 12;
    
+    const newtime=messagetime.slice(0,5);
+    console.log(newtime);
 
-    const finaltime=`${formattedHours}:${minutes} ${ampm}`;
+    const finaltime=`${newtime} ${ampm}`;
     const months=['Jan','Feb','March','April','May','June','July','Aug','Sep','Oct','Nov','Dec'];
     const monthindex=messagedate?.getMonth();
     const year=messagedate?.getFullYear();
+   
     
     const day=messagedate?.getDate();
     const month=months[monthindex];

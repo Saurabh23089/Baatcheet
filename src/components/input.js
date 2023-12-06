@@ -11,14 +11,19 @@ const Input=()=>{
   const currentuser=useContext(AuthContext);
   const {data} = useContext(ChatContext);
   console.log(currentuser);
+  console.log(data);
   console.log(data.chatid);
+  console.log(data.chatid==="null");
 
   const[text,settext]=useState('');
   const[img,setimg]=useState(null);
+  const[imgfilename,setimgfilename]=useState('');
 
    const sendmessage = async() => {
 
-     if(data.chatid==null) return;
+     // When no user is selected to chat with , then send should not do anything
+     if(data.chatid==="null") return;
+    
     
       if(data.chatid!=null&&img){
         console.log(img);
@@ -44,6 +49,7 @@ const Input=()=>{
                 })
              })
              setimg(null);
+             setimgfilename('');
             })
             .catch((error) => {
               console.log(error);
@@ -69,14 +75,20 @@ const Input=()=>{
       // }
    }
 
+   const handleimagechange = (e) => {
+     e.preventDefault();
+     setimgfilename(e.target.files[0].name);
+     setimg(e.target.files[0]);
+   }
+
     return(
         <div className="lastinput">
-          <textarea name="text" value={text} onChange={(e) => {settext(e.target.value)}} className="inputbox">Type a message ...
+          <textarea name="text" value={text} onChange={(e) => {settext(e.target.value)}} className="inputbox" placeholder={imgfilename?imgfilename:"Start Baatcheet..."}>Type a message ...
           </textarea>
           <div className="inputicons">
           <label>
           <i className="bi bi-file-image customicon"></i>
-          <input type="file" accept="/image*" className="imagesendinput"  onChange={(e) => {setimg(e.target.files[0])}}></input>
+          <input type="file" accept="/image*" className="imagesendinput"  onChange={handleimagechange}></input>
           </label>
           <button className="sendbtn" onClick={sendmessage}>Send</button>
           
