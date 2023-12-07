@@ -288,7 +288,7 @@ const Createaccount = () => {
     <div className='formcontainer'>
       <h4 className='title'>BaatCheet</h4>
       <h6 className='smalltitle'>Register</h6>
-      <form >
+      <form onSubmit={handlesubmit}>
         <input type="text" placeholder="Your Name" className='ip1' />
         <input type="email" placeholder='Email' className='ip2' />
         <input type="password" placeholder="Password" className='ip3' />
@@ -297,7 +297,7 @@ const Createaccount = () => {
           <p className='av'>Add an avatar</p>
           <input type="file" accept='/image*' className='imageinput'></input>
         </label>
-        <button className='signupbtn' onClick={handlesubmit}>Sign up</button>
+        <button className='signupbtn' >Sign up</button>
      
 
       </form>
