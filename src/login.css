@@ -69,6 +69,10 @@ code {
     top:130px;
     left:50px;
   }
+
+  .ip4,.ip5{
+    width:fit-content;
+  }
   
   .signinbtn{
     position:absolute;

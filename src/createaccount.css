@@ -63,6 +63,7 @@
   
   .ip1,.ip2,.ip3{
     left:50px;
+    width:fit-content;
   }
   
   .av{
@@ -128,7 +129,7 @@
     .formcontainer{
       position: absolute;
       top:10%;
-      left:50px;
+      left:10px;
     }
   }
 
