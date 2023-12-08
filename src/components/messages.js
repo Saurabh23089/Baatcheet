@@ -47,8 +47,7 @@ const Messages=() => {
            return <div key={message.id}>
                <Message message={message}/>
            </div>
-        })||
-        <div className="altdiv">1</div>
+        })
         }
           
         </div>
