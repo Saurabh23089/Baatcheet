@@ -1,15 +1,11 @@
-import { provider } from '../firebase.js';
-import Login from './login.js';
-import { getAuth, signInWithPopup, GoogleAuthProvider, getRedirectResult, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 import '../createaccount.css';
 import image from './image.png';
-import React, { Profiler, useEffect, useState } from 'react';
-import { doc, setDoc, updateDoc,getDoc, serverTimestamp, collection, collectionref, getFirestore } from 'firebase/firestore';
-import Sample from './sample.js';
+import React from 'react';
+import { doc, setDoc, updateDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase.js';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { async } from '@firebase/util';
 
 const Createaccount = () => {
 
@@ -36,7 +32,7 @@ const Createaccount = () => {
           alert('User already exists , Redirecting to login page');
           setTimeout(() => {
             navigate('/login');
-          },2000)
+          }, 2000)
           return;
         }
 
@@ -54,7 +50,7 @@ const Createaccount = () => {
 
         await setDoc(doc(db, "userchats", user.uid), {});
         addDefaultuser(user);
-        navigate('/Sample');
+        navigate('/home');
 
       })
       .catch((error) => {
@@ -62,34 +58,34 @@ const Createaccount = () => {
       })
   }
 
-  const addDefaultuser = async(currentuser) => {
+  const addDefaultuser = async (currentuser) => {
 
     console.log(currentuser);
     console.log(process.env.REACT_APP_DEVELOPER_UID);
     console.log(process.env.REACT_APP_DEVELOPER_PHOTOURL);
     console.log(process.env.REACT_APP_DEVELOPER_DISPLAYNAME);
 
-    
-    const cid=currentuser.uid>process.env.REACT_APP_DEVELOPER_UID ? currentuser.uid+process.env.REACT_APP_DEVELOPER_UID : process.env.REACT_APP_DEVELOPER_UID+currentuser.uid;
-    await setDoc(doc(db,"chats",cid),{messages:[]})
+
+    const cid = currentuser.uid > process.env.REACT_APP_DEVELOPER_UID ? currentuser.uid + process.env.REACT_APP_DEVELOPER_UID : process.env.REACT_APP_DEVELOPER_UID + currentuser.uid;
+    await setDoc(doc(db, "chats", cid), { messages: [] })
 
 
-    await updateDoc(doc(db,"userchats",currentuser.uid),{
-      [cid+".userInfo"]:{
-        uid:process.env.REACT_APP_DEVELOPER_UID,
-        photoURL:process.env.REACT_APP_DEVELOPER_PHOTOURL,
-        displayName:process.env.REACT_APP_DEVELOPER_DISPLAYNAME
+    await updateDoc(doc(db, "userchats", currentuser.uid), {
+      [cid + ".userInfo"]: {
+        uid: process.env.REACT_APP_DEVELOPER_UID,
+        photoURL: process.env.REACT_APP_DEVELOPER_PHOTOURL,
+        displayName: process.env.REACT_APP_DEVELOPER_DISPLAYNAME
       },
-      [cid+".dateinfo"]:serverTimestamp()   
+      [cid + ".dateinfo"]: serverTimestamp()
     });
 
-    await updateDoc(doc(db,"userchats",process.env.REACT_APP_DEVELOPER_UID),{
-      [cid+".userInfo"]:{
-        uid:currentuser.uid,
-        photoURL:currentuser.photoURL,
-        displayName:currentuser.displayName
+    await updateDoc(doc(db, "userchats", process.env.REACT_APP_DEVELOPER_UID), {
+      [cid + ".userInfo"]: {
+        uid: currentuser.uid,
+        photoURL: currentuser.photoURL,
+        displayName: currentuser.displayName
       },
-      [cid+".dateinfo"]:serverTimestamp()   
+      [cid + ".dateinfo"]: serverTimestamp()
     })
   }
 
@@ -101,29 +97,26 @@ const Createaccount = () => {
     const file = e.target[3].files[0];
 
 
-
     console.log(displayName, email, passsword, file);
     try {
       const res = await createUserWithEmailAndPassword(auth, email, passsword)
       console.log(res);
       const storage = getStorage();
 
+
       const storageref = ref(storage, displayName);
-      // const uploadTask = uploadBytesResumable(storageref, file);
 
       const uploadTask = uploadBytesResumable(storageref, file);
 
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          // This function is called during the upload process
-          // You can handle progress or other snapshot events here
+
         },
         (error) => {
           console.log(error.message);
         },
         async () => {
-          // This function is called when the upload is complete
           try {
             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
 
@@ -143,127 +136,18 @@ const Createaccount = () => {
 
             addDefaultuser(res?.user);
 
-           
-
-            // await setDoc(doc(db, "chats", cid), {});
-
-
-
-
-
-
-
-
-
-            // ... rest of your code
-
             console.log(downloadURL);
             const userr = auth.currentUser;
             console.log("Current User", userr);
             console.log(db);
             console.log(userr);
 
-            navigate('/Sample');
+            navigate('/home');
           } catch (error) {
             console.log(error);
           }
         }
       );
-
-
-      // uploadTask.on(
-
-      //     (error) => {
-      //         console.log(error.message);
-      //     },
-
-      //     () => {
-      //         getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
-
-      //             try{
-      //                 await updateProfile(res.user,{
-      //                     displayName,
-      //                     photoURL:downloadURL,
-      //                 })
-
-      //                 await setDoc(doc(db,"users",res.user.uid),{
-      //                     uid:res.user.uid,
-      //                     displayName,
-      //                     email,
-      //                     photoURl:downloadURL
-      //                 })
-
-      //                 await setDoc(doc(db,"userchats",res.user.uid),{
-
-      //                 })
-
-      //                 console.log(displayName);
-      //                  console.log(email);
-      //                  console.log(res.user.uid);
-      //                 if(downloadURL)
-      //                 {
-      //                     console.log(downloadURL);
-      //                 }
-
-      //                  const userr=auth.currentUser;
-      //                  console.log("Cuuurent User",userr);
-      //                  console.log(db);
-      //                  console.log(userr);
-
-      //                  navigate('/Sample');
-
-      //             }
-
-      //             catch(error){
-      //                console.log(error);
-      //             }
-
-      //          })
-
-
-
-      //      }
-
-      //     // () => {
-      //     //    getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
-      //     //          await updateProfile(res.user,{
-      //     //              displayName,
-      //     //              photoURL:downloadURL,
-      //     //          })
-
-
-      //     //          await setDoc(doc(db,"users",res.user.uid),{
-      //     //             uid:res.user.uid,
-      //     //             displayName,
-      //     //             email,
-      //     //             photoURl:downloadURL
-      //     //         })
-
-      //     //         await setDoc(doc(db,"userchats",res.user.uid),{
-
-      //     //         })
-
-      //     //         console.log(displayName);
-      //     //          console.log(email);
-      //     //          console.log(res.user.uid);
-      //     //         if(downloadURL)
-      //     //         {
-      //     //             console.log(downloadURL);
-      //     //         }
-
-      //     //          const userr=auth.currentUser;
-      //     //          console.log("Cuuurent User",userr);
-      //     //          console.log(db);
-      //     //          console.log(userr);
-
-      //     //          navigate('/Sample');
-      //     //     })
-
-
-
-      //     // }
-      // )
-
     }
     catch (error) {
       console.log(error.message);
@@ -298,19 +182,15 @@ const Createaccount = () => {
           <input type="file" accept='/image*' className='imageinput'></input>
         </label>
         <button className='signupbtn' >Sign up</button>
-     
-
       </form>
 
       <div className="googlesignup">
-          <button onClick={googlesignup} className="sinupbtn" >
-            <img className="logo" src="https://banner2.cleanpng.com/20180521/ers/kisspng-google-logo-5b02bbe1d5c6e0.2384399715269058258756.jpg" alt="googlelogo" />
-            Sign up with Google
-          </button>
+        <button onClick={googlesignup} className="sinupbtn" >
+          <img className="logo" src="https://banner2.cleanpng.com/20180521/ers/kisspng-google-logo-5b02bbe1d5c6e0.2384399715269058258756.jpg" alt="googlelogo" />
+          Sign up with Google
+        </button>
 
-        </div>
-
-
+      </div>
 
       <p className='acexists'>You do have an account?</p>
       <p className='login' onClick={() => { navigate('/Login') }}>Login</p>

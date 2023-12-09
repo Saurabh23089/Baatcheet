@@ -83,6 +83,10 @@
     background-color: #75C2F6;
     height:30px;
   }
+
+  .signupbtn:hover{
+    background-color: lightblue;
+  }
   
   .acexists{
     position:absolute;

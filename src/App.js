@@ -35,8 +35,8 @@ function App() {
       {/* <AuthProvider> */}
         <Routes>
           <Route path="/reset" element={<Resetform/>}/>
-          <Route path='/' element={!currentuser?<Navigate to ="/Sample"/>:<Navigate to="/Login"/>} />
-          <Route path='/Sample' element={<Sample />} />
+          <Route path='/' element={!currentuser?<Navigate to ="/home"/>:<Navigate to="/Login"/>} />
+          <Route path='/home' element={<Sample />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Createaccount/>}/>
           <Route path='/reset-password' element={<Resetform/>}/>

@@ -423,7 +423,7 @@ body{
 }
 
 .activechat{
-  background-color: red;
+  background-color:#DFDFDE;
 }
 
 .sendmessage{
@@ -504,7 +504,7 @@ body{
 
 .contacts:hover,.contacts:active{
   cursor:pointer;
-  background-color:#D7E5CA;
+  background-color:#DFDFDE;
   border-left: 1px;
 }
 

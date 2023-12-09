@@ -139,7 +139,7 @@ const Login=()=>{
        .then((usercredential) => {
            const user=usercredential.user;
            console.log(user);
-           navigate('/Sample');
+           navigate('/home');
            email="";
            password="";
        })
@@ -185,7 +185,7 @@ const Login=()=>{
           // });
   
           // await setDoc(doc(db, "userchats", user.uid), {});
-          navigate('/Sample');
+          navigate('/home');
   
         })
         .catch((error) => {
