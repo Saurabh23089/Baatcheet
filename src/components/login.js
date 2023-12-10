@@ -21,7 +21,6 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((usercredential) => {
         const user = usercredential.user;
-        console.log(user);
         navigate('/home');
         email = "";
         password = "";
