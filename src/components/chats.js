@@ -1,10 +1,10 @@
 import React from "react";
 
 
-const Chats=() => {
+const Chats = () => {
     return (
         <div className="mychats">
-              </div>
+        </div>
     )
 }
 

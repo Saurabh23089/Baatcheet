@@ -1,6 +1,7 @@
-/* body{
-  font-family: roboto,open sans,lato;
-} */
+
+body{
+  background-color:#B6B6B4;
+}
 
 .pp1{
   position: absolute;
@@ -11,17 +12,8 @@
     width:30px;
 }
 
-body{
-  background-color:#B6B6B4;
-}
 
-/* .title1{
-  position: absolute; 
-  left:10px;
-  top:10px;
-  color:#4682A9;
-  font-size: 20px;
-} */
+
 
 .username{
   position:absolute;
@@ -56,25 +48,19 @@ body{
 .chat{
   height:100%;
   display:flex;
-  /* border-right:1px solid red; */
-  /* align-items: center;
-  justify-content: center; */
 }
 
 .container{
-  /* border:1px solid #512B81; */
   width:75%;
   height: 450px;
   display:flex;
   margin-top: 40px;
   padding-left:0px;
   padding-right: 0px;
-  /* font-family: 'WebFont', fallback-font, sans-serif; */
 
 }
 
 .toppart{
-  /* background-color: red; */
   flex: 1;
   border-right:1px solid blue;
   height: 50px;
@@ -84,19 +70,15 @@ body{
 }
 
 .parent{
-  /* position: relative;
-  height:450px;
-  width:273px; */
   display: flex;
   flex-direction:column;
-  height: 100%; /* Make the parent div full height */
+  height: 100%; 
   height:450px;
   
 }
 
 .nav{
   position:relative;
-  /* background-color:rgba(0, 0, 0, 0.478); */
   background-color: rgba(0, 0, 0);
   border-bottom: 0.05px solid;
   height:48px;
@@ -136,9 +118,6 @@ body{
 
 }
 
-/* .apptitle,.one{
-  display:inline;
-} */
 
 .cudetails{
   position:relative;
@@ -170,33 +149,23 @@ body{
   position:relative;
   width:273px;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.544);
-  /* background-color: aqua; */
-  
 }
 
 .searchbar{
   position:relative;
-  /* top:15px; */
   overflow: hidden;
   border:none;
   width:273px;
-  /* height:35px; */
   background-color:rgba(0, 0, 0);
   border-right:1px solid blue;
   outline:none;
   color:white;
- 
-  /* border-bottom: 1px solid rgba(255, 0, 0, 1); */
-  /* color:white; */
-  
-  
   
 }
 
 .bn{
   position:relative;
   top: 0px;
-  /* background-color: white; */
   border: none;
   padding:none;
  
@@ -218,7 +187,6 @@ body{
 
 .mychats{
  
-  /* max-height:fit-content; */
   flex:1;
   width:273px;
   background-color:rgba(0, 0, 0);
@@ -264,7 +232,6 @@ body{
   top:-30px;
   font-size: 15px;
   left:56px;
-  /* width:20px; */
   max-width:100px;
   white-space: nowrap;
   overflow:hidden;
@@ -279,33 +246,18 @@ body{
   color:lightgray;
 }
 
-/* .messages{
-  top:6px;
-  position:relative;
-  height:150px;
-  padding:10px;
-  background-color:#dddfdd;
-  height:355px;
-  left:-10px;
-  padding-left:0px;
-  padding-bottom: 0px;
-  flex-grow:1;
-  
-} */
-
 .messages {
   position: relative;
   padding: 10px;
   background-color: #dddfdd;
-  flex-grow: 1; /* Expand to fill available vertical space */
-  overflow-y: auto; /* Add scroll for overflow content */
-  margin: 0; /* Remove default margin */
-  /* border-bottom: 1px solid #512B81; Add a bottom border */
+  flex-grow: 1;
+  overflow-y: auto; 
+  margin: 0; 
   top:8px;
   height:360px;
   margin-left:-9px;
   gap:20px;
-  /* overflow:scroll; */
+ 
   
 }
 
@@ -318,15 +270,10 @@ body{
   background-color:white;
   display: flex;
   align-items:center;
-  /* justify-content: center;; */
   height:50px;
   margin-left:-9.7px;
   background-color: rgba(0, 0, 0, 0.478);
   overflow:hidden;
-  
-  /* left:0px;
-  bottom:0px;
-   */
   
 }
 
@@ -360,8 +307,6 @@ body{
   height: 40px;
   border-radius: 50%;
   object-fit:cover;
-  /* align-items: flex-end;
-  flex-direction: column; */
 }
 
 .textmessage{
@@ -372,15 +317,6 @@ body{
  word-wrap:break-word;
 }
 
-
-/* .messagetime{
- 
-  
-  /* display:flex; */
-  
-  
-  
-/* } */ 
 
 .timeandphoto{
   display:flex;
@@ -407,18 +343,9 @@ body{
   width:400px;
   margin-bottom:10px;
   resize:none;  
-  /* margin-top:0px;
-  margin-left:8px; */
   outline: none;
   background-color:#D7E5CA;
-  /* border:none;
-  font-size:16px;
-  width:400px; */
-  /* text-overflow: initial;
-  overflow-x:scroll; */
-  /* overflow-wrap: break-word;
-  word-wrap:break-word; */
- 
+
 
 }
 
@@ -549,46 +476,22 @@ body{
 
 
 
-/* @media (max-width : 1049px) {
-  
-  .container{
-    /* border:none;
-    overflow:hidden; */
-    /* border:1px solid #512B81;
-  width:75%;
-  height: 450px;
-  display:flex;
-  margin-top: 40px;
-  padding-left:0px;
-  padding-right: 0px; */
-  /* } */
-
-/* } */ 
-
 .container{
   border:none;
   height: auto;
   width:auto;
-  /* top:10px;
-  left:10px; */
-  /* margin:none; */
 }
 
 @media screen and (max-width : 767px)  {
   
   .container{
     border:none;
-    /* margin:0; */
     margin-left:20px;
     margin-right:20px;
     
     
   }
 
-  /* .name{
-    right:20px;
-   
-  } */
 
   .nav{
     outline:none;

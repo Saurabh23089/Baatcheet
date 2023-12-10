@@ -1,40 +1,49 @@
-// import 'React' from react;
-import { Timestamp } from "firebase/firestore";
 import { useContext,useRef,useEffect } from "react";
 import { ChatContext } from "../context/chatcontext";
 
 const Message = ({message}) => {
     const {data}=useContext(ChatContext);
-    console.log(data);
-    console.log(message);
 
     const messagedate=message?.date.toDate();
-    console.log(messagedate);
     const messagetime=messagedate.toLocaleTimeString();
-    console.log(messagetime);
-    console.log(typeof(messagetime));
-
     const hours = messagedate?.getHours();
-    console.log(hours);
-    const minutes = messagedate?.getMinutes();
-    console.log(minutes);
     const ampm = hours >= 12 ? "PM" : "AM";
-    const formattedHours = hours % 12 || 12;
-   
-    const newtime=messagetime.slice(0,5);
-    console.log(newtime);
 
-    const finaltime=`${newtime} ${ampm}`;
-    const months=['Jan','Feb','March','April','May','June','July','Aug','Sep','Oct','Nov','Dec'];
-    const monthindex=messagedate?.getMonth();
-    const year=messagedate?.getFullYear();
-   
+    const months={
+        "0":"Jan",
+        "1":"Feb",
+        "2":"March",
+        "3":"April",
+        "4":"May",
+        "5":"June",
+        "6":"July",
+        "7":"August",
+        "8":"Sep",
+        "9":"Oct",
+        "10":"Nov",
+        "11":"Dec"
+    }
+
+    var time='';
+
+    if(messagedate.toLocaleTimeString().slice(0,2).includes(':')){
+        time=messagetime.slice(0,4);
+    }
+
+    else{
+        time=messagetime.slice(0,5);
+    }
+
+    var finaltime='';
+
+    if(messagedate.getMonth()!=new Date().getMonth()||messagedate.getDate()!=new Date().getDate()) {
+        finaltime=`${time} ${ampm}`+`${messagedate.getDate()} ${months[messagedate.getDate()]} ${messagedate.getFullYear()}`;
+    }
     
-    const day=messagedate?.getDate();
-    const month=months[monthindex];
-    const finaldate=`${day} ${month}`;
-    console.log(finaltime);
-    console.log(finaldate);
+    else
+    {
+        finaltime=`${time} ${ampm}`;
+    }
 
     const ref=useRef();
 
@@ -45,7 +54,6 @@ const Message = ({message}) => {
 
 
     return (
-    //    <div>
          
         <div className="messageinfo" ref={ref}>
 
@@ -55,8 +63,7 @@ const Message = ({message}) => {
          {message.downloadURL && <img src={message?.downloadURL} alt="message" className="imagemessage"/>} 
          </div>
         <span className="messagetime">{finaltime}</span>
-           </div>
-        // </div>    
+           </div> 
     )
 }
 

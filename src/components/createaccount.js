@@ -22,7 +22,6 @@ const Createaccount = () => {
         const token = credential.accessToken;
         // The signed-in user info.
         const user = result.user;
-        console.log(user);
 
         // Checking if a user is already signed up using google
         const userDocRef = doc(db, 'users', user.uid);
@@ -60,10 +59,6 @@ const Createaccount = () => {
 
   const addDefaultuser = async (currentuser) => {
 
-    console.log(currentuser);
-    console.log(process.env.REACT_APP_DEVELOPER_UID);
-    console.log(process.env.REACT_APP_DEVELOPER_PHOTOURL);
-    console.log(process.env.REACT_APP_DEVELOPER_DISPLAYNAME);
 
 
     const cid = currentuser.uid > process.env.REACT_APP_DEVELOPER_UID ? currentuser.uid + process.env.REACT_APP_DEVELOPER_UID : process.env.REACT_APP_DEVELOPER_UID + currentuser.uid;
@@ -97,10 +92,8 @@ const Createaccount = () => {
     const file = e.target[3].files[0];
 
 
-    console.log(displayName, email, passsword, file);
     try {
       const res = await createUserWithEmailAndPassword(auth, email, passsword)
-      console.log(res);
       const storage = getStorage();
 
 
@@ -135,12 +128,7 @@ const Createaccount = () => {
             await setDoc(doc(db, "userchats", res.user.uid), {});
 
             addDefaultuser(res?.user);
-
-            console.log(downloadURL);
             const userr = auth.currentUser;
-            console.log("Current User", userr);
-            console.log(db);
-            console.log(userr);
 
             navigate('/home');
           } catch (error) {
@@ -158,7 +146,6 @@ const Createaccount = () => {
           alert("User already Registered");
           break;
         case "auth/weak-password":
-          console.log("1");
           alert("Password should be at least 6 characters");
           break;
         default:

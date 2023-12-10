@@ -1,59 +1,48 @@
-import{createContext, useReducer,useContext} from "react";
-import {onAuthStateChanged} from "firebase/auth";
-import { useState,useEffect } from "react";
-import {auth} from '../firebase'
+import { createContext, useReducer, useContext } from "react";
 import { AuthContext } from "./authcontext";
 
 
 
-export const ChatContext=createContext();
+export const ChatContext = createContext();
 
-export const ChatContextprovider=({children})=>{
-    const {currentuser}=useContext(AuthContext);
-    // const currentuserid=currentuser?currentuser.uid:null;
-    console.log(currentuser);
-    // console.log(currentuser?.uid);
-   const initial_state={
-       chatid:"null",
-       user:{}
-   }
- 
-     const chatreducer = (state,action) => {
-       switch(action.type){
-           case "changeuser":
-               console.log(currentuser); 
-               console.log(action.payload);
-           return {
-               user:action.payload,
-               chatid:currentuser.uid>action.payload.uid ? currentuser.uid+action.payload.uid : action.payload.uid+currentuser.uid
-           }
+export const ChatContextprovider = ({ children }) => {
+    const { currentuser } = useContext(AuthContext);
 
-        //    case "onlogout" : {
-        //        return {
-        //            user:null,
-        //            chatid:null
-        //        }
-        //    }
+    // console.log(currentuser);
 
-           default:
-               return state;
-       }
-   }
+    const initial_state = {
+        chatid: "null",
+        user: {}
+    }
 
-//    console.log(currentuser?.uid);
+    const chatreducer = (state, action) => {
+        switch (action.type) {
+            case "changeuser":
+                // console.log(currentuser);
+                // console.log(action.payload);
+                return {
+                    user: action.payload,
+                    chatid: currentuser.uid > action.payload.uid ? currentuser.uid + action.payload.uid : action.payload.uid + currentuser.uid
+                }
+
+            default:
+                return state;
+        }
+    }
 
 
- 
-    const [state,dispatch]=useReducer(chatreducer,initial_state);
-   
-   
-   
-   
+
+
+    const [state, dispatch] = useReducer(chatreducer, initial_state);
+
+
+
+
 
     return (
-        <ChatContext.Provider value={{data : state,dispatch}}>
+        <ChatContext.Provider value={{ data: state, dispatch }}>
             {children}
         </ChatContext.Provider>
     )
-       
+
 };
