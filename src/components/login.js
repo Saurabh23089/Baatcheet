@@ -4,7 +4,8 @@ import '../login.css'
 import { auth } from '../firebase';
 import { useState } from 'react';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from 'firebase/auth';
-
+import {doc,getDoc} from 'firebase/firestore';
+import { db } from '../firebase.js';
 
 const Login = () => {
 
@@ -48,18 +49,30 @@ const Login = () => {
 
   const googlesignin = () => {
     signInWithPopup(auth, provider)
-      .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        const user = result.user;
+    .then(async (result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
 
-        navigate('/home');
+      // Checking if a user is already signed up using google
+      const userDocRef = doc(db, 'users', user.uid);
+      const userDoc = await getDoc(userDocRef);
+      if (!userDoc.exists()) {
+        // User already exists, show alert and return
+        alert('User does not exist , Redirecting to Register page');
+        setTimeout(() => {
+          navigate('/Register');
+        }, 2000)
+        return;
+      }
 
-      })
-      .catch((error) => {
-        console.log(error.message);
-        console.log(error.code);
-      })
+      else{
+        navigate('/Sample');
+      }
+
+
+    })
   }
 
 
