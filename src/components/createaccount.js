@@ -1,5 +1,7 @@
 import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import {useState} from 'react';
+import { Discuss } from 'react-loader-spinner'
 import '../createaccount.css';
 import image from './image.png';
 import React from 'react';
@@ -11,6 +13,7 @@ const Createaccount = () => {
 
 
   const navigate = useNavigate();
+  const[loading,setloading]=useState(false);
 
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
@@ -84,8 +87,11 @@ const Createaccount = () => {
     })
   }
 
+  console.log(loading);
+
   const handlesubmit = async (e) => {
     e.preventDefault();
+    setloading(true);
     const displayName = e.target[0].value;
     const email = e.target[1].value;
     const passsword = e.target[2].value;
@@ -130,8 +136,10 @@ const Createaccount = () => {
             addDefaultuser(res?.user);
             const userr = auth.currentUser;
 
+            setloading(false)
             navigate('/home');
           } catch (error) {
+            setloading(false);
             console.log(error);
           }
         }
@@ -170,6 +178,20 @@ const Createaccount = () => {
         </label>
         <button className='signupbtn' >Sign up</button>
       </form>
+
+
+      {loading && (
+        <Discuss
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="discuss-loading"
+          wrapperStyle={{}}
+          wrapperClass="discuss-wrapper"
+          color="#fff"
+          backgroundColor="#F4442E"
+        />
+      )}
 
       <div className="googlesignup">
         <button onClick={googlesignup} className="sinupbtn" >

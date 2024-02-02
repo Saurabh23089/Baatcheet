@@ -6,16 +6,19 @@ import { useState } from 'react';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from 'firebase/auth';
 import {doc,getDoc} from 'firebase/firestore';
 import { db } from '../firebase.js';
+import { Discuss } from 'react-loader-spinner';
 
 const Login = () => {
 
   const [wrongpassword, setwrongpassword] = useState(false);
+  const[loading,setloading]=useState(false);
 
   const navigate = useNavigate();
   const provider = new GoogleAuthProvider();
 
   const handlesubmit = (e) => {
     e.preventDefault();
+    
     const auth = getAuth();
     var email = e.target[0].value;
     var password = e.target[1].value;
@@ -48,6 +51,7 @@ const Login = () => {
   }
 
   const googlesignin = () => {
+    
     signInWithPopup(auth, provider)
     .then(async (result) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -68,11 +72,21 @@ const Login = () => {
       }
 
       else{
+        setloading(true);
+        console.log("1")
         navigate('/home');
+        setloading(false);
       }
 
 
     })
+    .catch((error) => {
+      console.log(error.message);
+    })
+
+    // .finally(() => {
+    //   setloading(false);
+    // })
   }
 
 
@@ -95,6 +109,24 @@ const Login = () => {
       {wrongpassword && <p className='ps'>Incorrect Paasword!</p>}
       <p className='asksignup'>You don't have an account?</p>
       <p className='register' onClick={() => navigate('/register')}>Register</p>
+
+     {loading &&
+
+<Discuss
+  visible={true}
+  height="80"
+  width="80"
+  ariaLabel="discuss-loading"
+  wrapperStyle={{}}
+  wrapperClass="discuss-wrapper"
+  color="#fff"
+  backgroundColor="#F4442E"
+  />
+     
+     }
+
+
+
     </div>
   )
 }
