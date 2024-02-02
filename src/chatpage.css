@@ -525,6 +525,7 @@ body{
   
   .messages{
     height:490px;
+    width:auto;
   }
 
   .name{
