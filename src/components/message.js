@@ -71,7 +71,7 @@ const Message = ({message}) => {
     },[message])
 
 
-    console.log(senderimage);
+
 
 
 
