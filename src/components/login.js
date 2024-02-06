@@ -84,9 +84,7 @@ const Login = () => {
       console.log(error.message);
     })
 
-    // .finally(() => {
-    //   setloading(false);
-    // })
+   
   }
 
 
@@ -110,20 +108,6 @@ const Login = () => {
       <p className='asksignup'>You don't have an account?</p>
       <p className='register' onClick={() => navigate('/register')}>Register</p>
 
-     {loading &&
-
-<Discuss
-  visible={true}
-  height="80"
-  width="80"
-  ariaLabel="discuss-loading"
-  wrapperStyle={{}}
-  wrapperClass="discuss-wrapper"
-  color="#fff"
-  backgroundColor="#F4442E"
-  />
-     
-     }
 
 
 

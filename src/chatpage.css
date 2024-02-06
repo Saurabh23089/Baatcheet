@@ -445,7 +445,8 @@ body{
 
 .ps{
   position:relative;
-  top:200px;
+  top:206px;
+  left:50px;
   font-size:12px;
 }
 

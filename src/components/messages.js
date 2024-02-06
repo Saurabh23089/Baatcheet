@@ -22,6 +22,7 @@ const Messages=() => {
            
             setmessages(data?.messages || undefined);
             
+            
         });
 
        if(chatid){
@@ -30,6 +31,8 @@ const Messages=() => {
            }
        }
     },[chatid])
+
+    console.log(messages);
 
 
 

@@ -1,8 +1,12 @@
-import { useContext,useRef,useEffect } from "react";
+import { useContext,useRef,useEffect, useState } from "react";
 import { ChatContext } from "../context/chatcontext";
+import {doc,getDoc} from 'firebase/firestore';
+import { db } from '../firebase.js';
 
 const Message = ({message}) => {
+    const[senderimage,setsenderimage]=useState("");
     const {data}=useContext(ChatContext);
+    console.log(data);
 
     const messagedate=message?.date.toDate();
     const messagetime=messagedate.toLocaleTimeString();
@@ -51,6 +55,24 @@ const Message = ({message}) => {
         ref.current?.scrollIntoView({behaviour:'smooth'});
     },[message])
 
+    useEffect(() => {
+        const fetchsenderimage = async() => {
+            const userDocRef = doc(db, 'users', message.senderId);
+        const userDoc = await getDoc(userDocRef);
+        if(userDoc.exists()){
+            setsenderimage(userDoc.data()?.photoURl);
+            
+        }
+        }
+
+        if(message){
+            fetchsenderimage();
+        }
+    },[message])
+
+
+    console.log(senderimage);
+
 
 
     return (
@@ -58,7 +80,7 @@ const Message = ({message}) => {
         <div className="messageinfo" ref={ref}>
 
         <div className="timeandphoto">
-         <img src={data?.user.photoURL||""} alt="p1" className="senderimage"/>
+         <img src={senderimage} alt="p1" className="senderimage"/>
          {message.text && <p className="textmessage">{message.text}</p>} 
          {message.downloadURL && <img src={message?.downloadURL} alt="message" className="imagemessage"/>} 
          </div>

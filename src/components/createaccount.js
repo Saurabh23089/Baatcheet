@@ -180,19 +180,6 @@ const Createaccount = () => {
       </form>
 
 
-      {loading && (
-        <Discuss
-          visible={true}
-          height="80"
-          width="80"
-          ariaLabel="discuss-loading"
-          wrapperStyle={{}}
-          wrapperClass="discuss-wrapper"
-          color="#fff"
-          backgroundColor="#F4442E"
-        />
-      )}
-
       <div className="googlesignup">
         <button onClick={googlesignup} className="sinupbtn" >
           <img className="logo" src="https://banner2.cleanpng.com/20180521/ers/kisspng-google-logo-5b02bbe1d5c6e0.2384399715269058258756.jpg" alt="googlelogo" />
