@@ -133,6 +133,7 @@ const Createaccount = () => {
             else{
               downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
             }
+            console.log(downloadURL);
 
            
             // console.log(downloadURL);
