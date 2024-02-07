@@ -51,7 +51,7 @@ const Input = () => {
       )
     }
     if (data.chatid != null && text != '') {
-      console.log(text);
+      // console.log(text);
       await updateDoc(doc(db, "chats", data?.chatid), {
         messages: arrayUnion({
           id: uuid(),

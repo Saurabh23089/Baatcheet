@@ -167,7 +167,7 @@ const Leftportion = () => {
           lastchat = lm.downloadURL;
         }
 
-        console.log(lastchat);
+        // console.log(lastchat);
         setlc(lastchat);
         setlastmessage((previousvalue) =>
         ({
@@ -187,6 +187,8 @@ const Leftportion = () => {
 
 
   }, [chats])
+
+  console.log("Welcome to Baatcheet");
 
 
   const showchat = () => {

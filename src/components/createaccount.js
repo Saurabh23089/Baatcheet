@@ -8,6 +8,7 @@ import React from 'react';
 import { doc, setDoc, updateDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase.js';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+// import { Discuss } from 'react-loader-spinner'
 
 const Createaccount = () => {
 
@@ -52,7 +53,9 @@ const Createaccount = () => {
 
         await setDoc(doc(db, "userchats", user.uid), {});
         addDefaultuser(user);
+        setloading(true);
         navigate('/home');
+        setloading(false);
 
       })
       .catch((error) => {
@@ -97,6 +100,8 @@ const Createaccount = () => {
     const passsword = e.target[2].value;
     const file = e.target[3].files[0];
 
+    
+
 
     try {
       const res = await createUserWithEmailAndPassword(auth, email, passsword)
@@ -106,18 +111,31 @@ const Createaccount = () => {
       const storageref = ref(storage, displayName);
 
       const uploadTask = uploadBytesResumable(storageref, file);
+      console.log(uploadTask);
 
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-
+          //  console.log(snapshot);
         },
         (error) => {
           console.log(error.message);
         },
         async () => {
           try {
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+
+            var downloadURL="";
+            if(uploadTask._uploadUrl===undefined){
+              downloadURL="https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0=";
+            }
+
+            else{
+              downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            }
+
+           
+            // console.log(downloadURL);
 
             await updateProfile(res.user, {
               displayName,
@@ -136,8 +154,9 @@ const Createaccount = () => {
             addDefaultuser(res?.user);
             const userr = auth.currentUser;
 
-            setloading(false)
+            setloading(true);
             navigate('/home');
+            setloading(false);
           } catch (error) {
             setloading(false);
             console.log(error);
@@ -152,6 +171,7 @@ const Createaccount = () => {
       switch (errorcode) {
         case "auth/email-already-in-use":
           alert("User already Registered");
+          navigate('/login')
           break;
         case "auth/weak-password":
           alert("Password should be at least 6 characters");
@@ -164,8 +184,14 @@ const Createaccount = () => {
   }
 
   return (
-    <div className='formcontainer'>
-      <h4 className='title'>BaatCheet</h4>
+
+   
+
+    <div>
+      {
+        !loading ? 
+        (<div className='formcontainer'>
+        <h4 className='title'>BaatCheet</h4>
       <h6 className='smalltitle'>Register</h6>
       <form onSubmit={handlesubmit}>
         <input type="text" placeholder="Your Name" className='ip1' />
@@ -190,6 +216,24 @@ const Createaccount = () => {
 
       <p className='acexists'>You do have an account?</p>
       <p className='login' onClick={() => { navigate('/Login') }}>Login</p>
+        </div>):(
+          <div>
+          <Discuss
+  visible={true}
+  height="50%"
+  width="50%"
+  marginTop="100px"
+  
+  ariaLabel="discuss-loading"
+  wrapperStyle={{}}
+  wrapperClass="discuss-wrapper"
+  color="#fff"
+  backgroundColor="#F4442E"
+  />
+          </div>
+        )
+      }
+      
     </div>
 
   )

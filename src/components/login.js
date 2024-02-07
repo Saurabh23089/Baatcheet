@@ -25,7 +25,9 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((usercredential) => {
         const user = usercredential.user;
+        setloading(true);
         navigate('/home');
+        setloading(false);
         email = "";
         password = "";
       })
@@ -41,7 +43,7 @@ const Login = () => {
             alert("User not Found!");
             break;
           case "auth/weak-password":
-            console.log("1");
+            // console.log("1");
             setwrongpassword(true);
             break;
           default:
@@ -62,6 +64,7 @@ const Login = () => {
       // Checking if a user is already signed up using google
       const userDocRef = doc(db, 'users', user.uid);
       const userDoc = await getDoc(userDocRef);
+     
       if (!userDoc.exists()) {
         // User already exists, show alert and return
         alert('User does not exist , Redirecting to Register page');
@@ -89,7 +92,10 @@ const Login = () => {
 
 
   return (
-    <div className="logincontainer">
+
+    <div>
+        {!loading?(
+      <div className="logincontainer">
       <h4 className='title'>BaatCheet</h4>
       <h6 className='smalltitle'>Login</h6>
       <form onSubmit={handlesubmit}>
@@ -108,10 +114,26 @@ const Login = () => {
       <p className='asksignup'>You don't have an account?</p>
       <p className='register' onClick={() => navigate('/register')}>Register</p>
 
-
-
-
     </div>
+    ):(
+      <Discuss
+      visible={true}
+      
+      height="50%"
+      width="50%"
+      ariaLabel="discuss-loading"
+      wrapperStyle={{}}
+      wrapperClass="discuss-wrapper"
+      color="#fff"
+      backgroundColor="#F4442E"
+      />
+    )
+  }
+    </div>
+
+    
+    
+   
   )
 }
 

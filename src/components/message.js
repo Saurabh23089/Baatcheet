@@ -6,7 +6,7 @@ import { db } from '../firebase.js';
 const Message = ({message}) => {
     const[senderimage,setsenderimage]=useState("");
     const {data}=useContext(ChatContext);
-    console.log(data);
+    // console.log(data);
 
     const messagedate=message?.date.toDate();
     const messagetime=messagedate.toLocaleTimeString();
@@ -60,15 +60,21 @@ const Message = ({message}) => {
             const userDocRef = doc(db, 'users', message.senderId);
         const userDoc = await getDoc(userDocRef);
         if(userDoc.exists()){
+            // console.log(userDoc.data());
             setsenderimage(userDoc.data()?.photoURl);
             
         }
         }
 
+   
+
         if(message){
             fetchsenderimage();
+          
         }
     },[message])
+
+    // console.log(senderimage);
 
 
 
