@@ -41,7 +41,7 @@ const Message = ({message}) => {
     var finaltime='';
 
     if(messagedate.getMonth()!=new Date().getMonth()||messagedate.getDate()!=new Date().getDate()) {
-        finaltime=`${time} ${ampm}`+`, ${messagedate.getDate()} ${months[messagedate.getDate()]} ${messagedate.getFullYear()}`;
+        finaltime=`${time} ${ampm}`+`, ${messagedate.getDate()} ${months[messagedate.getMonth()]} ${messagedate.getFullYear()}`;
     }
     
     else

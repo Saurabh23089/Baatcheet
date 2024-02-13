@@ -27,6 +27,10 @@ export const ChatContextprovider = ({ children }) => {
                     chatid: currentuser.uid > action.payload.uid ? currentuser.uid + action.payload.uid : action.payload.uid + currentuser.uid
                 }
 
+            case "reset":{
+                return initial_state;
+            }
+
             default:
                 return state;
         }
