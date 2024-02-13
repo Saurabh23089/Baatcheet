@@ -389,7 +389,7 @@ body{
   padding:none;
   box-sizing:border-box;
   position:relative;
-  left:-52px;
+  left:-25px;
   top:12px;
   color:white;
 
@@ -532,14 +532,14 @@ body{
   .name{
     top:15px;
     right:50px;
-    font-size:12px;
+    font-size:10px;
     color:white;
     /* background-color: white; */
   }
 
   .user1{
     right:2px;
-    font-size:17px;
+    font-size:12px;
   }
 
   
