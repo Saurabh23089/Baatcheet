@@ -99,7 +99,8 @@ const Createaccount = () => {
     const email = e.target[1].value;
     const passsword = e.target[2].value;
     const file = e.target[3].files[0];
-
+    const age=e.target[4].value;
+    const mobile=e.target[5].value;
     
 
 
@@ -148,6 +149,8 @@ const Createaccount = () => {
               displayName,
               email,
               photoURl: downloadURL,
+              age,
+              mobile
             });
 
             await setDoc(doc(db, "userchats", res.user.uid), {});
@@ -198,6 +201,8 @@ const Createaccount = () => {
         <input type="text" placeholder="Your Name" className='ip1' />
         <input type="email" placeholder='Email' className='ip2' />
         <input type="password" placeholder="Password" className='ip3' />
+        <input type="number" placeholder="Enter your age"/>
+        <input type="number" placeholder="Enter your mobile number"/>
         <label className='l1'>
           <img src={image} alt="uploadicon" className='im1' />
           <p className='av'>Add an avatar</p>
