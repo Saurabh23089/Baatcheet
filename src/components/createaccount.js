@@ -114,6 +114,9 @@ const Createaccount = () => {
       const uploadTask = uploadBytesResumable(storageref, file);
       console.log(uploadTask);
 
+      console.log(age);
+      console.log(mobile);
+
       uploadTask.on(
         "state_changed",
         (snapshot) => {
