@@ -209,6 +209,7 @@ const Createaccount = () => {
         <input type="text" placeholder="Your Name" className='ip1' />
         <input type="email" placeholder='Email' className='ip2' />
         <input type="password" placeholder="Password" className='ip3' />
+        
         <label className='l1'>
           <img src={image} alt="uploadicon" className='im1' />
           <p className='av'>Add an avatar</p>
