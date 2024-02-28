@@ -92,14 +92,23 @@ const Createaccount = () => {
 
   console.log(loading);
 
+  
+
+
   const handlesubmit = async (e) => {
+    console.log(e.target);
     e.preventDefault();
     setloading(true);
     const displayName = e.target[0].value;
     const email = e.target[1].value;
     const passsword = e.target[2].value;
-    const file = e.target[3].files[0];
+    const file=e.target[3].files[0];
 
+
+
+   
+
+  
     
 
 
@@ -184,6 +193,8 @@ const Createaccount = () => {
 
   }
 
+  
+
   return (
 
    
@@ -198,6 +209,8 @@ const Createaccount = () => {
         <input type="text" placeholder="Your Name" className='ip1' />
         <input type="email" placeholder='Email' className='ip2' />
         <input type="password" placeholder="Password" className='ip3' />
+       
+
         <label className='l1'>
           <img src={image} alt="uploadicon" className='im1' />
           <p className='av'>Add an avatar</p>
@@ -220,17 +233,20 @@ const Createaccount = () => {
         </div>):(
           <div>
           <Discuss
-  visible={true}
-  height="50%"
-  width="50%"
-  marginTop="100px"
-  
-  ariaLabel="discuss-loading"
-  wrapperStyle={{}}
-  wrapperClass="discuss-wrapper"
-  color="#fff"
-  backgroundColor="#F4442E"
-  />
+      visible={true}
+      
+      height="50%"
+      width="50%"
+      ariaLabel="discuss-loading"
+      wrapperStyle={{
+      position: 'absolute', 
+      top: '25%',
+      left: '25%',
+    }}
+      wrapperClass="discuss-wrapper"
+      color="#fff"
+      backgroundColor="#F4442E"
+      />
           </div>
         )
       }

@@ -128,14 +128,14 @@
       width:20px;
   }
 
-  .discuss-wrapper{
+  /* .discuss-wrapper{
    display:flex;
    justify-items:center;
    align-items:center;
    padding:10px;
   
    
-  }
+  } */
   
   
   @media (max-width: 767px){

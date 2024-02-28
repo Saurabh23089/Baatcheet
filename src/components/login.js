@@ -122,7 +122,11 @@ const Login = () => {
       height="50%"
       width="50%"
       ariaLabel="discuss-loading"
-      wrapperStyle={{}}
+      wrapperStyle={{
+      position: 'absolute', 
+      top: '25%',
+      left: '25%',
+    }}
       wrapperClass="discuss-wrapper"
       color="#fff"
       backgroundColor="#F4442E"
