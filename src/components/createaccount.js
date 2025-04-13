@@ -1,6 +1,6 @@
 import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import {useState} from 'react';
+import { useState } from 'react';
 import { Discuss } from 'react-loader-spinner'
 import '../createaccount.css';
 import image from './image.png';
@@ -14,7 +14,7 @@ const Createaccount = () => {
 
 
   const navigate = useNavigate();
-  const[loading,setloading]=useState(false);
+  const [loading, setloading] = useState(false);
 
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
@@ -92,7 +92,7 @@ const Createaccount = () => {
 
   console.log(loading);
 
-  
+
 
 
   const handlesubmit = async (e) => {
@@ -104,7 +104,7 @@ const Createaccount = () => {
     const passsword = e.target[2].value;
     const file = e.target[3].files[0];
 
-    
+
 
 
     try {
@@ -117,7 +117,7 @@ const Createaccount = () => {
       const uploadTask = uploadBytesResumable(storageref, file);
       console.log(uploadTask);
 
-     
+
 
       uploadTask.on(
         "state_changed",
@@ -131,17 +131,17 @@ const Createaccount = () => {
           try {
 
 
-            var downloadURL="";
-            if(uploadTask._uploadUrl===undefined){
-              downloadURL="https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0=";
+            var downloadURL = "";
+            if (uploadTask._uploadUrl === undefined) {
+              downloadURL = "https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0=";
             }
 
-            else{
+            else {
               downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
             }
             console.log(downloadURL);
 
-           
+
             // console.log(downloadURL);
 
             await updateProfile(res.user, {
@@ -154,7 +154,7 @@ const Createaccount = () => {
               displayName,
               email,
               photoURl: downloadURL,
-            
+
             });
 
             await setDoc(doc(db, "userchats", res.user.uid), {});
@@ -191,63 +191,74 @@ const Createaccount = () => {
 
   }
 
-  
+
 
   return (
 
-   
+
 
     <div>
       {
-        !loading ? 
-        (<div className='formcontainer'>
-        <h4 className='title'>BaatCheet</h4>
-      <h6 className='smalltitle'>Register</h6>
-      <form onSubmit={handlesubmit}>
-        <input type="text" placeholder="Your Name" className='ip1' />
-        <input type="email" placeholder='Email' className='ip2' />
-        <input type="password" placeholder="Password" className='ip3' />
+        !loading ?
+          (<div className='formcontainer'>
+            <h4 className='title'>BaatCheet</h4>
+            <h6 className='smalltitle'>Register</h6>
+            <form onSubmit={handlesubmit}>
+              <input type="text" placeholder="Your Name" className='ip1' />
+              <input type="email" placeholder='Email' className='ip2' />
+              <input type="password" placeholder="Password" className='ip3' />
 
-        <label className='l1'>
-          <img src={image} alt="uploadicon" className='im1' />
-          <p className='av'>Add an avatar</p>
-          <input type="file" accept='/image*' className='imageinput'></input>
-        </label>
-        <button className='signupbtn' >Sign up</button>
-      </form>
+              <label className='l1'>
+                <img src={image} alt="uploadicon" className='im1' />
+                <p className='av'>Add an avatar</p>
+                <input type="file" accept='/image*' className='imageinput'></input>
+              </label>
+              <button className='signupbtn' >Sign up</button>
+            </form>
 
 
-      <div className="googlesignup">
-        <button onClick={googlesignup} className="sinupbtn" >
-          <img className="logo" src="https://banner2.cleanpng.com/20180521/ers/kisspng-google-logo-5b02bbe1d5c6e0.2384399715269058258756.jpg" alt="googlelogo" />
-          Sign up with Google
-        </button>
+            <div className="googlesignup">
+              <button onClick={googlesignup} className="sinupbtn" >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                  style={{ marginRight: '10px' }}
+                  height="24"
+                  width="24"
+                >
+                  <path fill="#4285f4" d="M386 400c45-42 65-112 53-179H260v74h102c-4 24-18 44-38 57z" />
+                  <path fill="#34a853" d="M90 341a192 192 0 0 0 296 59l-62-48c-53 35-141 22-171-60z" />
+                  <path fill="#fbbc02" d="M153 292c-8-25-8-48 0-73l-63-49c-23 46-30 111 0 171z" />
+                  <path fill="#ea4335" d="M153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55z" />
+                </svg>
+                Sign up with Google
+              </button>
 
-      </div>
+            </div>
 
-      <p className='acexists'>You do have an account?</p>
-      <p className='login' onClick={() => { navigate('/Login') }}>Login</p>
-        </div>):(
-          <div>
-          <Discuss
-      visible={true}
-      
-      height="50%"
-      width="50%"
-      ariaLabel="discuss-loading"
-      wrapperStyle={{
-      position: 'absolute', 
-      top: '25%',
-      left: '25%',
-    }}
-      wrapperClass="discuss-wrapper"
-      color="#fff"
-      backgroundColor="#F4442E"
-      />
-          </div>
-        )
+            <p className='acexists'>You do have an account?</p>
+            <p className='login' onClick={() => { navigate('/Login') }}>Login</p>
+          </div>) : (
+            <div>
+              <Discuss
+                visible={true}
+
+                height="50%"
+                width="50%"
+                ariaLabel="discuss-loading"
+                wrapperStyle={{
+                  position: 'absolute',
+                  top: '25%',
+                  left: '25%',
+                }}
+                wrapperClass="discuss-wrapper"
+                color="#fff"
+                backgroundColor="#F4442E"
+              />
+            </div>
+          )
       }
-      
+
     </div>
 
   )
