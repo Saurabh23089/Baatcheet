@@ -10,7 +10,7 @@ const Sample = () => {
   return (
     <>
 
-      <div className="flex p-4 bg-white text-black dark:bg-gray-900 h-screen  ">
+      <div className="flex p-4 bg-transparent text-black dark:bg-transparent h-screen ">
         <Leftportion />
         <Rightpart />
       </div>
