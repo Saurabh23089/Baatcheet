@@ -1,6 +1,6 @@
 import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Discuss } from 'react-loader-spinner'
 import '../createaccount.css';
 import image from './image.png';
@@ -15,6 +15,8 @@ const Createaccount = () => {
 
   const navigate = useNavigate();
   const [loading, setloading] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState("");
+  const fileInputRef = useRef(null);
 
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
@@ -63,8 +65,24 @@ const Createaccount = () => {
       })
   }
 
-  const addDefaultuser = async (currentuser) => {
+  const handleFileChange = (e) => {
 
+    const file = e.target.files[0];
+    if (file) {
+      setProfilePhoto(file.name);
+
+    }
+  };
+
+  const handleProfilePhoto = (e) => {
+    e.stopPropagation();
+    setProfilePhoto("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const addDefaultuser = async (currentuser) => {
 
 
     const cid = currentuser.uid > process.env.REACT_APP_DEVELOPER_UID ? currentuser.uid + process.env.REACT_APP_DEVELOPER_UID : process.env.REACT_APP_DEVELOPER_UID + currentuser.uid;
@@ -90,22 +108,16 @@ const Createaccount = () => {
     })
   }
 
-  console.log(loading);
-
-
-
 
   const handlesubmit = async (e) => {
-    console.log(e.target);
     e.preventDefault();
     setloading(true);
     const displayName = e.target[0].value;
     const email = e.target[1].value;
     const passsword = e.target[2].value;
-    const file = e.target[3].files[0];
+    const file = e.target.elements.profilePhoto.files[0];
 
-
-
+    setProfilePhoto(file)
 
     try {
       const res = await createUserWithEmailAndPassword(auth, email, passsword)
@@ -115,9 +127,6 @@ const Createaccount = () => {
       const storageref = ref(storage, displayName);
 
       const uploadTask = uploadBytesResumable(storageref, file);
-      console.log(uploadTask);
-
-
 
       uploadTask.on(
         "state_changed",
@@ -130,7 +139,6 @@ const Createaccount = () => {
         async () => {
           try {
 
-
             var downloadURL = "";
             if (uploadTask._uploadUrl === undefined) {
               downloadURL = "https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0=";
@@ -139,11 +147,7 @@ const Createaccount = () => {
             else {
               downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
             }
-            console.log(downloadURL);
-
-
-            // console.log(downloadURL);
-
+      
             await updateProfile(res.user, {
               displayName,
               photoURL: downloadURL,
@@ -191,40 +195,81 @@ const Createaccount = () => {
 
   }
 
-
-
   return (
-
-
-
     <div>
       {
-        !loading ?
-          (<div className='formcontainer'>
-            <h4 className='title'>BaatCheet</h4>
-            <h6 className='smalltitle'>Register</h6>
-            <form onSubmit={handlesubmit}>
-              <input type="text" placeholder="Your Name" className='ip1' />
-              <input type="email" placeholder='Email' className='ip2' />
-              <input type="password" placeholder="Password" className='ip3' />
+        !loading ? (
+          <div className="flex flex-col items-center justify-center w-full min-h-screen px-4 py-8 bg-gray-100">
+            <h4 className="text-4xl font-bold text-gray-800 mb-2">BaatCheet</h4>
+            <h6 className="text-lg font-medium text-gray-600 mb-6">Register</h6>
+            <form onSubmit={handlesubmit} className="flex flex-col w-full max-w-sm gap-3">
+              <input
+                type="text"
+                placeholder="Your Name"
+                required
+                className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                required
+                className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                required
+                className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
 
-              <label className='l1'>
-                <img src={image} alt="uploadicon" className='im1' />
-                <p className='av'>Add an avatar</p>
-                <input type="file" accept='/image*' className='imageinput'></input>
+              <label className="flex items-center gap-2 cursor-pointer text-sm" htmlFor='profile-upload'>
+                <img src={image} alt="uploadicon" className="w-6 h-6 object-cover" />
+                <p className="text-gray-700 text-sm whitespace-nowrap">Add an avatar</p>
+                {
+                  profilePhoto && (
+                    <>
+                      <p className='whitespace-nowrap text-sm'>{profilePhoto}</p>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleProfilePhoto(e);
+                        }}
+                        className='cursor-pointer hover:text-red-500 text-lg'
+                      >
+                        X
+                      </button>
+                    </>
+                  )
+                }
               </label>
-              <button className='signupbtn' >Sign up</button>
+
+              <input
+                type="file"
+                name="profilePhoto"
+                id="profile-upload"
+                ref={fileInputRef}
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+
+              <button
+                type="submit"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition duration-200"
+              >
+                Sign up
+              </button>
             </form>
 
-
-            <div className="googlesignup">
-              <button onClick={googlesignup} className="sinupbtn" >
+            <div className="mt-6 w-full max-w-sm">
+              <button
+                onClick={googlesignup}
+                className="flex items-center justify-center gap-2 w-full border border-gray-300 py-2 rounded-md hover:shadow-md hover:bg-gray-100 transition"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 512 512"
-                  style={{ marginRight: '10px' }}
-                  height="24"
-                  width="24"
+                  className="w-5 h-5"
                 >
                   <path fill="#4285f4" d="M386 400c45-42 65-112 53-179H260v74h102c-4 24-18 44-38 57z" />
                   <path fill="#34a853" d="M90 341a192 192 0 0 0 296 59l-62-48c-53 35-141 22-171-60z" />
@@ -233,35 +278,45 @@ const Createaccount = () => {
                 </svg>
                 Sign up with Google
               </button>
-
             </div>
 
-            <p className='acexists'>You do have an account?</p>
-            <p className='login' onClick={() => { navigate('/Login') }}>Login</p>
-          </div>) : (
-            <div>
-              <Discuss
-                visible={true}
-
-                height="50%"
-                width="50%"
-                ariaLabel="discuss-loading"
-                wrapperStyle={{
-                  position: 'absolute',
-                  top: '25%',
-                  left: '25%',
-                }}
-                wrapperClass="discuss-wrapper"
-                color="#fff"
-                backgroundColor="#F4442E"
-              />
+            <div className='flex items-center justify-center'>
+              <p className="text-gray-600">You do have an account?</p>
+              <p
+                className="text-blue-600 font-medium cursor-pointer hover:underline"
+                onClick={() => { navigate('/Login'); }}
+              >
+                Login
+              </p>
             </div>
-          )
+
+
+          </div>
+        ) : (
+          <div>
+            <Discuss
+              visible={true}
+              height="50%"
+              width="50%"
+              ariaLabel="discuss-loading"
+              wrapperStyle={{
+                position: 'absolute',
+                top: '25%',
+                left: '25%',
+              }}
+              wrapperClass="discuss-wrapper"
+              color="#fff"
+              backgroundColor="#F4442E"
+            />
+          </div>
+        )
       }
-
     </div>
+  );
 
-  )
+
+
+
 }
 
 

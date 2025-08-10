@@ -1,98 +1,103 @@
-import { useContext,useRef,useEffect, useState } from "react";
+import { useContext, useRef, useEffect, useState } from "react";
 import { ChatContext } from "../context/chatcontext";
-import {doc,getDoc} from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase.js';
 
-const Message = ({message}) => {
-    const[senderimage,setsenderimage]=useState("");
-    const {data}=useContext(ChatContext);
-    // console.log(data);
+const Message = ({ message }) => {
+    const [senderimage, setsenderimage] = useState("");
+    const { data } = useContext(ChatContext);
 
-    const messagedate=message?.date.toDate();
-    const messagetime=messagedate.toLocaleTimeString();
+    const messagedate = message?.date.toDate();
+    const messagetime = messagedate.toLocaleTimeString();
     const hours = messagedate?.getHours();
     const ampm = hours >= 12 ? "PM" : "AM";
 
-    const months={
-        "0":"Jan",
-        "1":"Feb",
-        "2":"March",
-        "3":"April",
-        "4":"May",
-        "5":"June",
-        "6":"July",
-        "7":"August",
-        "8":"Sep",
-        "9":"Oct",
-        "10":"Nov",
-        "11":"Dec"
+    const months = {
+        "0": "Jan",
+        "1": "Feb",
+        "2": "March",
+        "3": "April",
+        "4": "May",
+        "5": "June",
+        "6": "July",
+        "7": "August",
+        "8": "Sep",
+        "9": "Oct",
+        "10": "Nov",
+        "11": "Dec"
     }
 
-    var time='';
+    var time = '';
 
-    if(messagedate.toLocaleTimeString().slice(0,2).includes(':')){
-        time=messagetime.slice(0,4);
+    if (messagedate.toLocaleTimeString().slice(0, 2).includes(':')) {
+        time = messagetime.slice(0, 4);
     }
 
-    else{
-        time=messagetime.slice(0,5);
+    else {
+        time = messagetime.slice(0, 5);
     }
 
-    var finaltime='';
+    var finaltime = '';
 
-    if(messagedate.getMonth()!=new Date().getMonth()||messagedate.getDate()!=new Date().getDate()) {
-        finaltime=`${time} ${ampm}`+`, ${messagedate.getDate()} ${months[messagedate.getMonth()]} ${messagedate.getFullYear()}`;
-    }
-    
-    else
-    {
-        finaltime=`${time} ${ampm}`;
+    if (messagedate.getMonth() != new Date().getMonth() || messagedate.getDate() != new Date().getDate()) {
+        finaltime = `${time} ${ampm}` + `, ${messagedate.getDate()} ${months[messagedate.getMonth()]} ${messagedate.getFullYear()}`;
     }
 
-    const ref=useRef();
+    else {
+        finaltime = `${time} ${ampm}`;
+    }
+
+    const ref = useRef();
 
     useEffect(() => {
-        ref.current?.scrollIntoView({behaviour:'smooth'});
-    },[message])
+        ref.current?.scrollIntoView({ behaviour: 'smooth' });
+    }, [message])
 
     useEffect(() => {
-        const fetchsenderimage = async() => {
+        const fetchsenderimage = async () => {
             const userDocRef = doc(db, 'users', message.senderId);
-        const userDoc = await getDoc(userDocRef);
-        if(userDoc.exists()){
-            // console.log(userDoc.data());
-            setsenderimage(userDoc.data()?.photoURl);
-            
-        }
+            const userDoc = await getDoc(userDocRef);
+            if (userDoc.exists()) {
+                setsenderimage(userDoc.data()?.photoURl);
+
+            }
         }
 
-   
 
-        if(message){
+
+        if (message) {
             fetchsenderimage();
-          
+
         }
-    },[message])
-
-    // console.log(senderimage);
-
-
-
-
-
+    }, [message])
 
     return (
-         
-        <div className="messageinfo" ref={ref}>
+        <div ref={ref} className="mb-4">
+            <div className="flex items-start gap-3">
+                <img
+                    src={senderimage}
+                    alt="avatar"
+                    className="w-10 h-10 rounded-full object-cover"
+                />
+                <div className="bg-gray-100 rounded-xl px-4 py-2 max-w-[75%]">
+                    {message?.text && (
+                        <p className="text-sm text-gray-800 whitespace-pre-wrap break-words">
+                            {message.text}
+                        </p>
+                    )}
+                    {message?.downloadURL && (
+                        <img
+                            src={message.downloadURL}
+                            alt="attachment"
+                            className="mt-2 rounded-md max-w-full"
+                        />
+                    )}
+                </div>
+            </div>
+            <p className="text-xs text-gray-500 mt-1 ml-12">{finaltime}</p>
+        </div>
+    );
 
-        <div className="timeandphoto">
-         <img src={senderimage} alt="p1" className="senderimage"/>
-         {message.text && <p className="textmessage">{message.text}</p>} 
-         {message.downloadURL && <img src={message?.downloadURL} alt="message" className="imagemessage"/>} 
-         </div>
-        <span className="messagetime">{finaltime}</span>
-           </div> 
-    )
 }
 
 export default Message;

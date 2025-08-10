@@ -29,15 +29,32 @@ const Rightpart = () => {
   }
 
   return (
-    <div className='cat'>
-      <div className='chatinfo'>
-        <span>{data.user.displayName}</span>
-        <span className='bn' onClick={logout}>Logout</span>
+    <div className="flex flex-col w-full max-h-screen bg-white border-l">
+      {/* Top bar */}
+      <div className="flex items-center justify-between px-4 py-3 border-b bg-gray-100">
+        <h2 className="text-lg font-semibold text-gray-800 truncate">
+          {data?.user?.displayName || 'Select a user'}
+        </h2>
+        <button
+          onClick={logout}
+          className="text-sm text-red-500 hover:underline"
+        >
+          Logout
+        </button>
       </div>
-      <Messages />
-      <Input />
+
+      {/* Chat Messages */}
+      <div className="flex-1 overflow-y-auto px-4 py-2">
+        <Messages />
+      </div>
+
+      {/* Input Box */}
+      <div className="border-t bg-gray-50 ">
+        <Input />
+      </div>
     </div>
-  )
+  );
+
 }
 
 export default Rightpart;

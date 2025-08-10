@@ -69,7 +69,6 @@ const Leftportion = () => {
     };
 
     if (enter) {
-      console.log("check");
       fetchData();
       setenter('');
       setusername('');
@@ -188,9 +187,6 @@ const Leftportion = () => {
 
   }, [chats])
 
-  console.log("Welcome to Baatcheet");
-
-
   const showchat = () => {
     for (let i = 0; i < lastmessage.length; i++) {
       return lastmessage[i];
@@ -251,13 +247,6 @@ const Leftportion = () => {
         await setDoc(doc(db, "chats", cid), { messages: [] })
 
 
-        console.log("userInfo:", {
-          uid: user.uid,
-          photoURL: user.photoURl,
-          displayName: user.displayName,
-        });
-
-
         await updateDoc(doc(db, "userchats", currentuser.uid), {
           [cid + ".userInfo"]: {
             uid: user.uid,
@@ -268,13 +257,6 @@ const Leftportion = () => {
         });
 
 
-        console.log("CID:", cid);
-        console.log("userInfo:", {
-          uid: user.uid,
-          photoURL: user.photoURl,
-          displayName: user.displayName,
-        });
-
 
         await updateDoc(doc(db, "userchats", user.uid), {
           [cid + ".userInfo"]: {
@@ -284,7 +266,6 @@ const Leftportion = () => {
           },
           [cid + ".dateinfo"]: serverTimestamp()
         })
-        console.log("Solve ho jaa yaar");
       }
     } catch (error) {
       console.log(error.message);
@@ -295,52 +276,120 @@ const Leftportion = () => {
 
   }
 
-
-
-  return (currentuser &&
-    <div className='parent'>
-
-
-
-      <div className='nav'>
-        <span className='apptitle'>BaatCheet</span>
-        <div className='cudetails'>
-          <span className='name'>{currentuser.displayName}</span>
-
+  return (
+    currentuser && (
+      <div className="w-80 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col h-full">
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-800">
+          <h2 className="text-lg font-bold text-black-900 ">Chats</h2>
+          <button className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+            {/* <i className="bi bi-plus-lg text-xl text-gray-600 dark:text-gray-300"></i> */}
+          </button>
         </div>
 
-      </div>
+        {/* Search */}
+        <div className="px-2 py-3 border-b border-gray-200 dark:border-gray-800">
+          <form onSubmit={handlesearch}>
+            <input
+              type="text"
+              placeholder="Search user"
+              value={username}
+              onChange={(e) => setusername(e.target.value)}
+              className="w-full px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+            />
+          </form>
 
-
-      <div className='fnd'>
-        <form onSubmit={handlesearch}>
-          <input type="text" placeholder='Find a user' value={username} onChange={(e) => { setusername(e.target.value) }} className='searchbar' />
-        </form>
-
-        {user && <div onClick={handleselect} className="usersearch">
-          <img src={user.photoURl} alt='chat1' className='sm' />
-          <span className='user1'>{user.displayName}</span>
-        </div>}
-        {error && <div className="notfound">User not Found!</div>}
-      </div>
-
-      <div className='mychats'>
-        {Object.entries(chats)?.map((chat, index) => {
-
-          return (
-            <div className={`contacts ${activechat == chat[1][1]?.userInfo?.uid ? "activechat" : ""}`} key={chat[1][0]} onClick={() => { selectuser(chat[1][1].userInfo) }}>
-              <img src={chat[1][1].userInfo.photoURL} alt="profilephto" className='pf1' />
-              <span className='user1'>{chat[1][1].userInfo.displayName}</span>
-              {lastmessage && lastmessage[chat[1][0]] && lastmessage[chat[1][0]].includes("https://firebasestorage.googleapis.com") ? <i className="bi bi-camera">Photo</i> : <p className='lastchat'>{lastmessage[chat[1][0]]}</p>}
+          {/* Found User */}
+          {user && (
+            <div
+              onClick={handleselect}
+              className="flex items-center mt-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+            >
+              <img
+                src={user.photoURl}
+                alt="user"
+                className="w-9 h-9 rounded-full mr-3 object-cover"
+              />
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-800 dark:text-white">{user.displayName}</p>
+              </div>
             </div>
-          )
-        })
-        }
+          )}
 
+          {error && <p className="text-red-500 text-sm mt-2">User not found!</p>}
+        </div>
+
+        {/* Chat List */}
+        <div className="overflow-y-auto flex-1 ">
+          {Object.entries(chats)?.map((chat) => {
+            const chatId = chat[1][0];
+            const userInfo = chat[1][1].userInfo;
+            const lastMsg = lastmessage?.[chatId];
+            const isActive = activechat === userInfo?.uid;
+
+            return (
+              <div
+                key={chatId}
+                onClick={() => selectuser(userInfo)}
+                className={`flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 border-b m-2 rounded-lg ${isActive ? "bg-gray-100 dark:bg-gray-600" : ""
+                  }`}
+              >
+                {/* Avatar + Info */}
+                <div className="flex items-center space-x-3">
+                  {userInfo.photoURL ? (
+                    <img
+                      src={userInfo.photoURL}
+                      alt={userInfo.displayName}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold text-sm">
+                      {userInfo.displayName?.slice(0, 2).toUpperCase()}
+                    </div>
+                  )}
+
+                  <div className="flex flex-col">
+                    <p className="text-sm font-medium text-gray-900 dark:text-black">
+                      {userInfo.displayName}
+                    </p>
+
+                    {lastMsg && lastMsg.includes("https://firebasestorage.googleapis.com") ? (
+                      <div className="flex items-center left-4 dark:text-gray-400">
+                        <i className="bi bi-camera " /> <span className='ml-2'>Photo</span>
+                      </div>
+                    ) : (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate w-44">
+                        {lastMsg || "Start a chat"}
+                      </p>
+                    )}
+                  </div>
+
+                </div>
+
+                {/* Time / Badge */}
+                <div className="text-right relative">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 overflow-hidden"></p>
+                  {/* Optional unread badge */}
+                  {/* <span className="inline-block text-xs bg-purple-600 text-white rounded-full px-2 py-0.5">1</span> */}
+                </div>
+
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Footer Tabs */}
+        <div className="flex justify-around items-center border-t border-gray-200 dark:border-gray-800 py-[13px] h-fit">
+          <i className="bi bi-chat-dots-fill text-4xl text-purple-600" />
+          {/* <i className="bi bi-telephone text-xl text-gray-400 dark:text-gray-500" />
+          <i className="bi bi-person text-xl text-gray-400 dark:text-gray-500" />
+          <i className="bi bi-people text-xl text-gray-400 dark:text-gray-500" /> */}
+        </div>
       </div>
-    </div>
+    )
+  );
 
-  )
+
 }
 
 export default Leftportion; 
